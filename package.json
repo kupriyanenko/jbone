@@ -1,0 +1,20 @@
+{
+  "name": "jBone",
+  "version": "0.0.1",
+  "description": "Library for DOM manipulation",
+  "main": "jbone.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-jshint": "~0.7.1",
+    "grunt-contrib-uglify": "~0.2.5"
+  },
+  "scripts": {
+    "test": "grunt"
+  },
+  "author": "Alexey Kupriyanenko",
+  "license": "MIT"
+}
