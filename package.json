@@ -16,5 +16,9 @@
     "test": "grunt"
   },
   "author": "Alexey Kupriyanenko",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kupriyanenko/jbone"
+  }
 }
