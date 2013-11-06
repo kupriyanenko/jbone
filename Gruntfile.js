@@ -29,6 +29,15 @@ module.exports = function(grunt) {
         }
       }
     },
+    mocha: {
+      src: {
+        options: {
+          reporter: 'Spec',
+          run: true
+        },
+        src: ['test/tests.html']
+      }
+    },
     uglify: {
       options: {
         banner: "<%= meta.banner %>"
@@ -54,7 +63,7 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ["<%= jshint.tests.src %>", "src/**/*.js"],
+      files: ["<%= jshint.tests.src %>", "<%= jshint.src.src %>"],
       tasks: "dev"
     }
   });
@@ -63,9 +72,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-contrib-jshint");
   grunt.loadNpmTasks("grunt-contrib-uglify");
+  grunt.loadNpmTasks("grunt-mocha");
 
   // Short list as a high frequency watch task
-  grunt.registerTask("dev", ["uglify:origin", "jshint:src"]);
+  grunt.registerTask("test", ["mocha:src"]);
+  grunt.registerTask("dev", ["uglify:origin", "jshint", "test"]);
   grunt.registerTask("dist", ["uglify:min"]);
 
   // Default grunt

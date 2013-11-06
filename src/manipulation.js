@@ -24,19 +24,19 @@ jBone.prototype.html = function() {
     // add html into elements
     if (value !== undefined) {
         this.forEach(function(el) {
-            result = document.createDocumentFragment();
-
-            if (value instanceof HTMLElement) {
-                result.appendChild(value);
-            } else if (value instanceof jBone) {
-                value.forEach(function(j) {
-                    result.appendChild(j);
-                });
-            }
-
             if (typeof value === "string") {
                 el.innerHTML = value;
             } else {
+                result = document.createDocumentFragment();
+
+                if (value instanceof HTMLElement) {
+                    result.appendChild(value);
+                } else if (value instanceof jBone) {
+                    value.forEach(function(j) {
+                        result.appendChild(j);
+                    });
+                }
+
                 jBone(el).empty();
                 el.appendChild(result);
             }

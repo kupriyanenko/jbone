@@ -1,7 +1,9 @@
 jBone.prototype.attr = function() {
     var args = arguments;
 
-    if (typeof args[0] === "string") {
+    if (typeof args[0] === "string" && args.length === 1) {
+        return this[0].getAttribute(args[0]);
+    } else if (typeof args[0] === "string" && args.length > 1) {
         this.forEach(function(el) {
             el.setAttribute(args[0], args[1]);
         });

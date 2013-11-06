@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tests jBone</title>
+    <link rel="stylesheet" href="../bower_components/mocha/mocha.css" />
+</head>
+<body>
+    <div id="mocha"></div>
+    <div id="app"></div>
+    <script src="../build/phantom-shim.js"></script>
+    <script src="../dist/jbone.js"></script>
+    <script src="../bower_components/mocha/mocha.js"></script>
+    <script src="../bower_components/expect/expect.js"></script>
+    <script>
+        mocha.setup({
+            ui: 'bdd'
+        });
+    </script>
+    <script src="core.js"></script>
+    <script src="attributes.js"></script>
+    <script src="event.js"></script>
+    <script>
+        mocha.run();
+    </script>
+</body>
+</html>

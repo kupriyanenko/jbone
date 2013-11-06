@@ -1,5 +1,5 @@
 /*!
- * jBone - v0.0.1 - 2013-11-05
+ * jBone - v0.0.1 - 2013-11-06
  * Copyright (c) 2013 Alexey Kupriyanenko;
  * Licensed MIT
  */
@@ -36,7 +36,7 @@
             arguments[0].forEach(function(el) {
                 addElement.call(this, [ el ]);
             }, this);
-        } else {
+        } else if (arguments[0]) {
             addElement.call(this, arguments);
         }
         return this;
@@ -60,7 +60,9 @@
     function createDOMFromString(html) {
         var wraper = document.createElement("div");
         wraper.innerHTML = html;
-        pushElement.call(this, wraper.firstChild);
+        [].forEach.call(wraper.childNodes, function(node) {
+            pushElement.call(this, node);
+        }.bind(this));
     }
     function findDOMElements(selector) {
         var elems = document.querySelectorAll(selector);
@@ -178,7 +180,9 @@
     };
     jBone.prototype.attr = function() {
         var args = arguments;
-        if (typeof args[0] === "string") {
+        if (typeof args[0] === "string" && args.length === 1) {
+            return this[0].getAttribute(args[0]);
+        } else if (typeof args[0] === "string" && args.length > 1) {
             this.forEach(function(el) {
                 el.setAttribute(args[0], args[1]);
             });
@@ -210,17 +214,17 @@
         var value = arguments[0], result;
         if (value !== undefined) {
             this.forEach(function(el) {
-                result = document.createDocumentFragment();
-                if (value instanceof HTMLElement) {
-                    result.appendChild(value);
-                } else if (value instanceof jBone) {
-                    value.forEach(function(j) {
-                        result.appendChild(j);
-                    });
-                }
                 if (typeof value === "string") {
                     el.innerHTML = value;
                 } else {
+                    result = document.createDocumentFragment();
+                    if (value instanceof HTMLElement) {
+                        result.appendChild(value);
+                    } else if (value instanceof jBone) {
+                        value.forEach(function(j) {
+                            result.appendChild(j);
+                        });
+                    }
                     jBone(el).empty();
                     el.appendChild(result);
                 }

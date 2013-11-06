@@ -39,7 +39,7 @@ function init() {
         arguments[0].forEach(function(el) {
             addElement.call(this, [el]);
         }, this);
-    } else {
+    } else if (arguments[0]) {
         addElement.call(this, arguments);
     }
 
@@ -70,7 +70,9 @@ function createDOMFromString(html) {
     var wraper = document.createElement("div");
     wraper.innerHTML = html;
 
-    pushElement.call(this, wraper.firstChild);
+    [].forEach.call(wraper.childNodes, function(node) {
+        pushElement.call(this, node);
+    }.bind(this));
 }
 
 function findDOMElements(selector) {
