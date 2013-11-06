@@ -1,8 +1,10 @@
 {
-  "name": "jBone",
+  "name": "jbone",
+  "title": "jBone",
   "version": "0.0.1",
   "description": "Library for DOM manipulation",
   "main": "jbone.js",
+  "homepage": "https://github.com/kupriyanenko/jbone",
   "directories": {
     "test": "test"
   },
@@ -14,6 +16,13 @@
     "grunt-contrib-jshint": "~0.7.1",
     "grunt-contrib-uglify": "~0.2.5"
   },
+  "keywords": [
+    "jquery",
+    "jbone",
+    "backbone",
+    "javascript",
+    "library"
+  ],
   "scripts": {
     "install": "node build/bower-install",
     "test": "grunt"

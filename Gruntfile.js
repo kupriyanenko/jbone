@@ -10,10 +10,13 @@ module.exports = function(grunt) {
       "src/manipulation.js"
     ],
     meta: {
-      banner: "/*!\n * <%= pkg.name %> - v<%= pkg.version %> - " +
-      "<%= grunt.template.today('yyyy-mm-dd') %>\n" +
-      " * Copyright (c) <%= grunt.template.today('yyyy') %> <%= pkg.author %>;\n" +
-      " * Licensed <%= pkg.license %>\n */\n"
+      banner: "/*!\n * <%= pkg.title %> v<%= pkg.version %> - " +
+      "<%= grunt.template.today('yyyy-mm-dd') %> - <%= pkg.description %>\n" +
+      " *\n" +
+      " * <%= pkg.homepage %>\n" +
+      " *\n" +
+      " * Copyright <%= grunt.template.today('yyyy') %> <%= pkg.author %>\n" +
+      " * Released under the <%= pkg.license %> license.\n */\n\n"
     },
     jshint: {
       src: {
@@ -53,6 +56,7 @@ module.exports = function(grunt) {
       origin: {
         options: {
           mangle: false,
+          comments: true,
           beautify: true,
           compress: false,
           wrap: true
@@ -77,9 +81,9 @@ module.exports = function(grunt) {
   // Short list as a high frequency watch task
   grunt.registerTask("test", ["mocha:src"]);
   grunt.registerTask("dev", ["uglify:origin", "jshint", "test"]);
-  grunt.registerTask("dist", ["uglify:min"]);
+  grunt.registerTask("dist", ["dev", "uglify:min"]);
 
   // Default grunt
-  grunt.registerTask("default", ["dev", "dist"]);
+  grunt.registerTask("default", ["dist"]);
 
 };

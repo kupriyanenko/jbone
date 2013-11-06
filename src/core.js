@@ -23,15 +23,12 @@ jBone._cache = {
 jBone._data = function(el) {
     el = el instanceof jBone ? el[0] : el;
 
-    if (el === window) {
-        return {
-            jid: "window"
-        };
-    } else {
-        return {
-            jid: el.jid
-        };
-    }
+    var jid = el === window ? "window" : el.jid;
+
+    return {
+        jid: jid,
+        events: jBone._cache.events[jid]
+    };
 };
 
 function init() {

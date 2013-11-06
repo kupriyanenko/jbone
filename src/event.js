@@ -9,12 +9,16 @@ jBone.prototype.on = function() {
     }
 
     this.forEach(function(el) {
-        events = jBone._cache.events[jBone._data(el).jid];
+        events = jBone._data(el).events;
         namespace = event.split(".")[1];
         event = event.split(".")[0];
         events[event] = events[event] ? events[event] : [];
 
         fn = function(e) {
+            if (e.namespace && e.namespace !== namespace) {
+                return;
+            }
+
             if (!target) {
                 callback.call(el, e);
             } else {
@@ -39,14 +43,22 @@ jBone.prototype.on = function() {
 };
 
 jBone.prototype.trigger = function(eventName, data) {
+    if (!eventName || !eventName.split(".")[0]) {
+        return this;
+    }
+
+    var namespace = eventName.split(".")[1];
+    eventName = eventName.split(".")[0];
+
     var event = document.createEvent("CustomEvent");
     event.initCustomEvent(eventName, true, true, null);
+    event.namespace = namespace;
 
     this.forEach(function(el) {
         if (el.dispatchEvent) {
             el.dispatchEvent(event);
-        } else if (jBone._cache.events[jBase._data(el).jid][eventName]) {
-            jBone._cache.events[jBase._data(el).jid][eventName].forEach(function(fn) {
+        } else if (jBone._data(el).events[eventName]) {
+            jBone._data(el).events[eventName].forEach(function(fn) {
                 fn.fn.call(el, data);
             });
         }
@@ -70,7 +82,7 @@ jBone.prototype.off = function(event, fn) {
     event = event.split(".")[0];
 
     this.forEach(function(el) {
-        events = jBone._cache.events[jBone._data(el).jid];
+        events = jBone._data(el).events;
 
         // remove all events
         if (events[event]) {
