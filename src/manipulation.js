@@ -87,3 +87,14 @@ jBone.prototype.empty = function() {
 
     return this;
 };
+
+jBone.prototype.remove = function() {
+    this.forEach(function(el) {
+        console.log(el.parentNode);
+        if (el.parentNode) {
+            el.parentNode.removeChild(el);
+        }
+    });
+
+    return this;
+};
