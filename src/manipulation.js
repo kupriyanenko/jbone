@@ -29,7 +29,7 @@ jBone.prototype.html = function() {
             } else {
                 result = document.createDocumentFragment();
 
-                if (value instanceof HTMLElement) {
+                if (value instanceof HTMLElement || value instanceof DocumentFragment) {
                     result.appendChild(value);
                 } else if (value instanceof jBone) {
                     value.forEach(function(j) {
@@ -69,7 +69,7 @@ jBone.prototype.append = function(appended) {
                 }
             });
         });
-    } else if (appended instanceof HTMLElement) {
+    } else if (appended instanceof HTMLElement || appended instanceof DocumentFragment) {
         this.forEach(function(el) {
             el.appendChild(appended);
         });
@@ -90,7 +90,6 @@ jBone.prototype.empty = function() {
 
 jBone.prototype.remove = function() {
     this.forEach(function(el) {
-        console.log(el.parentNode);
         if (el.parentNode) {
             el.parentNode.removeChild(el);
         }

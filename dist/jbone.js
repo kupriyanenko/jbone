@@ -1,5 +1,5 @@
 /*!
- * jBone v0.0.1 - 2013-11-07 - Library for DOM manipulation
+ * jBone v0.0.5 - 2013-11-07 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -118,6 +118,23 @@
             }
         });
         return this;
+    };
+    jBone.prototype.one = function() {
+        var event = arguments[0], originTarget = this, callback, target, fn;
+        if (arguments.length === 2) {
+            callback = arguments[1];
+        } else {
+            target = arguments[1], callback = arguments[2];
+        }
+        fn = function(e) {
+            callback.call(this, e);
+            originTarget.off(event, fn);
+        };
+        if (arguments.length === 2) {
+            this.on(event, fn);
+        } else {
+            this.on(event, target, fn);
+        }
     };
     jBone.prototype.trigger = function(eventName, data) {
         if (!eventName || !eventName.split(".")[0]) {
@@ -253,7 +270,7 @@
                     el.innerHTML = value;
                 } else {
                     result = document.createDocumentFragment();
-                    if (value instanceof HTMLElement) {
+                    if (value instanceof HTMLElement || value instanceof DocumentFragment) {
                         result.appendChild(value);
                     } else if (value instanceof jBone) {
                         value.forEach(function(j) {
@@ -286,7 +303,7 @@
                     }
                 });
             });
-        } else if (appended instanceof HTMLElement) {
+        } else if (appended instanceof HTMLElement || appended instanceof DocumentFragment) {
             this.forEach(function(el) {
                 el.appendChild(appended);
             });
@@ -303,7 +320,6 @@
     };
     jBone.prototype.remove = function() {
         this.forEach(function(el) {
-            console.log(el.parentNode);
             if (el.parentNode) {
                 el.parentNode.removeChild(el);
             }

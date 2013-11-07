@@ -42,6 +42,28 @@ jBone.prototype.on = function() {
     return this;
 };
 
+jBone.prototype.one = function() {
+    var event = arguments[0], originTarget = this,
+        callback, target, fn;
+
+    if (arguments.length === 2) {
+        callback = arguments[1];
+    } else {
+        target = arguments[1], callback = arguments[2];
+    }
+
+    fn = function(e) {
+        callback.call(this, e);
+        originTarget.off(event, fn);
+    };
+
+    if (arguments.length === 2) {
+        this.on(event, fn);
+    } else {
+        this.on(event, target, fn);
+    }
+};
+
 jBone.prototype.trigger = function(eventName, data) {
     if (!eventName || !eventName.split(".")[0]) {
         return this;

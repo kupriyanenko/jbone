@@ -64,7 +64,7 @@ describe('jBone Event', function() {
         expect(count).be.eql(1, 'Verify that removing events still work.');
     });
 
-    it('on(event, selector, callback)', function() {
+    it('on(event, target, callback)', function() {
         var a = jBone('<div><span></span></div>'),
             counter = 0;
 
@@ -85,6 +85,41 @@ describe('jBone Event', function() {
 
         a.off('click').trigger('click');
         expect(counter).be.eql(2);
+
+        jBone('#app').empty();
+    });
+
+    it('one(event, callback)', function() {
+        var div = jBone('<div>'),
+            counter = 0;
+
+        div.one('click', function(e) {
+            counter++;
+        });
+
+        div.trigger('click').trigger('click');
+
+        expect(counter).be.eql(1);
+    });
+
+    it('one(event, target callback)', function() {
+        var a = jBone('<div><span></span></div>'),
+            counter = 0;
+
+        jBone('#app').html(a);
+
+        a.one('click', 'span', function() {
+            counter++;
+        });
+
+        a.trigger('click');
+        expect(counter).be.eql(0);
+
+        a.find('span').trigger('click');
+        expect(counter).be.eql(1);
+
+        a.trigger('click').find('span').trigger('click');
+        expect(counter).be.eql(1);
 
         jBone('#app').empty();
     });

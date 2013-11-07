@@ -1,6 +1,6 @@
 describe('jBone Attributes', function() {
 
-    it('iInitialized', function() {
+    it('Initialized', function() {
         expect(jBone().attr).to.be.ok();
         expect(jBone().val).to.be.ok();
     });
