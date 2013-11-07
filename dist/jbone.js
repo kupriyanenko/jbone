@@ -135,6 +135,7 @@
         } else {
             this.on(event, target, fn);
         }
+        return this;
     };
     jBone.prototype.trigger = function(eventName, data) {
         if (!eventName || !eventName.split(".")[0]) {
