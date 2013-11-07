@@ -47,4 +47,20 @@ describe('jBone Attributes', function() {
         expect(a.val()).to.be('test');
     });
 
+    it('css(key, value) setting value', function() {
+        var a = jBone('<div>').css('height', '100px');
+
+        expect(a[0].style.height).to.be('100px');
+    });
+
+    it('css({}) setting value', function() {
+        var a = jBone('<div>').css({
+            width: '10px',
+            height: '100px'
+        });
+
+        expect(a[0].style.height).to.be('100px');
+        expect(a[0].style.width).to.be('10px');
+    });
+
 });

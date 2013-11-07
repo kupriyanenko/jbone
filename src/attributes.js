@@ -31,3 +31,21 @@ jBone.prototype.val = function() {
 
     return this;
 };
+
+jBone.prototype.css = function() {
+    var args = arguments;
+
+    if (typeof args[0] === "string" && args.length === 2) {
+        this.forEach(function(el) {
+            el.style[args[0]] = args[1];
+        });
+    } else if (args[0] instanceof Object) {
+        this.forEach(function(el) {
+            Object.keys(args[0]).forEach(function(key) {
+                el.style[key] = args[0][key];
+            });
+        });
+    }
+
+    return this;
+};
