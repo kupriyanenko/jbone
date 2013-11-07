@@ -2,6 +2,7 @@ describe('jBone Attributes', function() {
 
     it('iInitialized', function() {
         expect(jBone().attr).to.be.ok();
+        expect(jBone().val).to.be.ok();
     });
 
     it('Set attributes in init function', function() {
@@ -31,6 +32,19 @@ describe('jBone Attributes', function() {
         expect(a.attr('class')).to.be('test');
         expect(a.attr('href')).to.be('/');
         expect(a.attr('target')).to.be('_blank');
+    });
+
+    it('val() getting value', function() {
+        var a = jBone('<input>');
+        a[0].value = 'test';
+
+        expect(a.val()).to.be('test');
+    });
+
+    it('val(value) setting value', function() {
+        var a = jBone('<input>').val('test');
+
+        expect(a.val()).to.be('test');
     });
 
 });

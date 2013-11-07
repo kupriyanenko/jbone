@@ -17,3 +17,17 @@ jBone.prototype.attr = function() {
 
     return this;
 };
+
+jBone.prototype.val = function() {
+    var args = arguments;
+
+    if (typeof args[0] === "string") {
+        this.forEach(function(el) {
+            el.value = args[0];
+        });
+    } else if (args[0] === undefined) {
+        return this[0].value;
+    }
+
+    return this;
+};
