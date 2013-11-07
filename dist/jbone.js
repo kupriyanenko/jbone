@@ -43,7 +43,7 @@
     }
     function addElement(args) {
         if (typeof args[0] === "string" && args[0].match(rsingleTag)) {
-            createDOMElement.apply(this, args);
+            createDOMElement.call(this, args[0], args[1]);
         } else if (typeof args[0] === "string" && args[0].match(rquickExpr) && args[0].match(rquickExpr)[1]) {
             createDOMFromString.apply(this, args);
         } else if (typeof args[0] === "string") {
@@ -52,9 +52,12 @@
             pushElement.call(this, args[0]);
         }
     }
-    function createDOMElement() {
-        var tagName = arguments[0].match(rsingleTag)[1], el = document.createElement(tagName);
-        jBone(el).attr(arguments[1]);
+    function createDOMElement(tagName, data) {
+        tagName = tagName.match(rsingleTag)[1];
+        var el = document.createElement(tagName);
+        if (data) {
+            jBone(el).attr(data);
+        }
         pushElement.call(this, el);
     }
     function createDOMFromString(html) {
