@@ -1,7 +1,31 @@
 describe('jBone Manipulation', function() {
 
     it('Initialized', function() {
-        expect(jBone().remove).to.be.ok();
+        expect(jBone().remove).to.be.a("function");
+        expect(jBone().html).to.be.a("function");
+        expect(jBone().find).to.be.a("function");
+    });
+
+    it('find(selector)', function() {
+        var a = jBone('<div><span></span><p><span></span></p></div>');
+
+        expect(a.find('span')).to.have.length(2);
+        expect(a.find('p')).to.have.length(1);
+        expect(a.find('div')).to.have.length(0);
+    });
+
+    it('get(index)', function() {
+        var a = jBone('<div></div><span></span>');
+
+        expect(a.get(1).tagName.toLowerCase()).to.be('span');
+        expect(a.get(1)).to.be.an(HTMLElement);
+    });
+
+    it('eq(index)', function() {
+        var a = jBone('<div></div><span><a></a></span>');
+
+        expect(a.eq(1)).to.be.an(jBone);
+        expect(a.eq(1).get(0).childNodes).to.have.length(1);
     });
 
     it('html(jBone)', function() {
@@ -34,6 +58,28 @@ describe('jBone Manipulation', function() {
         expect(a[0].childNodes).to.have.length(2);
     });
 
+    it('empty()', function() {
+        var a = jBone('<div><input><input><div><input></div></div>');
+
+        expect(a[0].childNodes).to.have.length(3);
+
+        a.empty();
+        expect(a[0].childNodes).to.have.length(0);
+    });
+
+    it('empty(multy elements)', function() {
+        var a = jBone('<div><input><input></div><span><a></a></span>');
+
+        expect(a).to.have.length(2);
+        expect(a[0].childNodes).to.have.length(2);
+        expect(a[1].childNodes).to.have.length(1);
+
+        a.empty();
+        expect(a).to.have.length(2);
+        expect(a[0].childNodes).to.have.length(0);
+        expect(a[1].childNodes).to.have.length(0);
+    });
+
     it('remove() is working', function() {
         var wrap = jBone('<div><input></div>');
 
@@ -43,7 +89,7 @@ describe('jBone Manipulation', function() {
         expect(wrap.find('input')).to.have.length(0);
     });
 
-    it('remove() node not inserted in DOM', function() {
+    it('remove() with node is not inserted in DOM', function() {
         var a = jBone('<a>');
         a.remove();
 

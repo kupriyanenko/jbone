@@ -124,6 +124,21 @@ describe('jBone Event', function() {
         jBone('#app').empty();
     });
 
+    it('one(event.namespace, callback)', function() {
+        var div = jBone('<div>'),
+            counter = 0;
+
+        div.one('click.test', function(e) {
+            counter++;
+        });
+
+        div.off('click.test');
+
+        div.trigger('click');
+
+        expect(counter).be.eql(0);
+    });
+
     it('trigger() order', function() {
         var markup = jBone('<div><div><p><span><b>b</b></span></p></div></div>'),
             path = '';
