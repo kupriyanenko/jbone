@@ -58,11 +58,11 @@ function addElement(args) {
 function createDOMElement(tagName, data) {
     tagName = tagName.match(rsingleTag)[1];
     var el = document.createElement(tagName);
+    pushElement.call(this, el);
 
     if (data) {
-        jBone(el).attr(data);
+        jBone.fn.attr.call(this, data);
     }
-    pushElement.call(this, el);
 }
 
 function createDOMFromString(html) {
