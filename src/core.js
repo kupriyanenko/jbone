@@ -13,6 +13,9 @@ function jBone() {
     }
 }
 
+// global object from wrapper
+global.jBone = global.$ = jBone;
+
 jBone.fn = jBone.prototype = [];
 
 jBone._cache = {
@@ -98,5 +101,3 @@ function pushElement(el) {
 
     this.push(el);
 }
-
-global.jBone = global.$ = jBone;

@@ -71,10 +71,10 @@ jBone.fn.trigger = function(eventName, data) {
         return this;
     }
 
-    var namespace = eventName.split(".")[1];
+    var namespace = eventName.split(".")[1], event;
     eventName = eventName.split(".")[0];
 
-    var event = document.createEvent("CustomEvent");
+    event = document.createEvent("CustomEvent");
     event.initCustomEvent(eventName, true, true, null);
     event.namespace = namespace;
 
@@ -92,23 +92,22 @@ jBone.fn.trigger = function(eventName, data) {
 };
 
 jBone.fn.off = function(event, fn) {
-    var getCallback = function(e) {
-        if (fn && e.originfn === fn) {
-            return e.fn;
-        } else if (!fn) {
-            return e.fn;
-        }
-    };
-
-    var namespace = event.split(".")[1],
-        events, callback;
+    var events, callback,
+        namespace = event.split(".")[1],
+        getCallback = function(e) {
+            if (fn && e.originfn === fn) {
+                return e.fn;
+            } else if (!fn) {
+                return e.fn;
+            }
+        };
 
     event = event.split(".")[0];
 
     this.forEach(function(el) {
         events = jBone._data(el).events;
 
-        // remove all events
+        // remove named events
         if (events[event]) {
             events[event].forEach(function(e) {
                 callback = getCallback(e);

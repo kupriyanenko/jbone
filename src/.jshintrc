@@ -6,7 +6,7 @@
   "expr": true,
   "immed": true,
   "noarg": true,
-  "onevar": false,
+  "onevar": true,
   "smarttabs": true,
   "trailing": true,
   "undef": false,

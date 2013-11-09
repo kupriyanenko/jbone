@@ -25,8 +25,8 @@ describe('jBone Attributes', function() {
         var a = jBone('<a>');
         a.attr('class', 'test');
         a.attr({
-                href: '/',
-                target: '_blank'
+            href: '/',
+            target: '_blank'
         });
 
         expect(a.attr('class')).to.be('test');
@@ -50,7 +50,7 @@ describe('jBone Attributes', function() {
     it('css(key, value) setting value', function() {
         var a = jBone('<div>').css('height', '100px');
 
-        expect(a[0].style.height).to.be('100px');
+        expect(a[0].style).to.have.property('height', '100px');
     });
 
     it('css({}) setting value', function() {
@@ -59,8 +59,8 @@ describe('jBone Attributes', function() {
             height: '100px'
         });
 
-        expect(a[0].style.height).to.be('100px');
-        expect(a[0].style.width).to.be('10px');
+        expect(a[0].style).to.have.property('height', '100px');
+        expect(a[0].style).to.have.property('width', '10px');
     });
 
 });

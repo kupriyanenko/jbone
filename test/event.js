@@ -15,11 +15,11 @@ describe('jBone Event', function() {
         w.on('click.w', fn);
 
         expect(jBone._data(a).events.click).to.have.length(1);
-        expect(jBone._data(a).events.click[0].namespace).to.be.eql('test');
-        expect(jBone._data(a).events.click[0].originfn).to.be.eql(fn);
+        expect(jBone._data(a).events.click[0]).to.have.property('namespace', 'test');
+        expect(jBone._data(a).events.click[0]).to.have.property('originfn', fn);
         expect(jBone._data(a).events.click[0].fn).to.be.a('function');
 
-        expect(jBone._data(w).jid).to.be.eql('window');
+        expect(jBone._data(w)).to.have.property('jid', 'window');
         expect(jBone._data(w).events.click.length).be.above(0);
     });
 
@@ -34,11 +34,11 @@ describe('jBone Event', function() {
 
         div.on('focusout.b', function(e) {
             counter++;
-            expect(e.type).be.eql('focusout');
+            expect(e).to.have.property('type', 'focusout');
         }).on('focusin.a', function(e) {
             counter++;
-            expect(e.namespace).be.eql('a');
-            expect(e.type).be.eql('focusin');
+            expect(e).to.have.property('namespace', 'a');
+            expect(e).to.have.property('type', 'focusin');
         });
 
         div.trigger('focusin.a').trigger('focusout.b');

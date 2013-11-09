@@ -67,7 +67,7 @@ describe('jBone Manipulation', function() {
         expect(a[0].childNodes).to.have.length(0);
     });
 
-    it('empty(multy elements)', function() {
+    it('empty(multi elements)', function() {
         var a = jBone('<div><input><input></div><span><a></a></span>');
 
         expect(a).to.have.length(2);
