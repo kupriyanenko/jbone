@@ -1,4 +1,4 @@
-jBone.prototype.on = function() {
+jBone.fn.on = function() {
     var event = arguments[0],
         callback, target, namespace, fn, events;
 
@@ -42,7 +42,7 @@ jBone.prototype.on = function() {
     return this;
 };
 
-jBone.prototype.one = function() {
+jBone.fn.one = function() {
     var event = arguments[0], originTarget = this,
         callback, target, fn;
 
@@ -66,7 +66,7 @@ jBone.prototype.one = function() {
     return this;
 };
 
-jBone.prototype.trigger = function(eventName, data) {
+jBone.fn.trigger = function(eventName, data) {
     if (!eventName || !eventName.split(".")[0]) {
         return this;
     }
@@ -91,7 +91,7 @@ jBone.prototype.trigger = function(eventName, data) {
     return this;
 };
 
-jBone.prototype.off = function(event, fn) {
+jBone.fn.off = function(event, fn) {
     var getCallback = function(e) {
         if (fn && e.originfn === fn) {
             return e.fn;

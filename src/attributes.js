@@ -1,4 +1,4 @@
-jBone.prototype.attr = function() {
+jBone.fn.attr = function() {
     var args = arguments;
 
     if (typeof args[0] === "string" && args.length === 1) {
@@ -18,7 +18,7 @@ jBone.prototype.attr = function() {
     return this;
 };
 
-jBone.prototype.val = function() {
+jBone.fn.val = function() {
     var args = arguments;
 
     if (typeof args[0] === "string") {
@@ -32,7 +32,7 @@ jBone.prototype.val = function() {
     return this;
 };
 
-jBone.prototype.css = function() {
+jBone.fn.css = function() {
     var args = arguments;
 
     if (typeof args[0] === "string" && args.length === 2) {

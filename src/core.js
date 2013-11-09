@@ -13,7 +13,7 @@ function jBone() {
     }
 }
 
-jBone.prototype = [];
+jBone.fn = jBone.prototype = [];
 
 jBone._cache = {
     events: {},

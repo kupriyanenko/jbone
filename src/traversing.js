@@ -1,4 +1,4 @@
-jBone.prototype.is = function() {
+jBone.fn.is = function() {
     var args = arguments;
 
     return this.some(function(el) {
@@ -6,7 +6,7 @@ jBone.prototype.is = function() {
     });
 };
 
-jBone.prototype.has = function() {
+jBone.fn.has = function() {
     var args = arguments;
 
     return this.some(function(el) {

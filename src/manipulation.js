@@ -1,4 +1,4 @@
-jBone.prototype.find = function(selector) {
+jBone.fn.find = function(selector) {
     var results = [];
 
     this.forEach(function(el) {
@@ -10,15 +10,15 @@ jBone.prototype.find = function(selector) {
     return jBone(results);
 };
 
-jBone.prototype.get = function(index) {
+jBone.fn.get = function(index) {
     return this[index];
 };
 
-jBone.prototype.eq = function(index) {
+jBone.fn.eq = function(index) {
     return jBone(this[index]);
 };
 
-jBone.prototype.html = function() {
+jBone.fn.html = function() {
     var value = arguments[0], result;
 
     // add html into elements
@@ -58,7 +58,7 @@ jBone.prototype.html = function() {
     }
 };
 
-jBone.prototype.append = function(appended) {
+jBone.fn.append = function(appended) {
     if (appended instanceof jBone) {
         this.forEach(function(el, i) {
             appended.forEach(function(jel) {
@@ -78,7 +78,7 @@ jBone.prototype.append = function(appended) {
     return this;
 };
 
-jBone.prototype.empty = function() {
+jBone.fn.empty = function() {
     this.forEach(function(el) {
         while (el.hasChildNodes()) {
             el.removeChild(el.lastChild);
@@ -88,7 +88,7 @@ jBone.prototype.empty = function() {
     return this;
 };
 
-jBone.prototype.remove = function() {
+jBone.fn.remove = function() {
     this.forEach(function(el) {
         if (el.parentNode) {
             el.parentNode.removeChild(el);
