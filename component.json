@@ -10,7 +10,6 @@
     "bower_components"
   ],
   "devDependencies": {
-    "sinon-chai": "~2.4.0",
     "expect": "~0.2.0"
   }
 }
