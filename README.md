@@ -34,10 +34,10 @@ Add a ```<script>``` element for jbone.js
 
 [Event](https://github.com/kupriyanenko/jbone/wiki/Event)
 
-* [.on(event[, selector], handler)](https://github.com/kupriyanenko/jbone/wiki/Event#oneventselectorhandler)
-* [.one(event[, selector], handler)](https://github.com/kupriyanenko/jbone/wiki/Event#oneeventselectorhandler)
-* [.off(event[, handler])](https://github.com/kupriyanenko/jbone/wiki/Event#offeventhandler)
-* [.trigger(event)](https://github.com/kupriyanenko/jbone/wiki/Event#offeventhandler)
+* [.on(event[, selector], handler)](https://github.com/kupriyanenko/jbone/wiki/Event#onevent-selector-handler)
+* [.one(event[, selector], handler)](https://github.com/kupriyanenko/jbone/wiki/Event#oneevent-selector-handler)
+* [.off(event[, handler])](https://github.com/kupriyanenko/jbone/wiki/Event#offevent-handler)
+* [.trigger(event)](https://github.com/kupriyanenko/jbone/wiki/Event#triggerevent)
 
 [Manipulation](https://github.com/kupriyanenko/jbone/wiki/Manipulation)
 
@@ -46,6 +46,7 @@ Add a ```<script>``` element for jbone.js
 * [.eq(index)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#eqindex)
 * [.html()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#html)
 * [.html(html)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#htmlhtml)
+* [.append(html)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendhtml)
 * [.empty()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#empty)
 * [.remove()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#remove)
 
