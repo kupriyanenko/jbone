@@ -156,7 +156,25 @@ describe('jBone Event', function() {
         jBone('#app').empty();
     });
 
-    it('off() namespaces works correctly', function() {
+    it('off(event, fn) undeligate current function', function() {
+        var a = jBone('<a>'), counter = 0,
+            fn = function() {
+                counter++;
+            };
+
+        a.on('click', fn);
+
+        a.trigger('click');
+        expect(counter).be.eql(1);
+
+        a.off('click', function() {}).trigger('click');
+        expect(counter).be.eql(2);
+
+        a.off('click', fn).trigger('click');
+        expect(counter).be.eql(2);
+    });
+
+    it('off(event.namespace) namespaces works correctly', function() {
         var a = jBone('<a>'),
             counter = 0;
 
@@ -176,24 +194,6 @@ describe('jBone Event', function() {
         a.off('click');
         a.trigger('click');
         expect(counter).be.eql(5);
-    });
-
-    it('off(event, fn) undeligate current function', function() {
-        var a = jBone('<a>'), counter = 0,
-            fn = function() {
-                counter++;
-            };
-
-        a.on('click', fn);
-
-        a.trigger('click');
-        expect(counter).be.eql(1);
-
-        a.off('click', function() {}).trigger('click');
-        expect(counter).be.eql(2);
-
-        a.off('click', fn).trigger('click');
-        expect(counter).be.eql(2);
     });
 
 });
