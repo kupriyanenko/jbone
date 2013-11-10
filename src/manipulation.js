@@ -21,26 +21,10 @@ jBone.fn.eq = function(index) {
 jBone.fn.html = function() {
     var value = arguments[0], result;
 
-    // add html into elements
+    // add HTML into elements
     if (value !== undefined) {
-        this.forEach(function(el) {
-            if (typeof value === "string") {
-                el.innerHTML = value;
-            } else {
-                result = document.createDocumentFragment();
-
-                if (value instanceof HTMLElement || value instanceof DocumentFragment) {
-                    result.appendChild(value);
-                } else if (value instanceof jBone) {
-                    value.forEach(function(j) {
-                        result.appendChild(j);
-                    });
-                }
-
-                jBone(el).empty();
-                el.appendChild(result);
-            }
-        });
+        this.empty.call(this);
+        this.append.call(this, value);
 
         return this;
     }
@@ -59,6 +43,10 @@ jBone.fn.html = function() {
 };
 
 jBone.fn.append = function(appended) {
+    if (typeof appended === "string") {
+        appended = jBone(appended);
+    }
+
     if (appended instanceof jBone) {
         this.forEach(function(el, i) {
             appended.forEach(function(jel) {

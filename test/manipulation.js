@@ -58,6 +58,37 @@ describe('jBone Manipulation', function() {
         expect(a[0].childNodes).to.have.length(2);
     });
 
+    it('append(html)', function() {
+        var a = jBone('<div><span></span></div>').append('<span></span><p></p>');
+
+        expect(a.find('span')).to.have.length(2);
+    });
+
+    it('append(jBone)', function() {
+        var a = jBone('<div><p></p></div>').append(jBone('<p>'));
+
+        expect(a.find('p')).to.have.length(2);
+    });
+
+    it('append(HTMLElement)', function() {
+        var a = jBone('<div><p></p></div>');
+        a.find('p').append(document.createElement('span'));
+
+        expect(a.find('p, span')).to.have.length(2);
+    });
+
+    it('append(DocumentFragment)', function() {
+        var a = jBone('<div><p></p></div>');
+        var b = document.createDocumentFragment();
+
+        b.appendChild(document.createElement('span'));
+        b.appendChild(document.createElement('span'));
+
+        a.append(b);
+
+        expect(a.find('span')).to.have.length(2);
+    });
+
     it('empty()', function() {
         var a = jBone('<div><input><input><div><input></div></div>');
 
