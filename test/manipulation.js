@@ -89,6 +89,14 @@ describe('jBone Manipulation', function() {
         expect(a.find('span')).to.have.length(2);
     });
 
+    it('appendTo()', function() {
+        var a = jBone('<div></div>');
+        var b = jBone('<input><input>').appendTo(a);
+
+        expect(a.find('input')).to.have.length(2);
+        expect(b).to.have.length(2);
+    });
+
     it('empty()', function() {
         var a = jBone('<div><input><input><div><input></div></div>');
 

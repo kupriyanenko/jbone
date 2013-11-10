@@ -66,6 +66,12 @@ jBone.fn.append = function(appended) {
     return this;
 };
 
+jBone.fn.appendTo = function(to) {
+    jBone(to).append(this);
+
+    return this;
+};
+
 jBone.fn.empty = function() {
     this.forEach(function(el) {
         while (el.hasChildNodes()) {

@@ -47,6 +47,7 @@ Add a ```<script>``` element for jbone.js
 * [.html()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#html)
 * [.html(html)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#htmlhtml)
 * [.append(html)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendhtml)
+* [.appendTo(element)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendtoelement)
 * [.empty()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#empty)
 * [.remove()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#remove)
 
