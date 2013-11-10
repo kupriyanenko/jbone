@@ -2,11 +2,11 @@ describe('jBone Core', function() {
 
     before(function() {
         var html = '<div><span><a href="#"><span></span></a></span></div>';
-        document.getElementById('app').innerHTML = html;
+        $('#app').html(html);
     });
 
     after(function() {
-        document.getElementById('app').innerHTML = '';
+        $('#app').empty();
     });
 
     it('jBone initialized', function() {
@@ -31,38 +31,53 @@ describe('jBone Core', function() {
         expect(jBone._data(c).jid).to.be.ok();
     });
 
-    it('jBone create new single DOM element', function() {
+    it('jBone(html) create new single DOM element', function() {
         var a = jBone('<a>');
 
         expect(a[0]).to.be.an(HTMLElement);
         expect(a).to.have.length(1);
     });
 
-    it('jBone create each DOM elements', function() {
+    it('jBone(html) create each DOM elements', function() {
         var a = jBone('<p></p><p></p><p></p>');
 
-        expect(a[1].tagName.toLocaleLowerCase()).to.be('p');
+        expect(a[1].tagName.toLowerCase()).to.be('p');
         expect(a).to.have.length(3);
     });
 
-    it('jBone create nested DOM element', function() {
+    it('jBone(html) create nested DOM element', function() {
         var a = jBone('<p><span></span><span></span></p>');
 
         expect(a[0].childNodes).to.have.length(2);
     });
 
-    it('jBone create single element from selector', function() {
+    it('jBone(selector) create single element from selector', function() {
         var a = jBone('#app div');
 
         expect(a).to.have.length(1);
         expect(a[0]).to.be.an(HTMLElement);
     });
 
-    it('jBone create some elements from selector', function() {
+    it('jBone(selector) create some elements from selector', function() {
         var a = jBone('#app span');
 
         expect(a).to.have.length(2);
         expect(a[1]).to.be.an(HTMLElement);
+    });
+
+    it('jBone(element) create some elements from DOMElement', function() {
+        var a = jBone(document.createElement('div'));
+
+        expect(a[0].tagName.toLowerCase()).to.be('div');
+    });
+
+    it('jBone(jBone) do not create new jBone element', function() {
+        var a = jBone('<input><input>');
+        var b = jBone(a);
+
+        expect(b[0]).to.be.an(HTMLElement);
+        expect(b).have.length(2);
+        expect(jBone._data(a).jid).to.be(jBone._data(b).jid);
     });
 
 });

@@ -35,7 +35,9 @@ jBone._data = function(el) {
 };
 
 function init() {
-    if (Array.isArray(arguments[0])) {
+    if (arguments[0] instanceof jBone) {
+        return arguments[0];
+    } else if (Array.isArray(arguments[0])) {
         arguments[0].forEach(function(el) {
             addElement.call(this, [el]);
         }, this);
