@@ -6,11 +6,31 @@ JavaScript Library for DOM manipulation. Replacement jQuery for Backbone (gzippe
 
 Get it
 
-    $ bower install jbone --save
+```
+$ bower install jbone --save
+```
 
 Add a ```<script>``` element for jbone.js
 
-    <script src="path/to/jbone/jbone.js"></script>
+```html
+<script src="path/to/jbone/jbone.js"></script>
+```
+
+## Use it
+
+```javascript
+var $input = $("<input>", {
+	"class": "name"
+}).val('John');
+
+$input.on("click.space", function(e) {
+	console.log("clicked on", this);
+});
+
+$input.trigger("click");
+
+$input.off(".space");
+```
 
 ## API
 
