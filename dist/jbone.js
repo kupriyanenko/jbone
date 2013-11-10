@@ -1,5 +1,5 @@
 /*!
- * jBone v0.0.5 - 2013-11-07 - Library for DOM manipulation
+ * jBone v0.0.5 - 2013-11-10 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -18,7 +18,8 @@
             return new jBone(arguments);
         }
     }
-    jBone.prototype = [];
+    global.jBone = global.$ = jBone;
+    jBone.fn = jBone.prototype = [];
     jBone._cache = {
         events: {},
         jid: 0
@@ -32,7 +33,9 @@
         };
     };
     function init() {
-        if (Array.isArray(arguments[0])) {
+        if (arguments[0] instanceof jBone) {
+            return arguments[0];
+        } else if (Array.isArray(arguments[0])) {
             arguments[0].forEach(function(el) {
                 addElement.call(this, [ el ]);
             }, this);
@@ -55,10 +58,10 @@
     function createDOMElement(tagName, data) {
         tagName = tagName.match(rsingleTag)[1];
         var el = document.createElement(tagName);
-        if (data) {
-            jBone(el).attr(data);
-        }
         pushElement.call(this, el);
+        if (data) {
+            jBone.fn.attr.call(this, data);
+        }
     }
     function createDOMFromString(html) {
         var wraper = document.createElement("div");
@@ -86,8 +89,7 @@
         }
         this.push(el);
     }
-    global.jBone = global.$ = jBone;
-    jBone.prototype.on = function() {
+    jBone.fn.on = function() {
         var event = arguments[0], callback, target, namespace, fn, events;
         if (arguments.length === 2) {
             callback = arguments[1];
@@ -122,7 +124,7 @@
         });
         return this;
     };
-    jBone.prototype.one = function() {
+    jBone.fn.one = function() {
         var event = arguments[0], originTarget = this, callback, target, fn;
         if (arguments.length === 2) {
             callback = arguments[1];
@@ -140,13 +142,13 @@
         }
         return this;
     };
-    jBone.prototype.trigger = function(eventName, data) {
+    jBone.fn.trigger = function(eventName, data) {
         if (!eventName || !eventName.split(".")[0]) {
             return this;
         }
-        var namespace = eventName.split(".")[1];
+        var namespace = eventName.split(".")[1], event;
         eventName = eventName.split(".")[0];
-        var event = document.createEvent("CustomEvent");
+        event = document.createEvent("CustomEvent");
         event.initCustomEvent(eventName, true, true, null);
         event.namespace = namespace;
         this.forEach(function(el) {
@@ -160,15 +162,14 @@
         });
         return this;
     };
-    jBone.prototype.off = function(event, fn) {
-        var getCallback = function(e) {
+    jBone.fn.off = function(event, fn) {
+        var events, callback, namespace = event.split(".")[1], getCallback = function(e) {
             if (fn && e.originfn === fn) {
                 return e.fn;
             } else if (!fn) {
                 return e.fn;
             }
         };
-        var namespace = event.split(".")[1], events, callback;
         event = event.split(".")[0];
         this.forEach(function(el) {
             events = jBone._data(el).events;
@@ -196,19 +197,19 @@
         });
         return this;
     };
-    jBone.prototype.is = function() {
+    jBone.fn.is = function() {
         var args = arguments;
         return this.some(function(el) {
             return el.tagName.toLowerCase() === args[0];
         });
     };
-    jBone.prototype.has = function() {
+    jBone.fn.has = function() {
         var args = arguments;
         return this.some(function(el) {
             return el.querySelectorAll(args[0]).length;
         });
     };
-    jBone.prototype.attr = function() {
+    jBone.fn.attr = function() {
         var args = arguments;
         if (typeof args[0] === "string" && args.length === 1) {
             return this[0].getAttribute(args[0]);
@@ -225,7 +226,7 @@
         }
         return this;
     };
-    jBone.prototype.val = function() {
+    jBone.fn.val = function() {
         var args = arguments;
         if (typeof args[0] === "string") {
             this.forEach(function(el) {
@@ -236,7 +237,7 @@
         }
         return this;
     };
-    jBone.prototype.css = function() {
+    jBone.fn.css = function() {
         var args = arguments;
         if (typeof args[0] === "string" && args.length === 2) {
             this.forEach(function(el) {
@@ -251,7 +252,7 @@
         }
         return this;
     };
-    jBone.prototype.find = function(selector) {
+    jBone.fn.find = function(selector) {
         var results = [];
         this.forEach(function(el) {
             [].forEach.call(el.querySelectorAll(selector), function(finded) {
@@ -260,31 +261,17 @@
         });
         return jBone(results);
     };
-    jBone.prototype.get = function(index) {
+    jBone.fn.get = function(index) {
         return this[index];
     };
-    jBone.prototype.eq = function(index) {
+    jBone.fn.eq = function(index) {
         return jBone(this[index]);
     };
-    jBone.prototype.html = function() {
+    jBone.fn.html = function() {
         var value = arguments[0], result;
         if (value !== undefined) {
-            this.forEach(function(el) {
-                if (typeof value === "string") {
-                    el.innerHTML = value;
-                } else {
-                    result = document.createDocumentFragment();
-                    if (value instanceof HTMLElement || value instanceof DocumentFragment) {
-                        result.appendChild(value);
-                    } else if (value instanceof jBone) {
-                        value.forEach(function(j) {
-                            result.appendChild(j);
-                        });
-                    }
-                    jBone(el).empty();
-                    el.appendChild(result);
-                }
-            });
+            this.empty.call(this);
+            this.append.call(this, value);
             return this;
         } else {
             result = [];
@@ -296,7 +283,10 @@
             return result.length ? result.join("") : null;
         }
     };
-    jBone.prototype.append = function(appended) {
+    jBone.fn.append = function(appended) {
+        if (typeof appended === "string") {
+            appended = jBone(appended);
+        }
         if (appended instanceof jBone) {
             this.forEach(function(el, i) {
                 appended.forEach(function(jel) {
@@ -314,7 +304,11 @@
         }
         return this;
     };
-    jBone.prototype.empty = function() {
+    jBone.fn.appendTo = function(to) {
+        jBone(to).append(this);
+        return this;
+    };
+    jBone.fn.empty = function() {
         this.forEach(function(el) {
             while (el.hasChildNodes()) {
                 el.removeChild(el.lastChild);
@@ -322,7 +316,7 @@
         });
         return this;
     };
-    jBone.prototype.remove = function() {
+    jBone.fn.remove = function() {
         this.forEach(function(el) {
             if (el.parentNode) {
                 el.parentNode.removeChild(el);
