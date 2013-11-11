@@ -1,6 +1,8 @@
-# jBone [![Build Status](https://travis-ci.org/kupriyanenko/jbone.png?branch=master)](https://travis-ci.org/kupriyanenko/jbone)
+# jBone 
 
-JavaScript Library for DOM manipulation. Replacement jQuery for Backbone (gzipped:  1kb)
+[![Build Status](https://travis-ci.org/kupriyanenko/jbone.png?branch=master)](https://travis-ci.org/kupriyanenko/jbone)
+
+JavaScript Library for DOM manipulation. Replacement jQuery for Backbone (gzipped: 1kb)
 
 ## Installation
 
@@ -71,6 +73,28 @@ $input.off(".space");
 * [.empty()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#empty)
 * [.remove()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#remove)
 
+[Array methods](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods)
+
+* [.pop()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/pop)
+* [.push()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/push)
+* [.reverse()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/reverse)
+* [.shift()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/shift)
+* [.sort()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/sort)
+* [.splice()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/splice)
+* [.unshift()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/unshift)
+* [.concat()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/concat)
+* [.join()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/join)
+* [.slice()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/slice)
+* [.indexOf()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/indexOf)
+* [.lastIndexOf()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/lastIndexOf)
+* [.forEach()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/forEach)
+* [.every()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/every)
+* [.some()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/some)
+* [.filter()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/filter)
+* [.map()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/map)
+* [.reduce()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/reduce)
+* [.reduceRight()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/reduceRight)
+
 ## Running the Tests
 
 ### Node
@@ -82,6 +106,3 @@ $input.off(".space");
 
 1. ```npm install```
 2. Open page with tests in browser ```test/tests.html```
-
-    
-
