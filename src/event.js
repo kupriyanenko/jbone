@@ -74,7 +74,7 @@ jBone.fn.trigger = function(eventName, data) {
     var namespace = eventName.split(".")[1], event;
     eventName = eventName.split(".")[0];
 
-    if ('CustomEvent' in window) {
+    if ("CustomEvent" in window) {
         event = document.createEvent("CustomEvent");
         event.initCustomEvent(eventName, true, true, null);
     } else {

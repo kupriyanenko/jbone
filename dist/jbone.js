@@ -1,5 +1,5 @@
 /*!
- * jBone v0.0.5 - 2013-11-10 - Library for DOM manipulation
+ * jBone v0.0.7 - 2013-11-11 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -148,8 +148,13 @@
         }
         var namespace = eventName.split(".")[1], event;
         eventName = eventName.split(".")[0];
-        event = document.createEvent("CustomEvent");
-        event.initCustomEvent(eventName, true, true, null);
+        if ("CustomEvent" in window) {
+            event = document.createEvent("CustomEvent");
+            event.initCustomEvent(eventName, true, true, null);
+        } else {
+            event = document.createEvent("Event");
+            event.initEvent(eventName, true, true);
+        }
         event.namespace = namespace;
         this.forEach(function(el) {
             if (el.dispatchEvent) {
