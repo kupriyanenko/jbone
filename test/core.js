@@ -23,12 +23,16 @@ describe('jBone Core', function() {
     it('jBone element have right id', function() {
         var a = jBone({}), b = jBone('<a>'), c = jBone(window);
 
+        a.on('click', function() {});
+        b.on('click', function() {});
+        c.on('click', function() {});
+
         expect(a[0].jid).to.be.a('number');
-        expect(jBone._data(b).jid).to.be.a('number');
+        expect(jBone.getData(b).jid).to.be.a('number');
         expect(a[0].jid).not.to.eql(b[0].jid);
         expect(window.jid).to.be(undefined);
         expect(c[0].jid).to.be(undefined);
-        expect(jBone._data(c).jid).to.be.ok();
+        expect(jBone.getData(c).jid).to.be.ok();
     });
 
     it('jBone(html) create new single DOM element', function() {
@@ -77,7 +81,7 @@ describe('jBone Core', function() {
 
         expect(b[0]).to.be.an(HTMLElement);
         expect(b).have.length(2);
-        expect(jBone._data(a).jid).to.be(jBone._data(b).jid);
+        expect(jBone.getData(a).jid).to.be(jBone.getData(b).jid);
     });
 
 });

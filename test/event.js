@@ -14,13 +14,13 @@ describe('jBone Event', function() {
         a.on('click.test', fn);
         w.on('click.w', fn);
 
-        expect(jBone._data(a).events.click).to.have.length(1);
-        expect(jBone._data(a).events.click[0]).to.have.property('namespace', 'test');
-        expect(jBone._data(a).events.click[0]).to.have.property('originfn', fn);
-        expect(jBone._data(a).events.click[0].fn).to.be.a('function');
+        expect(jBone.getData(a).events.click).to.have.length(1);
+        expect(jBone.getData(a).events.click[0]).to.have.property('namespace', 'test');
+        expect(jBone.getData(a).events.click[0]).to.have.property('originfn', fn);
+        expect(jBone.getData(a).events.click[0].fn).to.be.a('function');
 
-        expect(jBone._data(w)).to.have.property('jid', 'window');
-        expect(jBone._data(w).events.click.length).be.above(0);
+        expect(jBone.getData(w)).to.have.property('jid', 'window');
+        expect(jBone.getData(w).events.click.length).be.above(0);
     });
 
     it('null or undefined handler', function() {

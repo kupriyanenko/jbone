@@ -9,7 +9,8 @@ jBone.fn.on = function() {
     }
 
     this.forEach(function(el) {
-        events = jBone._data(el).events;
+        jBone.setId(el);
+        events = jBone.getData(el).events;
         namespace = event.split(".")[1];
         event = event.split(".")[0];
         events[event] = events[event] ? events[event] : [];
@@ -86,8 +87,8 @@ jBone.fn.trigger = function(eventName, data) {
     this.forEach(function(el) {
         if (el.dispatchEvent) {
             el.dispatchEvent(event);
-        } else if (jBone._data(el).events[eventName]) {
-            jBone._data(el).events[eventName].forEach(function(fn) {
+        } else if (jBone.getData(el).events[eventName]) {
+            jBone.getData(el).events[eventName].forEach(function(fn) {
                 fn.fn.call(el, data);
             });
         }
@@ -110,10 +111,10 @@ jBone.fn.off = function(event, fn) {
     event = event.split(".")[0];
 
     this.forEach(function(el) {
-        events = jBone._data(el).events;
+        events = jBone.getData(el).events;
 
         // remove named events
-        if (events[event]) {
+        if (events && events[event]) {
             events[event].forEach(function(e) {
                 callback = getCallback(e);
                 if (namespace) {

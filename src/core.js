@@ -5,89 +5,56 @@ var rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/;
 // Prioritize #id over <tag> to avoid XSS via location.hash
 var rquickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/;
 
-function jBone() {
+function jBone(element, data) {
     if (this instanceof jBone) {
-        return init.apply(this, arguments[0]);
+        return init.call(this, element, data);
     } else {
-        return new jBone(arguments);
+        return new jBone(element, data);
     }
 }
 
-// global object from wrapper
-global.jBone = global.$ = jBone;
+function init(element, data) {
+    var elements;
 
-jBone.fn = jBone.prototype = [];
+    if (element instanceof jBone) {
+        return element;
+    } else if (Array.isArray(element)) {
+        elements = element.map(function(el) {
+            return getElement(el, data);
+        });
+    } else if (element) {
+        elements = getElement(element, data);
+    }
 
-jBone._cache = {
-    events: {},
-    jid: 0
-};
+    elements = Array.isArray(elements) ? elements : [elements];
 
-jBone._data = function(el) {
-    el = el instanceof jBone ? el[0] : el;
+    jBone.fn.merge(this, elements);
 
-    var jid = el === window ? "window" : el.jid;
-
-    return {
-        jid: jid,
-        events: jBone._cache.events[jid]
-    };
-};
-
-function init() {
-    if (arguments[0] instanceof jBone) {
-        return arguments[0];
-    } else if (Array.isArray(arguments[0])) {
-        arguments[0].forEach(function(el) {
-            addElement.call(this, [el]);
-        }, this);
-    } else if (arguments[0]) {
-        addElement.call(this, arguments);
+    if (data) {
+        jBone.fn.attr.call(this, data);
     }
 
     return this;
 }
 
-function addElement(args) {
-    if (typeof args[0] === "string" && args[0].match(rsingleTag)) {
-        createDOMElement.call(this, args[0], args[1]);
-    } else if (typeof args[0] === "string" && args[0].match(rquickExpr) && args[0].match(rquickExpr)[1]) {
-        createDOMFromString.apply(this, args);
-    } else if (typeof args[0] === "string") {
-        findDOMElements.apply(this, args);
-    } else if (typeof args[0] !== "string") {
-        pushElement.call(this, args[0]);
+function getElement(element) {
+    var tag, html, wraper;
+
+    if (typeof element === "string" && (tag = rsingleTag.exec(element))) {
+        return document.createElement(tag[1]);
+    } else if (typeof element === "string" && (html = element.match(rquickExpr)) && html[1]) {
+        wraper = document.createElement("div");
+        wraper.innerHTML = element;
+
+        return [].slice.call(wraper.childNodes);
+    } else if (typeof element === "string") {
+        return [].slice.call(document.querySelectorAll(element));
     }
+
+    return element;
 }
 
-function createDOMElement(tagName, data) {
-    tagName = tagName.match(rsingleTag)[1];
-    var el = document.createElement(tagName);
-    pushElement.call(this, el);
-
-    if (data) {
-        jBone.fn.attr.call(this, data);
-    }
-}
-
-function createDOMFromString(html) {
-    var wraper = document.createElement("div");
-    wraper.innerHTML = html;
-
-    [].forEach.call(wraper.childNodes, function(node) {
-        pushElement.call(this, node);
-    }.bind(this));
-}
-
-function findDOMElements(selector) {
-    var elems = document.querySelectorAll(selector);
-
-    [].forEach.call(elems, function(el) {
-        pushElement.call(this, el);
-    }, this);
-}
-
-function pushElement(el) {
+jBone.setId = function(el) {
     var jid = el.jid || undefined;
 
     if (el === window) {
@@ -100,6 +67,24 @@ function pushElement(el) {
     if (!jBone._cache.events[jid]) {
         jBone._cache.events[jid] = {};
     }
+};
 
-    this.push(el);
-}
+jBone.getData = function(el) {
+    el = el instanceof jBone ? el[0] : el;
+
+    var jid = el === window ? "window" : el.jid;
+
+    return {
+        jid: jid,
+        events: jBone._cache.events[jid]
+    };
+};
+
+jBone._cache = {
+    events: {},
+    jid: 0
+};
+
+jBone.fn = jBone.prototype = [];
+
+global.jBone = global.$ = jBone;
