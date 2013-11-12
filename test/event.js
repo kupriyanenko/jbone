@@ -28,7 +28,7 @@ describe('jBone Event', function() {
         jBone('<a>').on('click', undefined);
     });
 
-    it('on() and namespaces works correctly', function() {
+    it('on(event.namespace, callback) and namespaces works correctly', function() {
         var div = jBone('<div>'),
             counter = 0;
 
@@ -48,20 +48,34 @@ describe('jBone Event', function() {
         expect(counter).be.eql(3);
     });
 
-    it('on() with same function', function() {
-        var div = jBone('<div>'), count = 0, func = function() {
-            count++;
+    it('on(event, callback) with same function', function() {
+        var div = jBone('<div>'), counter = 0, func = function() {
+            counter++;
         };
 
         div.on('foo.bar', func).on('foo.zar', func);
         div.trigger('foo.bar');
 
-        expect(count).be.eql(1, 'Verify binding function with multiple namespaces.');
+        expect(counter).be.eql(1, 'Verify binding function with multiple namespaces.');
 
         div.off('foo.bar', func).off('foo.zar', func);
         div.trigger('foo.bar');
 
-        expect(count).be.eql(1, 'Verify that removing events still work.');
+        expect(counter).be.eql(1, 'Verify that removing events still work.');
+    });
+
+    it('on(multiple event, callback)', function() {
+        var div = jBone('<div>'), counter = 0;
+
+        div.on('foo bar', function() {
+            counter++;
+        });
+
+        div.trigger('foo');
+        expect(counter).be.eql(1);
+
+        div.trigger('bar');
+        expect(counter).be.eql(2);
     });
 
     it('on(event, target, callback)', function() {
@@ -90,19 +104,27 @@ describe('jBone Event', function() {
     });
 
     it('one(event, callback)', function() {
-        var div = jBone('<div>'),
-            counter = 0;
-
-        div.one('click', function(e) {
+        var div = jBone('<div>'), counter = 0, fn = function() {
             counter++;
-        });
+        };
+
+        div.one('click', fn);
 
         div.trigger('click').trigger('click');
 
         expect(counter).be.eql(1);
+
+        var divs = jBone('<input><input>');
+
+        divs.one('foo', fn);
+
+        divs.eq(0).trigger('foo');
+        divs.eq(1).trigger('foo');
+
+        expect(counter).be.eql(3);
     });
 
-    it('one(event, target callback)', function() {
+    it('one(event, target, callback)', function() {
         var a = jBone('<div><span></span></div>'),
             counter = 0;
 
@@ -139,6 +161,20 @@ describe('jBone Event', function() {
         expect(counter).be.eql(0);
     });
 
+    it('one(multiple event, callback)', function() {
+        var div = jBone('<div>'), counter = 0;
+
+        div.one('foo bar', function() {
+            counter++;
+        });
+
+        div.trigger('foo').trigger('foo');
+        expect(counter).be.eql(1);
+
+        div.trigger('bar').trigger('bar');
+        expect(counter).be.eql(2);
+    });
+
     it('trigger() order', function() {
         var markup = jBone('<div><div><p><span><b>b</b></span></p></div></div>'),
             path = '';
@@ -154,6 +190,20 @@ describe('jBone Event', function() {
         expect(path).be.eql('b span p div div ');
 
         jBone('#app').empty();
+    });
+
+    it('trigger(multiple event)', function() {
+        var div = jBone('<div>'), counter = 0,
+            fn = function() {
+                counter++;
+            };
+
+        div.on('foo bar', function() {
+            counter++;
+        });
+
+        div.trigger('foo bar false');
+        expect(counter).be.eql(2);
     });
 
     it('off(event, fn) undeligate current function', function() {
@@ -194,6 +244,27 @@ describe('jBone Event', function() {
         a.off('click');
         a.trigger('click');
         expect(counter).be.eql(5);
+    });
+
+    it('off(multiple event)', function() {
+        var div = jBone('<div>'), counter = 0,
+            fn = function() {
+                counter++;
+            };
+
+        div.on('foo.bar bar.test test', fn);
+
+        div.trigger('foo').trigger('bar test');
+        expect(counter).be.eql(3);
+
+        div.off('foo.bar .test test');
+        div.trigger('foo').trigger('bar').trigger('test');
+        expect(counter).be.eql(3);
+
+        div.one('foo bar', fn);
+        div.off('foo bar');
+        div.trigger('foo bar');
+        expect(counter).be.eql(3);
     });
 
 });

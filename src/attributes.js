@@ -18,14 +18,12 @@ jBone.fn.attr = function() {
     return this;
 };
 
-jBone.fn.val = function() {
-    var args = arguments;
-
-    if (typeof args[0] === "string") {
+jBone.fn.val = function(value) {
+    if (typeof value === "string") {
         this.forEach(function(el) {
-            el.value = args[0];
+            el.value = value;
         });
-    } else if (args[0] === undefined) {
+    } else {
         return this[0].value;
     }
 

@@ -27,7 +27,7 @@ function init(element, data) {
     }
 
     elements = Array.isArray(elements) ? elements : [elements];
-    jBone.fn.merge(this, elements);
+    jBone.merge(this, elements);
 
     if (data) {
         this.attr(data);
@@ -78,6 +78,27 @@ jBone.getData = function(el) {
     };
 };
 
+jBone.merge = function(first, second) {
+    var l = second.length,
+        i = first.length,
+        j = 0;
+
+    if (typeof l === "number") {
+        while (j < l) {
+            first[i++] = second[j];
+            j++;
+        }
+    } else {
+        while (second[j] !== undefined) {
+            first[i++] = second[j++];
+        }
+    }
+
+    first.length = i;
+
+    return first;
+};
+
 jBone._cache = {
     events: {},
     jid: 0
@@ -85,4 +106,4 @@ jBone._cache = {
 
 jBone.fn = jBone.prototype = [];
 
-global.jBone = global.$ = jBone;
+window.jBone = window.$ = jBone;
