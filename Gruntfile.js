@@ -79,9 +79,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-mocha");
 
   // Short list as a high frequency watch task
-  grunt.registerTask("test", ["mocha:src"]);
-  grunt.registerTask("dev", ["uglify:origin", "jshint", "test"]);
   grunt.registerTask("dist", ["dev", "uglify:min"]);
+  grunt.registerTask("test", ["uglify:origin", "jshint", "mocha:src"]);
+  grunt.registerTask("dev", ["test"]);
 
   // Default grunt
   grunt.registerTask("default", ["dist"]);
