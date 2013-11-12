@@ -27,25 +27,23 @@ function init(element, data) {
     }
 
     elements = Array.isArray(elements) ? elements : [elements];
-
     jBone.fn.merge(this, elements);
 
     if (data) {
-        jBone.fn.attr.call(this, data);
+        this.attr(data);
     }
 
     return this;
 }
 
 function getElement(element) {
-    var tag, html, wraper;
+    var tag, wraper;
 
     if (typeof element === "string" && (tag = rsingleTag.exec(element))) {
         return document.createElement(tag[1]);
-    } else if (typeof element === "string" && (html = element.match(rquickExpr)) && html[1]) {
+    } else if (typeof element === "string" && (tag = rquickExpr.exec(element)) && tag[1]) {
         wraper = document.createElement("div");
         wraper.innerHTML = element;
-
         return [].slice.call(wraper.childNodes);
     } else if (typeof element === "string") {
         return [].slice.call(document.querySelectorAll(element));
