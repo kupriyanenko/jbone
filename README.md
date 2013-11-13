@@ -2,7 +2,9 @@
 
 [![Build Status](https://travis-ci.org/kupriyanenko/jbone.png?branch=master)](https://travis-ci.org/kupriyanenko/jbone)
 
-JavaScript Library for DOM manipulation. Replacement jQuery for Backbone in modern browsers (gzipped:  2kb)
+JavaScript Library for DOM manipulation in modern browsers with with jQuery-compatible API.
+
+Replacement jQuery for Backbone in browsers (2kb gzipped)
 
 ## Installation
 
