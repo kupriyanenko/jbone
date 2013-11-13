@@ -184,12 +184,23 @@ describe('jBone Event', function() {
         jBone('#app').find('*').on('click', function() {
             path += this.nodeName.toLowerCase() + ' ';
         });
+        jBone('#app').find('b').on('click', function(e) {
+            if (e.target === this) {
+                jBone(this.parentNode).remove();
+            }
+        });
 
         markup.find('b').trigger('click');
 
         expect(path).be.eql('b span p div div ');
 
         jBone('#app').empty();
+    });
+
+    it('trigger() on element without handlers', function() {
+        var div = jBone('<div>');
+
+        div.trigger('click');
     });
 
     it('trigger(multiple event)', function() {
@@ -244,6 +255,12 @@ describe('jBone Event', function() {
         a.off('click');
         a.trigger('click');
         expect(counter).be.eql(5);
+    });
+
+    it('off(event) with element without handlers', function() {
+        var div = jBone('<div>');
+
+        div.off('foo');
     });
 
     it('off(multiple event)', function() {

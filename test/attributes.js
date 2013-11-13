@@ -47,6 +47,12 @@ describe('jBone Attributes', function() {
         expect(a.val()).to.be('test');
     });
 
+    it('val(value) setting integer value', function() {
+        var a = jBone('<input>').val(123);
+
+        expect(a.val()).to.be.eql(123);
+    });
+
     it('css(key, value) setting value', function() {
         var a = jBone('<div>').css('height', '100px');
 
