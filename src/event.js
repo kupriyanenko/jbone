@@ -115,12 +115,16 @@ jBone.fn.off = function(event, fn) {
     this.forEach(function(el) {
         events = jBone.getData(el).events;
 
+        if (!events) {
+            return;
+        }
+
         event.split(" ").forEach(function(event) {
             namespace = event.split(".")[1];
             event = event.split(".")[0];
 
             // remove named events
-            if (events && events[event]) {
+            if (events[event]) {
                 events[event].forEach(function(e) {
                     callback = getCallback(e);
                     if (namespace) {

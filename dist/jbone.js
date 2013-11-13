@@ -1,5 +1,5 @@
 /*!
- * jBone v0.0.8 - 2013-11-13 - Library for DOM manipulation
+ * jBone v0.0.9 - 2013-11-13 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -184,10 +184,13 @@
         };
         this.forEach(function(el) {
             events = jBone.getData(el).events;
+            if (!events) {
+                return;
+            }
             event.split(" ").forEach(function(event) {
                 namespace = event.split(".")[1];
                 event = event.split(".")[0];
-                if (events && events[event]) {
+                if (events[event]) {
                     events[event].forEach(function(e) {
                         callback = getCallback(e);
                         if (namespace) {

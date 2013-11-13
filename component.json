@@ -1,6 +1,6 @@
 {
   "name": "jbone",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "dependencies": {
     "mocha": "~1.13.0"
   },
