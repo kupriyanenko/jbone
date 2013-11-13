@@ -19,7 +19,7 @@ jBone.fn.attr = function() {
 };
 
 jBone.fn.val = function(value) {
-    if (typeof value === "string") {
+    if (value !== undefined) {
         this.forEach(function(el) {
             el.value = value;
         });
