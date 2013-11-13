@@ -1,7 +1,7 @@
 {
   "name": "jbone",
   "title": "jBone",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Library for DOM manipulation",
   "main": "jbone.js",
   "homepage": "https://github.com/kupriyanenko/jbone",

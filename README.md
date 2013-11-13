@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/kupriyanenko/jbone.png?branch=master)](https://travis-ci.org/kupriyanenko/jbone)
 
-JavaScript Library for DOM manipulation. Replacement jQuery for Backbone (gzipped: 1kb)
+JavaScript Library for DOM manipulation. Replacement jQuery for Backbone in modern browsers (gzipped:  2kb)
 
 ## Installation
 
@@ -15,7 +15,7 @@ $ bower install jbone --save
 Add a ```<script>``` element for jbone.js
 
 ```html
-<script src="path/to/jbone/jbone.js"></script>
+<script src="path/to/jbone/dist/jbone.js"></script>
 ```
 
 ## Use it
