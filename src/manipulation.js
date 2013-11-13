@@ -82,7 +82,8 @@ jBone.fn.parents = function(selector) {
     search = function(selector, el) {
         if (el === selector) {
             results.push(el);
-        } else if (!el.parentNode) {
+        }
+        if (!el.parentNode) {
             return;
         }
 
@@ -92,7 +93,6 @@ jBone.fn.parents = function(selector) {
     if (typeof selector === "string") {
         selector = jBone(selector);
     }
-
 
     this.forEach(function(el) {
         if (selector instanceof HTMLElement) {

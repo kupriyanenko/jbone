@@ -1,5 +1,5 @@
 /*!
- * jBone v0.0.9 - 2013-11-13 - Library for DOM manipulation
+ * jBone v0.0.10 - 2013-11-13 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -90,8 +90,8 @@
     };
     jBone.fn = jBone.prototype = [];
     window.jBone = window.$ = jBone;
-    jBone.fn.on = function() {
-        var event = arguments[0], callback, target, namespace, fn, events;
+    jBone.fn.on = function(originEvent) {
+        var callback, target, namespace, fn, events, expectedTarget;
         if (arguments.length === 2) {
             callback = arguments[1];
         } else {
@@ -100,7 +100,7 @@
         this.forEach(function(el) {
             jBone.setId(el);
             events = jBone.getData(el).events;
-            event.split(" ").forEach(function(event) {
+            originEvent.split(" ").forEach(function(event) {
                 namespace = event.split(".")[1];
                 event = event.split(".")[0];
                 events[event] = events[event] ? events[event] : [];
@@ -113,6 +113,8 @@
                     } else {
                         if (~jBone(el).find(target).indexOf(e.target)) {
                             callback.call(el, e);
+                        } else if ((expectedTarget = jBone(e.target).parents(target)) && ~jBone(el).find(target).indexOf(expectedTarget[0])) {
+                            expectedTarget.trigger(originEvent);
                         }
                     }
                 };
@@ -324,6 +326,34 @@
     jBone.fn.appendTo = function(to) {
         jBone(to).append(this);
         return this;
+    };
+    jBone.fn.parent = function() {
+        return jBone(this[0].parentNode);
+    };
+    jBone.fn.parents = function(selector) {
+        var results = [], search;
+        search = function(selector, el) {
+            if (el === selector) {
+                results.push(el);
+            }
+            if (!el.parentNode) {
+                return;
+            }
+            search(selector, el.parentNode);
+        };
+        if (typeof selector === "string") {
+            selector = jBone(selector);
+        }
+        this.forEach(function(el) {
+            if (selector instanceof HTMLElement) {
+                search(selector, el);
+            } else if (selector instanceof jBone) {
+                selector.forEach(function(selector) {
+                    search(selector, el);
+                });
+            }
+        });
+        return jBone(results);
     };
     jBone.fn.empty = function() {
         this.forEach(function(el) {
