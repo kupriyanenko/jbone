@@ -9,12 +9,12 @@
     "test": "test"
   },
   "devDependencies": {
-    "bower": "~1.2.7",
     "grunt": "~0.4.1",
     "grunt-mocha": "~0.4.1",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-contrib-jshint": "~0.7.1",
-    "grunt-contrib-uglify": "~0.2.5"
+    "grunt-contrib-uglify": "~0.2.5",
+    "which": "~1.0.5"
   },
   "keywords": [
     "jquery",
