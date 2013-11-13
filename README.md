@@ -73,7 +73,7 @@ $input.off(".space");
 * [.append(html)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendhtml)
 * [.empty()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#empty)
 * [.parent()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#parent)
-* [.parents(selector)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#parentsselector)
+* [.parents(element)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#parentselement)
 * [.remove()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#remove)
 
 [Array methods](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods)

@@ -1,5 +1,5 @@
 /*!
- * jBone v0.0.10 - 2013-11-13 - Library for DOM manipulation
+ * jBone v0.0.10 - 2013-11-14 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -90,8 +90,8 @@
     };
     jBone.fn = jBone.prototype = [];
     window.jBone = window.$ = jBone;
-    jBone.fn.on = function(originEvent) {
-        var callback, target, namespace, fn, events, expectedTarget;
+    jBone.fn.on = function(event) {
+        var callback, target, namespace, fn, events, expectedTarget, eventType;
         if (arguments.length === 2) {
             callback = arguments[1];
         } else {
@@ -100,10 +100,10 @@
         this.forEach(function(el) {
             jBone.setId(el);
             events = jBone.getData(el).events;
-            originEvent.split(" ").forEach(function(event) {
+            event.split(" ").forEach(function(event) {
+                eventType = event.split(".")[0];
                 namespace = event.split(".")[1];
-                event = event.split(".")[0];
-                events[event] = events[event] ? events[event] : [];
+                events[eventType] = events[eventType] ? events[eventType] : [];
                 fn = function(e) {
                     if (e.namespace && e.namespace !== namespace) {
                         return;
@@ -113,18 +113,18 @@
                     } else {
                         if (~jBone(el).find(target).indexOf(e.target)) {
                             callback.call(el, e);
-                        } else if ((expectedTarget = jBone(e.target).parents(target)) && ~jBone(el).find(target).indexOf(expectedTarget[0])) {
-                            expectedTarget.trigger(originEvent);
+                        } else if ((expectedTarget = jBone(e.target).parents(jBone(el).find(target))) && expectedTarget.length) {
+                            expectedTarget.trigger(eventType);
                         }
                     }
                 };
-                events[event].push({
+                events[eventType].push({
                     namespace: namespace,
                     fn: fn,
                     originfn: callback
                 });
                 if (el.addEventListener) {
-                    el.addEventListener(event, fn, false);
+                    el.addEventListener(eventType, fn, false);
                 }
             });
         });
@@ -152,21 +152,21 @@
         });
         return this;
     };
-    jBone.fn.trigger = function(eventName) {
-        if (!eventName || !eventName.split(".")[0]) {
+    jBone.fn.trigger = function(event) {
+        if (!event || !event.split(".")[0]) {
             return this;
         }
-        var namespace, event;
+        var namespace, eventType;
         this.forEach(function(el) {
-            eventName.split(" ").forEach(function(eventName) {
-                namespace = eventName.split(".")[1];
-                eventName = eventName.split(".")[0];
+            event.split(" ").forEach(function(event) {
+                namespace = event.split(".")[1];
+                eventType = event.split(".")[0];
                 if ("CustomEvent" in window) {
                     event = document.createEvent("CustomEvent");
-                    event.initCustomEvent(eventName, true, true, null);
+                    event.initCustomEvent(eventType, true, true, null);
                 } else {
                     event = document.createEvent("Event");
-                    event.initEvent(eventName, true, true);
+                    event.initEvent(eventType, true, true);
                 }
                 event.namespace = namespace;
                 if (el.dispatchEvent) {
@@ -177,7 +177,7 @@
         return this;
     };
     jBone.fn.off = function(event, fn) {
-        var events, callback, namespace, getCallback = function(e) {
+        var events, callback, namespace, eventType, getCallback = function(e) {
             if (fn && e.originfn === fn) {
                 return e.fn;
             } else if (!fn) {
@@ -190,17 +190,17 @@
                 return;
             }
             event.split(" ").forEach(function(event) {
+                eventType = event.split(".")[0];
                 namespace = event.split(".")[1];
-                event = event.split(".")[0];
-                if (events[event]) {
-                    events[event].forEach(function(e) {
+                if (events[eventType]) {
+                    events[eventType].forEach(function(e) {
                         callback = getCallback(e);
                         if (namespace) {
                             if (e.namespace === namespace) {
-                                el.removeEventListener(event, callback);
+                                el.removeEventListener(eventType, callback);
                             }
                         } else if (!namespace) {
-                            el.removeEventListener(event, callback);
+                            el.removeEventListener(eventType, callback);
                         }
                     });
                 } else if (namespace) {
@@ -328,30 +328,32 @@
         return this;
     };
     jBone.fn.parent = function() {
-        return jBone(this[0].parentNode);
+        var results = [];
+        this.forEach(function(el) {
+            if (!~results.indexOf(el.parentNode)) {
+                results.push(el.parentNode);
+            }
+        });
+        return jBone(results);
     };
-    jBone.fn.parents = function(selector) {
+    jBone.fn.parents = function(element) {
         var results = [], search;
-        search = function(selector, el) {
-            if (el === selector) {
-                results.push(el);
+        search = function(el, element) {
+            if (el === element) {
+                return results.push(el);
             }
             if (!el.parentNode) {
                 return;
             }
-            search(selector, el.parentNode);
+            search(el.parentNode, element);
         };
-        if (typeof selector === "string") {
-            selector = jBone(selector);
+        if (element instanceof HTMLElement) {
+            element = jBone(element);
         }
         this.forEach(function(el) {
-            if (selector instanceof HTMLElement) {
-                search(selector, el);
-            } else if (selector instanceof jBone) {
-                selector.forEach(function(selector) {
-                    search(selector, el);
-                });
-            }
+            element.forEach(function(element) {
+                search(el.parentNode, element);
+            });
         });
         return jBone(results);
     };

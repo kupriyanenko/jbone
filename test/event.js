@@ -104,7 +104,7 @@ describe('jBone Event', function() {
     });
 
     it('on(event, target, callback) with deep nesting', function() {
-        var a = jBone('<div><span class="target"><span></span><span><input type="text" /></span></span></div>'),
+        var a = jBone('<div><span class="target"><input type="text" /></span><span class="target"><input type="text" /></span></div>'),
             counter = 0;
 
         jBone('#app').html(a);
@@ -116,8 +116,11 @@ describe('jBone Event', function() {
         a.trigger('click');
         expect(counter).be.eql(0);
 
-        a.find('input').trigger('click');
+        a.find('input').eq(1).trigger('click');
         expect(counter).be.eql(1);
+
+        a.find('input').trigger('click');
+        expect(counter).be.eql(3);
 
         jBone('#app').empty();
     });

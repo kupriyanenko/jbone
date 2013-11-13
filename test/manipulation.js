@@ -89,7 +89,7 @@ describe('jBone Manipulation', function() {
         expect(a.find('span')).to.have.length(2);
     });
 
-    it('parents(HTMLElement)', function() {
+    it('parent()', function() {
         var a = jBone('<div><p><span></span></p></div>'),
             span = a.find('span');
 
@@ -97,23 +97,26 @@ describe('jBone Manipulation', function() {
         expect(span.parent()).to.have.length(1);
     });
 
+    it('parent() with multiple elements', function() {
+        var span = $('<span><span><span><a/><a/></span></span></span>'),
+            a = span.find('a');
+
+        expect(a.parent()).to.have.length(1);
+    });
+
+    it('parent() with multiple parents', function() {
+        var span = $('<span><span><span><a/><a/></span></span></span>'),
+            a = span.find('a, span');
+
+        expect(a.parent()).to.have.length(3);
+    });
+
     it('parents(HTMLElement)', function() {
         var a = jBone('<div><p><span></span><span><input type="text" /></span></p></div>'),
             b = a.find('input'),
-            c = a.find('p');
+            c = a.find('p')[0];
 
         expect(b.parents(c)).to.have.length(1);
-    });
-
-    it('parents(selector)', function() {
-        var a = jBone('<div><p><p><span></span><span><input type="text" /></span></p></p></div>'),
-            b = a.find('input');
-
-        jBone('#app').html(a);
-
-        expect(b.parents('p')).to.have.length(1);
-
-        jBone('#app').empty();
     });
 
     it('appendTo()', function() {

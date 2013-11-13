@@ -73,35 +73,39 @@ jBone.fn.appendTo = function(to) {
 };
 
 jBone.fn.parent = function() {
-    return jBone(this[0].parentNode);
+    var results = [];
+
+    this.forEach(function(el) {
+        if (!~results.indexOf(el.parentNode)) {
+            results.push(el.parentNode);
+        }
+    });
+
+    return jBone(results);
 };
 
-jBone.fn.parents = function(selector) {
+jBone.fn.parents = function(element) {
     var results = [], search;
 
-    search = function(selector, el) {
-        if (el === selector) {
-            results.push(el);
+    search = function(el, element) {
+        if (el === element) {
+            return results.push(el);
         }
         if (!el.parentNode) {
             return;
         }
 
-        search(selector, el.parentNode);
+        search(el.parentNode, element);
     };
 
-    if (typeof selector === "string") {
-        selector = jBone(selector);
+    if (element instanceof HTMLElement) {
+        element = jBone(element);
     }
 
     this.forEach(function(el) {
-        if (selector instanceof HTMLElement) {
-            search(selector, el);
-        } else if (selector instanceof jBone) {
-            selector.forEach(function(selector) {
-                search(selector, el);
-            });
-        }
+        element.forEach(function(element) {
+            search(el.parentNode, element);
+        });
     });
 
     return jBone(results);
