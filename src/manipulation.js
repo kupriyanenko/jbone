@@ -72,6 +72,41 @@ jBone.fn.appendTo = function(to) {
     return this;
 };
 
+jBone.fn.parent = function() {
+    return jBone(this[0].parentNode);
+};
+
+jBone.fn.parents = function(selector) {
+    var results = [], search;
+
+    search = function(selector, el) {
+        if (el === selector) {
+            results.push(el);
+        } else if (!el.parentNode) {
+            return;
+        }
+
+        search(selector, el.parentNode);
+    };
+
+    if (typeof selector === "string") {
+        selector = jBone(selector);
+    }
+
+
+    this.forEach(function(el) {
+        if (selector instanceof HTMLElement) {
+            search(selector, el);
+        } else if (selector instanceof jBone) {
+            selector.forEach(function(selector) {
+                search(selector, el);
+            });
+        }
+    });
+
+    return jBone(results);
+};
+
 jBone.fn.empty = function() {
     this.forEach(function(el) {
         while (el.hasChildNodes()) {

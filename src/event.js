@@ -1,6 +1,5 @@
-jBone.fn.on = function() {
-    var event = arguments[0],
-        callback, target, namespace, fn, events;
+jBone.fn.on = function(originEvent) {
+    var callback, target, namespace, fn, events, expectedTarget;
 
     if (arguments.length === 2) {
         callback = arguments[1];
@@ -11,7 +10,7 @@ jBone.fn.on = function() {
     this.forEach(function(el) {
         jBone.setId(el);
         events = jBone.getData(el).events;
-        event.split(" ").forEach(function(event) {
+        originEvent.split(" ").forEach(function(event) {
             namespace = event.split(".")[1];
             event = event.split(".")[0];
             events[event] = events[event] ? events[event] : [];
@@ -26,6 +25,8 @@ jBone.fn.on = function() {
                 } else {
                     if (~jBone(el).find(target).indexOf(e.target)) {
                         callback.call(el, e);
+                    } else if ((expectedTarget = jBone(e.target).parents(target)) && ~jBone(el).find(target).indexOf(expectedTarget[0])) {
+                        expectedTarget.trigger(originEvent);
                     }
                 }
             };
