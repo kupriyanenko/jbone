@@ -1,5 +1,5 @@
 /*!
- * jBone v0.0.10 - 2013-11-14 - Library for DOM manipulation
+ * jBone v0.0.11 - 2013-11-14 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
