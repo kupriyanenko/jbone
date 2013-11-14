@@ -26,17 +26,21 @@ function init(element, data) {
         elements = getElement(element, data);
     }
 
+    if (elements instanceof jBone) {
+        return elements;
+    }
+
     elements = Array.isArray(elements) ? elements : [elements];
     jBone.merge(this, elements);
 
-    if (data) {
+    if (data instanceof Object && !jBone.isElement(data)) {
         this.attr(data);
     }
 
     return this;
 }
 
-function getElement(element) {
+function getElement(element, context) {
     var tag, wraper;
 
     if (typeof element === "string" && (tag = rsingleTag.exec(element))) {
@@ -46,6 +50,10 @@ function getElement(element) {
         wraper.innerHTML = element;
         return [].slice.call(wraper.childNodes);
     } else if (typeof element === "string") {
+        if (jBone.isElement(context)) {
+            return jBone(context).find(element);
+        }
+
         return [].slice.call(document.querySelectorAll(element));
     }
 
@@ -76,6 +84,10 @@ jBone.getData = function(el) {
         jid: jid,
         events: jBone._cache.events[jid]
     };
+};
+
+jBone.isElement = function(el) {
+    return el instanceof jBone || el instanceof HTMLElement || typeof el === "string";
 };
 
 jBone.merge = function(first, second) {

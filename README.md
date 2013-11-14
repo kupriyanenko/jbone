@@ -40,7 +40,7 @@ $input.off(".space");
 
 [jBone](https://github.com/kupriyanenko/jbone/wiki/jBone)
 
-* [jBone(selector)](https://github.com/kupriyanenko/jbone/wiki/jBone#jboneselector)
+* [jBone(selector[, context])](https://github.com/kupriyanenko/jbone/wiki/jBone#jboneselector)
 * [jBone(element)](https://github.com/kupriyanenko/jbone/wiki/jBone#jboneelement)
 * [jBone(elementArray)](https://github.com/kupriyanenko/jbone/wiki/jBone#jboneelementarray)
 * [jBone(jBoneObject)](https://github.com/kupriyanenko/jbone/wiki/jBone#jbonejboneobject)
@@ -75,6 +75,7 @@ $input.off(".space");
 * [.parent()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#parent)
 * [.parents(element)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#parentselement)
 * [.remove()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#remove)
+* [.toArray()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#toarray)
 
 [Array methods](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods)
 

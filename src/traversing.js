@@ -13,3 +13,7 @@ jBone.fn.has = function() {
         return el.querySelectorAll(args[0]).length;
     });
 };
+
+jBone.fn.toArray = function() {
+    return [].slice.call(this);
+};

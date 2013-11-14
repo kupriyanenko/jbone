@@ -1,7 +1,7 @@
 describe('jBone Core', function() {
 
     before(function() {
-        var html = '<div><span><a href="#"><span></span></a></span></div>';
+        var html = '<div><span><a href="#"><span><input type="text" /></span></a></span></div>';
         $('#app').html(html);
     });
 
@@ -67,6 +67,14 @@ describe('jBone Core', function() {
 
         expect(a).to.have.length(2);
         expect(a[1]).to.be.an(HTMLElement);
+    });
+
+    it('jBone(selector, context)', function() {
+        expect(jBone('input', 'a span')).to.have.length(1);
+        expect(jBone('input', 'ul')).to.have.length(0);
+
+        expect(jBone('input', jBone('#app'))).to.have.length(1);
+        expect(jBone('input', jBone('ul'))).to.have.length(0);
     });
 
     it('jBone(element) create some elements from DOMElement', function() {
