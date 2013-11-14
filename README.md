@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/kupriyanenko/jbone.png?branch=master)](https://travis-ci.org/kupriyanenko/jbone)
 
-JavaScript Library for DOM manipulation in modern browsers with with jQuery-compatible API.
+JavaScript Library for DOM manipulation in modern browsers with jQuery-compatible API.
 
 Replacement jQuery for Backbone in browsers (2kb gzipped)
 
@@ -35,6 +35,12 @@ $input.trigger("click");
 
 $input.off(".space");
 ```
+
+## AJAX, Deferred
+
+This part is not covered on jBone. Yuo can select one of a huge amount implementations AJAX and Promises/A+.
+
+For example: [when](https://github.com/cujojs/when), [Q](https://github.com/kriskowal/q), [simply-deferred](https://github.com/sudhirj/simply-deferred), [AJAX](microjs.com/#ajax).
 
 ## API
 
