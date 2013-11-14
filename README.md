@@ -42,6 +42,32 @@ This part is not covered on jBone. Yuo can select one of a huge amount implement
 
 For example: [when](https://github.com/cujojs/when), [Q](https://github.com/kriskowal/q), [simply-deferred](https://github.com/sudhirj/simply-deferred), [AJAX](microjs.com/#ajax).
 
+Example AJAX connecting:
+
+```javascript
+// connect reqwest on your page https://rawgithub.com/ded/reqwest/master/reqwest.min.js
+
+jBone.ajax = reqwest.compat;
+
+$.ajax({
+    url: "example.com"
+});
+```
+
+Example Deffered connecting:
+
+```javascript
+// connect simply-deferred on your page https://rawgithub.com/sudhirj/simply-deferred/master/deferred.min.js
+
+Deferred.installInto(jBone);
+
+var deferred = $.Deferred();
+
+$.when(deferred).then(function(response) {
+    // some code
+});
+```
+
 ## API
 
 [jBone](https://github.com/kupriyanenko/jbone/wiki/jBone)
