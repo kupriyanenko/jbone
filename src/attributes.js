@@ -19,13 +19,13 @@ jBone.fn.attr = function() {
 };
 
 jBone.fn.val = function(value) {
-    if (value !== undefined) {
-        this.forEach(function(el) {
-            el.value = value;
-        });
-    } else {
+    if (arguments.length === 0) {
         return this[0].value;
     }
+
+    this.forEach(function(el) {
+        el.value = value;
+    });
 
     return this;
 };
