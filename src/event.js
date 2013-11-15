@@ -25,8 +25,8 @@ jBone.fn.on = function(event) {
                 } else {
                     if (~jBone(el).find(target).indexOf(e.target)) {
                         callback.call(el, e);
-                    } else if ((expectedTarget = jBone(e.target).parents(jBone(el).find(target))) && expectedTarget.length) {
-                        expectedTarget.trigger(eventType);
+                    } else if (expectedTarget = jBone.contains(jBone(el).find(target), e.target)) {
+                        jBone(expectedTarget).trigger(eventType);
                     }
                 }
             };

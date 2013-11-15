@@ -77,6 +77,8 @@ $.when(deferred).then(function(response) {
 * [jBone(elementArray)](https://github.com/kupriyanenko/jbone/wiki/jBone#jboneelementarray)
 * [jBone(jBoneObject)](https://github.com/kupriyanenko/jbone/wiki/jBone#jbonejboneobject)
 * [jBone(html[, attributes])](https://github.com/kupriyanenko/jbone/wiki/jBone#jbonehtml-attributes)
+* [jBone.merge(first, second)](https://github.com/kupriyanenko/jbone/wiki/jBone#jbonemergefirst-second)
+* [jBone.contains(container, contained)](https://github.com/kupriyanenko/jbone/wiki/jBone#jbonecontainscontainer-contained)
 
 [Attributes](https://github.com/kupriyanenko/jbone/wiki/Attributes)
 
@@ -97,17 +99,20 @@ $.when(deferred).then(function(response) {
 
 [Manipulation](https://github.com/kupriyanenko/jbone/wiki/Manipulation)
 
-* [.find(selector)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#findselector)
-* [.get(index)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#getindex)
-* [.eq(index)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#eqindex)
 * [.html()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#html)
 * [.html(html)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#htmlhtml)
 * [.append(html)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendhtml)
 * [.empty()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#empty)
-* [.parent()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#parent)
-* [.parents(element)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#parentselement)
 * [.remove()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#remove)
 * [.toArray()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#toarray)
+
+[Traversing](https://github.com/kupriyanenko/jbone/wiki/Traversing)
+
+* [.find(selector)](https://github.com/kupriyanenko/jbone/wiki/Traversing#findselector)
+* [.get(index)](https://github.com/kupriyanenko/jbone/wiki/Traversing#getindex)
+* [.eq(index)](https://github.com/kupriyanenko/jbone/wiki/Traversing#eqindex)
+* [.parent()](https://github.com/kupriyanenko/jbone/wiki/Traversing#parent)
+* [.isContain(target)](https://github.com/kupriyanenko/jbone/wiki/Traversing#iscontaintarget)
 
 [Array methods](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods)
 

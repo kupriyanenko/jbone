@@ -1,23 +1,3 @@
-jBone.fn.find = function(selector) {
-    var results = [];
-
-    this.forEach(function(el) {
-        [].forEach.call(el.querySelectorAll(selector), function(finded) {
-            results.push(finded);
-        });
-    });
-
-    return jBone(results);
-};
-
-jBone.fn.get = function(index) {
-    return this[index];
-};
-
-jBone.fn.eq = function(index) {
-    return jBone(this[index]);
-};
-
 jBone.fn.html = function() {
     var value = arguments[0], result;
 
@@ -70,45 +50,6 @@ jBone.fn.appendTo = function(to) {
     jBone(to).append(this);
 
     return this;
-};
-
-jBone.fn.parent = function() {
-    var results = [];
-
-    this.forEach(function(el) {
-        if (!~results.indexOf(el.parentNode)) {
-            results.push(el.parentNode);
-        }
-    });
-
-    return jBone(results);
-};
-
-jBone.fn.parents = function(element) {
-    var results = [], search;
-
-    search = function(el, element) {
-        if (el === element) {
-            return results.push(el);
-        }
-        if (!el.parentNode) {
-            return;
-        }
-
-        search(el.parentNode, element);
-    };
-
-    if (element instanceof HTMLElement) {
-        element = jBone(element);
-    }
-
-    this.forEach(function(el) {
-        element.forEach(function(element) {
-            search(el.parentNode, element);
-        });
-    });
-
-    return jBone(results);
 };
 
 jBone.fn.empty = function() {

@@ -111,6 +111,27 @@ jBone.merge = function(first, second) {
     return first;
 };
 
+jBone.contains = function(container, contained) {
+    var search, result;
+
+    search = function(el, element) {
+        if (el === element) {
+            return result = el;
+        }
+        if (!el.parentNode) {
+            return;
+        }
+
+        search(el.parentNode, element);
+    };
+
+    container.forEach(function(element) {
+        search(contained.parentNode, element);
+    });
+
+    return result;
+};
+
 jBone._cache = {
     events: {},
     jid: 0
