@@ -1,15 +1,13 @@
 {
   "name": "jbone",
   "version": "0.0.12",
-  "dependencies": {
-    "mocha": "~1.13.0"
-  },
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components"
   ],
   "devDependencies": {
+    "mocha": "~1.13.0",
     "expect": "~0.2.0"
   }
 }
