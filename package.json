@@ -1,7 +1,7 @@
 {
   "name": "jbone",
   "title": "jBone",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Library for DOM manipulation",
   "main": "jbone.js",
   "homepage": "https://github.com/kupriyanenko/jbone",
@@ -14,6 +14,7 @@
     "grunt-contrib-watch": "~0.5.3",
     "grunt-contrib-jshint": "~0.7.1",
     "grunt-contrib-uglify": "~0.2.5",
+    "grunt-contrib-concat": "~0.3.0",
     "which": "~1.0.5"
   },
   "keywords": [

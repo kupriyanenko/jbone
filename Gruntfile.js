@@ -3,11 +3,13 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON("package.json"),
     src: [
+      "build/topper.js",
       "src/core.js",
       "src/event.js",
       "src/traversing.js",
       "src/attributes.js",
-      "src/manipulation.js"
+      "src/manipulation.js",
+      "build/footer.js"
     ],
     meta: {
       banner: "/*!\n * <%= pkg.title %> v<%= pkg.version %> - " +
@@ -41,6 +43,15 @@ module.exports = function(grunt) {
         src: ['test/tests.html']
       }
     },
+    concat: {
+      options: {
+        banner: "<%= meta.banner %>"
+      },
+      dist: {
+        src: "<%= src %>",
+        dest: 'dist/jbone.js',
+      },
+    },
     uglify: {
       options: {
         banner: "<%= meta.banner %>"
@@ -51,18 +62,6 @@ module.exports = function(grunt) {
         },
         files: {
           "dist/jbone.min.js": ["dist/jbone.js"]
-        }
-      },
-      origin: {
-        options: {
-          mangle: false,
-          comments: true,
-          beautify: true,
-          compress: false,
-          wrap: true
-        },
-        files: {
-          "dist/jbone.js": "<%= src %>"
         }
       }
     },
@@ -75,12 +74,13 @@ module.exports = function(grunt) {
   // Load grunt tasks from NPM packages
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-contrib-jshint");
+  grunt.loadNpmTasks("grunt-contrib-concat");
   grunt.loadNpmTasks("grunt-contrib-uglify");
   grunt.loadNpmTasks("grunt-mocha");
 
   // Short list as a high frequency watch task
   grunt.registerTask("dist", ["dev", "uglify:min"]);
-  grunt.registerTask("test", ["uglify:origin", "jshint", "mocha:src"]);
+  grunt.registerTask("test", ["concat:dist", "jshint", "mocha:src"]);
   grunt.registerTask("dev", ["test"]);
 
   // Default grunt

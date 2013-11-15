@@ -1,19 +1,20 @@
+var
 // Match a standalone tag
-var rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/;
+rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/,
 
 // A simple way to check for HTML strings
 // Prioritize #id over <tag> to avoid XSS via location.hash
-var rquickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/;
+rquickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/,
 
-function jBone(element, data) {
+jBone = function(element, data) {
     if (this instanceof jBone) {
         return init.call(this, element, data);
     } else {
         return new jBone(element, data);
     }
-}
+},
 
-function init(element, data) {
+init = function(element, data) {
     var elements;
 
     if (element instanceof jBone) {
@@ -38,9 +39,9 @@ function init(element, data) {
     }
 
     return this;
-}
+},
 
-function getElement(element, context) {
+getElement = function(element, context) {
     var tag, wraper;
 
     if (typeof element === "string" && (tag = rsingleTag.exec(element))) {
@@ -58,7 +59,7 @@ function getElement(element, context) {
     }
 
     return element;
-}
+};
 
 jBone.setId = function(el) {
     var jid = el.jid || undefined;
@@ -138,5 +139,3 @@ jBone._cache = {
 };
 
 jBone.fn = jBone.prototype = [];
-
-window.jBone = window.$ = jBone;
