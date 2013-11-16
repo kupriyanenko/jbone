@@ -6,10 +6,12 @@ rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/,
 // Prioritize #id over <tag> to avoid XSS via location.hash
 rquickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/,
 
+// Alias for function
 slice = [].slice,
+keys = Object.keys,
 
+// Alias for global variables
 doc = document,
-
 win = window,
 
 isString = function(el) {
@@ -78,7 +80,7 @@ getElement = function(element, context) {
         try {
             return slice.call(doc.querySelectorAll(element));
         } catch (e) {
-            return;
+            // Elements not faund
         }
     }
 
@@ -86,13 +88,12 @@ getElement = function(element, context) {
 };
 
 jBone.setId = function(el) {
-    var jid = el.jid || undefined;
+    var jid = el.jid;
 
     if (el === win) {
         jid = "window";
-    } else if (!el.jid) {
-        jid = ++jBone._cache.jid;
-        el.jid = jid;
+    } else if (el.jid === undefined) {
+        el.jid = jid = ++jBone._cache.jid;
     }
 
     if (!jBone._cache.events[jid]) {

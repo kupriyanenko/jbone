@@ -93,6 +93,7 @@ describe('jBone Attributes', function() {
         a.data('name', 'John');
         a.data('fn', fn);
         a.data('obj', obj);
+        a.data('boolean', true);
         a.data({
             first: 1,
             second: fn,
@@ -102,6 +103,7 @@ describe('jBone Attributes', function() {
         expect(a.data('name')).be.eql('John');
         expect(a.data('fn')).be.eql(fn);
         expect(a.data('obj')).be.eql(obj);
+        expect(a.data('boolean')).be.eql(true);
         expect(a.data('first')).be.eql(1);
         expect(a.data('second')).be.eql(fn);
         expect(a.data('third')).be.eql(obj);

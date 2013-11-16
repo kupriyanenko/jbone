@@ -3,22 +3,12 @@ jBone.fn.html = function(value) {
 
     // add HTML into elements
     if (value !== undefined) {
-        this.empty.call(this);
-
-        if (!isObject(value) && !rquickExpr.exec(value)) {
-            this.forEach(function(el) {
-                if (el instanceof HTMLElement) {
-                    el.innerHTML = value;
-                }
-            });
-        } else {
-            this.append.call(this, value);
-        }
+        this.empty().append(value);
 
         return this;
     }
 
-    // get HTML from element
+    // get HTML from elements
     this.forEach(function(el) {
         if (el instanceof HTMLElement) {
             result.push(el.innerHTML);
@@ -29,25 +19,31 @@ jBone.fn.html = function(value) {
 };
 
 jBone.fn.append = function(appended) {
-    if (isString(appended)) {
+    var setter;
+
+    if (isString(appended) && rquickExpr.exec(appended)) {
         appended = jBone(appended);
+    } else if (!isObject(appended)) {
+        appended = document.createTextNode(appended);
     }
 
     if (appended instanceof jBone) {
-        this.forEach(function(el, i) {
-            appended.forEach(function(jel) {
-                if (!i) {
-                    el.appendChild(jel);
+        setter = function(el, i) {
+            appended.forEach(function(node) {
+                if (i) {
+                    el.appendChild(node.cloneNode());
                 } else {
-                    el.appendChild(jel.cloneNode());
+                    el.appendChild(node);
                 }
             });
-        });
-    } else if (appended instanceof HTMLElement || appended instanceof DocumentFragment) {
-        this.forEach(function(el) {
+        };
+    } else if (appended instanceof Node) {
+        setter = function(el) {
             el.appendChild(appended);
-        });
+        };
     }
+
+    this.forEach(setter);
 
     return this;
 };
@@ -70,6 +66,8 @@ jBone.fn.empty = function() {
 
 jBone.fn.remove = function() {
     this.forEach(function(el) {
+        el.jdata = {};
+
         if (el.parentNode) {
             el.parentNode.removeChild(el);
         }

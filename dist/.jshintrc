@@ -11,6 +11,6 @@
   "trailing": true,
   "undef": false,
   "quotmark": "double",
-  "unused": false,
+  "unused": true,
   "browser": true
 }
