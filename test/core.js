@@ -35,6 +35,10 @@ describe('jBone Core', function() {
         expect(jBone.getData(c).jid).to.be.ok();
     });
 
+    it('jBone() with invalid data', function() {
+        expect(jBone('text')).to.have.length(0);
+    });
+
     it('jBone(html) create new single DOM element', function() {
         var a = jBone('<a>');
 

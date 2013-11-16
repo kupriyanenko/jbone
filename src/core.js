@@ -80,7 +80,7 @@ getElement = function(element, context) {
         try {
             return slice.call(doc.querySelectorAll(element));
         } catch (e) {
-            // Elements not faund
+            return;
         }
     }
 
