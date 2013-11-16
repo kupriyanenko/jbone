@@ -6,6 +6,12 @@ rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/,
 // Prioritize #id over <tag> to avoid XSS via location.hash
 rquickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/,
 
+slice = [].slice,
+
+doc = document,
+
+win = window,
+
 jBone = function(element, data) {
     if (this instanceof jBone) {
         return init.call(this, element, data);
@@ -51,20 +57,20 @@ getElement = function(element, context) {
     var tag, wraper;
 
     if (typeof element === "string" && (tag = rsingleTag.exec(element))) {
-        return document.createElement(tag[1]);
+        return doc.createElement(tag[1]);
     } else if (typeof element === "string" && (tag = rquickExpr.exec(element)) && tag[1]) {
-        wraper = document.createElement("div");
+        wraper = doc.createElement("div");
         wraper.innerHTML = element;
-        return [].slice.call(wraper.childNodes);
+        return slice.call(wraper.childNodes);
     } else if (typeof element === "string") {
         if (jBone.isElement(context)) {
             return jBone(context).find(element);
         }
 
         try {
-            return [].slice.call(document.querySelectorAll(element));
+            return slice.call(doc.querySelectorAll(element));
         } catch (e) {
-            return [];
+            return;
         }
     }
 
@@ -74,7 +80,7 @@ getElement = function(element, context) {
 jBone.setId = function(el) {
     var jid = el.jid || undefined;
 
-    if (el === window) {
+    if (el === win) {
         jid = "window";
     } else if (!el.jid) {
         jid = ++jBone._cache.jid;
@@ -89,7 +95,7 @@ jBone.setId = function(el) {
 jBone.getData = function(el) {
     el = el instanceof jBone ? el[0] : el;
 
-    var jid = el === window ? "window" : el.jid;
+    var jid = el === win ? "window" : el.jid;
 
     return {
         jid: jid,
@@ -106,15 +112,9 @@ jBone.merge = function(first, second) {
         i = first.length,
         j = 0;
 
-    if (typeof l === "number") {
-        while (j < l) {
-            first[i++] = second[j];
-            j++;
-        }
-    } else {
-        while (second[j] !== undefined) {
-            first[i++] = second[j++];
-        }
+    while (j < l) {
+        first[i++] = second[j];
+        j++;
     }
 
     first.length = i;
@@ -128,8 +128,7 @@ jBone.contains = function(container, contained) {
     search = function(el, element) {
         if (el === element) {
             return result = el;
-        }
-        if (!el.parentNode) {
+        } else if (!el.parentNode) {
             return;
         }
 

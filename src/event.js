@@ -4,7 +4,7 @@ jBone.Event = function(event) {
     namespace = event.split(".").splice(1).join(".");
     eventType = event.split(".")[0];
 
-    event = document.createEvent("Event");
+    event = doc.createEvent("Event");
     event.initEvent(eventType, true, true);
 
     event.namespace = namespace;
@@ -16,12 +16,13 @@ jBone.Event = function(event) {
 };
 
 jBone.fn.on = function(event) {
-    var callback, target, namespace, fn, events, eventType;
+    var args = arguments,
+        callback, target, namespace, fn, events, eventType;
 
-    if (arguments.length === 2) {
-        callback = arguments[1];
+    if (args.length === 2) {
+        callback = args[1];
     } else {
-        target = arguments[1], callback = arguments[2];
+        target = args[1], callback = args[2];
     }
 
     this.forEach(function(el) {
@@ -60,12 +61,13 @@ jBone.fn.on = function(event) {
 };
 
 jBone.fn.one = function() {
-    var event = arguments[0], callback, target;
+    var event = arguments[0], args = arguments,
+        callback, target;
 
-    if (arguments.length === 2) {
-        callback = arguments[1];
+    if (args.length === 2) {
+        callback = args[1];
     } else {
-        target = arguments[1], callback = arguments[2];
+        target = args[1], callback = args[2];
     }
 
     this.forEach(function(el) {
@@ -75,7 +77,7 @@ jBone.fn.one = function() {
                 jBone(el).off(event, fn);
             };
 
-            if (arguments.length === 2) {
+            if (args.length === 2) {
                 jBone(el).on(event, fn);
             } else {
                 jBone(el).on(event, target, fn);
@@ -141,11 +143,7 @@ jBone.fn.off = function(event, fn) {
             if (events[eventType]) {
                 events[eventType].forEach(function(e) {
                     callback = getCallback(e);
-                    if (namespace) {
-                        if (e.namespace === namespace) {
-                            el.removeEventListener(eventType, callback);
-                        }
-                    } else if (!namespace) {
+                    if (!namespace || (namespace && e.namespace === namespace)) {
                         el.removeEventListener(eventType, callback);
                     }
                 });

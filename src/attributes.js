@@ -3,7 +3,9 @@ jBone.fn.attr = function() {
 
     if (typeof args[0] === "string" && args.length === 1) {
         return this[0].getAttribute(args[0]);
-    } else if (typeof args[0] === "string" && args.length > 1) {
+    }
+
+    if (args.length === 2) {
         this.forEach(function(el) {
             el.setAttribute(args[0], args[1]);
         });
@@ -33,7 +35,11 @@ jBone.fn.val = function(value) {
 jBone.fn.css = function() {
     var args = arguments;
 
-    if (typeof args[0] === "string" && args.length === 2) {
+    if (typeof args[0] === "string" && args.length === 1) {
+        return win.getComputedStyle(this[0])[args[0]];
+    }
+
+    if (args.length === 2) {
         this.forEach(function(el) {
             el.style[args[0]] = args[1];
         });

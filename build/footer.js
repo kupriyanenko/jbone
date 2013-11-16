@@ -1,4 +1,4 @@
-window.jBone = window.$ = jBone;
+win.jBone = win.$ = jBone;
 
 return jBone;
 }));

@@ -19,11 +19,11 @@ jBone.fn.eq = function(index) {
 };
 
 jBone.fn.parent = function() {
-    var results = [];
+    var results = [], parent;
 
     this.forEach(function(el) {
-        if (!~results.indexOf(el.parentNode)) {
-            results.push(el.parentNode);
+        if (!~results.indexOf(parent = el.parentNode)) {
+            results.push(parent);
         }
     });
 
@@ -31,7 +31,7 @@ jBone.fn.parent = function() {
 };
 
 jBone.fn.toArray = function() {
-    return [].slice.call(this);
+    return slice.call(this);
 };
 
 jBone.fn.is = function() {
