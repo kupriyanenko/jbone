@@ -4,7 +4,16 @@ jBone.fn.html = function() {
     // add HTML into elements
     if (value !== undefined) {
         this.empty.call(this);
-        this.append.call(this, value);
+
+        if (!(value instanceof Object) && !rquickExpr.exec(value)) {
+            this.forEach(function(el) {
+                if (el instanceof HTMLElement) {
+                    el.innerHTML = value;
+                }
+            });
+        } else {
+            this.append.call(this, value);
+        }
 
         return this;
     }

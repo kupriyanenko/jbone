@@ -17,7 +17,9 @@ jBone = function(element, data) {
 init = function(element, data) {
     var elements;
 
-    if (element instanceof jBone) {
+    if (typeof element === "function") {
+        element();
+    } if (element instanceof jBone) {
         return element;
     } else if (Array.isArray(element)) {
         elements = element.map(function(el) {
@@ -29,6 +31,10 @@ init = function(element, data) {
 
     if (elements instanceof jBone) {
         return elements;
+    }
+
+    if (!elements) {
+        return this;
     }
 
     elements = Array.isArray(elements) ? elements : [elements];
@@ -55,7 +61,11 @@ getElement = function(element, context) {
             return jBone(context).find(element);
         }
 
-        return [].slice.call(document.querySelectorAll(element));
+        try {
+            return [].slice.call(document.querySelectorAll(element));
+        } catch (e) {
+            return [];
+        }
     }
 
     return element;

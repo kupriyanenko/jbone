@@ -1,3 +1,20 @@
+jBone.Event = function(event) {
+    var namespace, eventType;
+
+    namespace = event.split(".").splice(1).join(".");
+    eventType = event.split(".")[0];
+
+    event = document.createEvent("Event");
+    event.initEvent(eventType, true, true);
+
+    event.namespace = namespace;
+    event.isDefaultPrevented = function() {
+        return event.defaultPrevented;
+    };
+
+    return event;
+};
+
 jBone.fn.on = function(event) {
     var callback, target, namespace, fn, events, expectedTarget, eventType;
 
@@ -12,7 +29,7 @@ jBone.fn.on = function(event) {
         events = jBone.getData(el).events;
         event.split(" ").forEach(function(event) {
             eventType = event.split(".")[0];
-            namespace = event.split(".")[1];
+            namespace = event.split(".").splice(1).join(".");
             events[eventType] = events[eventType] ? events[eventType] : [];
 
             fn = function(e) {
@@ -24,7 +41,7 @@ jBone.fn.on = function(event) {
                     callback.call(el, e);
                 } else {
                     if (~jBone(el).find(target).indexOf(e.target)) {
-                        callback.call(el, e);
+                        callback.call(e.target, e);
                     } else if (expectedTarget = jBone.contains(jBone(el).find(target), e.target)) {
                         jBone(expectedTarget).trigger(eventType);
                     }
@@ -74,25 +91,25 @@ jBone.fn.one = function() {
 };
 
 jBone.fn.trigger = function(event) {
-    if (!event || !event.split(".")[0]) {
+    var events = [];
+
+    if (!event) {
         return this;
     }
 
-    var namespace, eventType;
+    if (typeof event === "string") {
+        events = event.split(" ").map(function(event) {
+            return $.Event(event);
+        });
+    } else {
+        events = [event];
+    }
 
     this.forEach(function(el) {
-        event.split(" ").forEach(function(event) {
-            namespace = event.split(".")[1];
-            eventType = event.split(".")[0];
-
-            if ("CustomEvent" in window) {
-                event = document.createEvent("CustomEvent");
-                event.initCustomEvent(eventType, true, true, null);
-            } else {
-                event = document.createEvent("Event");
-                event.initEvent(eventType, true, true);
+        events.forEach(function(event) {
+            if (!event.type) {
+                return;
             }
-            event.namespace = namespace;
 
             if (el.dispatchEvent) {
                 el.dispatchEvent(event);
@@ -122,7 +139,7 @@ jBone.fn.off = function(event, fn) {
 
         event.split(" ").forEach(function(event) {
             eventType = event.split(".")[0];
-            namespace = event.split(".")[1];
+            namespace = event.split(".").splice(1).join(".");
 
             // remove named events
             if (events[eventType]) {
