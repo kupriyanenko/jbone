@@ -1,8 +1,10 @@
 describe('jBone Attributes', function() {
 
     it('Initialized', function() {
-        expect(jBone().attr).to.be.ok();
-        expect(jBone().val).to.be.ok();
+        expect(jBone.fn.attr).to.be.a('function');
+        expect(jBone.fn.val).to.be.a('function');
+        expect(jBone.fn.css).to.be.a('function');
+        expect(jBone.fn.data).to.be.a('function');
     });
 
     it('Set attributes in init function', function() {
@@ -67,6 +69,42 @@ describe('jBone Attributes', function() {
 
         expect(a[0].style).to.have.property('height', '100px');
         expect(a[0].style).to.have.property('width', '10px');
+    });
+
+    it('data(key, value)', function() {
+        var a = jBone('<div>');
+
+        a.data('name', 'John');
+
+        expect(a[0].dataset.name).be.eql('John');
+    });
+
+    it('data(key, value)', function() {
+        var a = jBone('<div>').data('name', 'John');
+
+        expect(a[0].dataset.name).be.eql('John');
+    });
+
+    it('data(key)', function() {
+        var a = jBone('<div>'),
+            fn = function() {},
+            obj = { a: 1 };
+
+        a.data('name', 'John');
+        a.data('fn', fn);
+        a.data('obj', obj);
+        a.data({
+            first: 1,
+            second: fn,
+            third: obj
+        });
+
+        expect(a.data('name')).be.eql('John');
+        expect(a.data('fn')).be.eql(fn);
+        expect(a.data('obj')).be.eql(obj);
+        expect(a.data('first')).be.eql(1);
+        expect(a.data('second')).be.eql(fn);
+        expect(a.data('third')).be.eql(obj);
     });
 
 });

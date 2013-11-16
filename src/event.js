@@ -95,7 +95,7 @@ jBone.fn.trigger = function(event) {
         return this;
     }
 
-    if (typeof event === "string") {
+    if (isString(event)) {
         events = event.split(" ").map(function(event) {
             return $.Event(event);
         });

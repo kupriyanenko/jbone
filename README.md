@@ -77,8 +77,6 @@ $.when(deferred).then(function(response) {
 * [jBone(elementArray)](https://github.com/kupriyanenko/jbone/wiki/jBone#jboneelementarray)
 * [jBone(jBoneObject)](https://github.com/kupriyanenko/jbone/wiki/jBone#jbonejboneobject)
 * [jBone(html[, attributes])](https://github.com/kupriyanenko/jbone/wiki/jBone#jbonehtml-attributes)
-* [jBone.merge(first, second)](https://github.com/kupriyanenko/jbone/wiki/jBone#jbonemergefirst-second)
-* [jBone.contains(container, contained)](https://github.com/kupriyanenko/jbone/wiki/jBone#jbonecontainscontainer-contained)
 
 [Attributes](https://github.com/kupriyanenko/jbone/wiki/Attributes)
 
@@ -90,6 +88,13 @@ $.when(deferred).then(function(response) {
 * [.css(propertyName, value)](https://github.com/kupriyanenko/jbone/wiki/Attributes#csspropertyname-value)
 * [.css(properties)](https://github.com/kupriyanenko/jbone/wiki/Attributes#cssproperties)
 
+[Data](https://github.com/kupriyanenko/jbone/wiki/Data)
+
+* [.data(key, value)](https://github.com/kupriyanenko/jbone/wiki/Data#datakey-value)
+* [.data(obj)](https://github.com/kupriyanenko/jbone/wiki/Data#dataobj)
+* [.data(key)](https://github.com/kupriyanenko/jbone/wiki/Data#datakey)
+* [.data()](https://github.com/kupriyanenko/jbone/wiki/Data#data)
+
 [Event](https://github.com/kupriyanenko/jbone/wiki/Event)
 
 * [.on(event[, selector], handler)](https://github.com/kupriyanenko/jbone/wiki/Event#onevent-selector-handler)
@@ -100,11 +105,11 @@ $.when(deferred).then(function(response) {
 [Manipulation](https://github.com/kupriyanenko/jbone/wiki/Manipulation)
 
 * [.html()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#html)
-* [.html(html)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#htmlhtml)
-* [.append(html)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendhtml)
+* [.html(content)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#htmlcontent)
+* [.append(content)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendcontent)
+* [.appendTo(target)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendtotarget)
 * [.empty()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#empty)
 * [.remove()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#remove)
-* [.toArray()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#toarray)
 
 [Traversing](https://github.com/kupriyanenko/jbone/wiki/Traversing)
 
@@ -112,7 +117,13 @@ $.when(deferred).then(function(response) {
 * [.get(index)](https://github.com/kupriyanenko/jbone/wiki/Traversing#getindex)
 * [.eq(index)](https://github.com/kupriyanenko/jbone/wiki/Traversing#eqindex)
 * [.parent()](https://github.com/kupriyanenko/jbone/wiki/Traversing#parent)
-* [.isContain(target)](https://github.com/kupriyanenko/jbone/wiki/Traversing#iscontaintarget)
+* [.toArray()](https://github.com/kupriyanenko/jbone/wiki/Traversing#toarray)
+
+[Utilities](https://github.com/kupriyanenko/jbone/wiki/Utilities)
+
+* [jBone.merge(first, second)](https://github.com/kupriyanenko/jbone/wiki/Utilities#jbonemergefirst-second)
+* [jBone.contains(container, contained)](https://github.com/kupriyanenko/jbone/wiki/Utilities#jbonecontainscontainer-contained)
+* [jBone.extend(target[, object1][, objectN])](https://github.com/kupriyanenko/jbone/wiki/Utilities#jboneextendtarget-object1-objectn)
 
 [Array methods](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods)
 

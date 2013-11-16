@@ -12,6 +12,14 @@ doc = document,
 
 win = window,
 
+isString = function(el) {
+    return typeof el === "string";
+},
+
+isObject = function(el) {
+    return el instanceof Object;
+},
+
 jBone = function(element, data) {
     if (this instanceof jBone) {
         return init.call(this, element, data);
@@ -46,7 +54,7 @@ init = function(element, data) {
     elements = Array.isArray(elements) ? elements : [elements];
     jBone.merge(this, elements);
 
-    if (data instanceof Object && !jBone.isElement(data)) {
+    if (isObject(data) && !jBone.isElement(data)) {
         this.attr(data);
     }
 
@@ -56,13 +64,13 @@ init = function(element, data) {
 getElement = function(element, context) {
     var tag, wraper;
 
-    if (typeof element === "string" && (tag = rsingleTag.exec(element))) {
+    if (isString(element) && (tag = rsingleTag.exec(element))) {
         return doc.createElement(tag[1]);
-    } else if (typeof element === "string" && (tag = rquickExpr.exec(element)) && tag[1]) {
+    } else if (isString(element) && (tag = rquickExpr.exec(element)) && tag[1]) {
         wraper = doc.createElement("div");
         wraper.innerHTML = element;
         return slice.call(wraper.childNodes);
-    } else if (typeof element === "string") {
+    } else if (isString(element)) {
         if (jBone.isElement(context)) {
             return jBone(context).find(element);
         }
@@ -104,42 +112,7 @@ jBone.getData = function(el) {
 };
 
 jBone.isElement = function(el) {
-    return el instanceof jBone || el instanceof HTMLElement || typeof el === "string";
-};
-
-jBone.merge = function(first, second) {
-    var l = second.length,
-        i = first.length,
-        j = 0;
-
-    while (j < l) {
-        first[i++] = second[j];
-        j++;
-    }
-
-    first.length = i;
-
-    return first;
-};
-
-jBone.contains = function(container, contained) {
-    var search, result;
-
-    search = function(el, element) {
-        if (el === element) {
-            return result = el;
-        } else if (!el.parentNode) {
-            return;
-        }
-
-        search(el.parentNode, element);
-    };
-
-    container.forEach(function(element) {
-        search(contained.parentNode, element);
-    });
-
-    return result;
+    return el instanceof jBone || el instanceof HTMLElement || isString(el);
 };
 
 jBone._cache = {

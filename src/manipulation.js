@@ -5,7 +5,7 @@ jBone.fn.html = function(value) {
     if (value !== undefined) {
         this.empty.call(this);
 
-        if (!(value instanceof Object) && !rquickExpr.exec(value)) {
+        if (!isObject(value) && !rquickExpr.exec(value)) {
             this.forEach(function(el) {
                 if (el instanceof HTMLElement) {
                     el.innerHTML = value;
@@ -29,7 +29,7 @@ jBone.fn.html = function(value) {
 };
 
 jBone.fn.append = function(appended) {
-    if (typeof appended === "string") {
+    if (isString(appended)) {
         appended = jBone(appended);
     }
 

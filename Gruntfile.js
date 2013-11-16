@@ -5,6 +5,7 @@ module.exports = function(grunt) {
     src: [
       "build/topper.js",
       "src/core.js",
+      "src/utilities.js",
       "src/event.js",
       "src/traversing.js",
       "src/attributes.js",

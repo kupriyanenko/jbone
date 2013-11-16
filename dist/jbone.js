@@ -1,5 +1,5 @@
 /*!
- * jBone v0.0.12 - 2013-11-15 - Library for DOM manipulation
+ * jBone v0.0.13 - 2013-11-16 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -24,6 +24,20 @@ rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/,
 // Prioritize #id over <tag> to avoid XSS via location.hash
 rquickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/,
 
+slice = [].slice,
+
+doc = document,
+
+win = window,
+
+isString = function(el) {
+    return typeof el === "string";
+},
+
+isObject = function(el) {
+    return el instanceof Object;
+},
+
 jBone = function(element, data) {
     if (this instanceof jBone) {
         return init.call(this, element, data);
@@ -35,7 +49,9 @@ jBone = function(element, data) {
 init = function(element, data) {
     var elements;
 
-    if (element instanceof jBone) {
+    if (typeof element === "function") {
+        element();
+    } else if (element instanceof jBone) {
         return element;
     } else if (Array.isArray(element)) {
         elements = element.map(function(el) {
@@ -49,10 +65,14 @@ init = function(element, data) {
         return elements;
     }
 
+    if (!elements) {
+        return this;
+    }
+
     elements = Array.isArray(elements) ? elements : [elements];
     jBone.merge(this, elements);
 
-    if (data instanceof Object && !jBone.isElement(data)) {
+    if (isObject(data) && !jBone.isElement(data)) {
         this.attr(data);
     }
 
@@ -62,18 +82,22 @@ init = function(element, data) {
 getElement = function(element, context) {
     var tag, wraper;
 
-    if (typeof element === "string" && (tag = rsingleTag.exec(element))) {
-        return document.createElement(tag[1]);
-    } else if (typeof element === "string" && (tag = rquickExpr.exec(element)) && tag[1]) {
-        wraper = document.createElement("div");
+    if (isString(element) && (tag = rsingleTag.exec(element))) {
+        return doc.createElement(tag[1]);
+    } else if (isString(element) && (tag = rquickExpr.exec(element)) && tag[1]) {
+        wraper = doc.createElement("div");
         wraper.innerHTML = element;
-        return [].slice.call(wraper.childNodes);
-    } else if (typeof element === "string") {
+        return slice.call(wraper.childNodes);
+    } else if (isString(element)) {
         if (jBone.isElement(context)) {
             return jBone(context).find(element);
         }
 
-        return [].slice.call(document.querySelectorAll(element));
+        try {
+            return slice.call(doc.querySelectorAll(element));
+        } catch (e) {
+            return;
+        }
     }
 
     return element;
@@ -82,7 +106,7 @@ getElement = function(element, context) {
 jBone.setId = function(el) {
     var jid = el.jid || undefined;
 
-    if (el === window) {
+    if (el === win) {
         jid = "window";
     } else if (!el.jid) {
         jid = ++jBone._cache.jid;
@@ -97,7 +121,7 @@ jBone.setId = function(el) {
 jBone.getData = function(el) {
     el = el instanceof jBone ? el[0] : el;
 
-    var jid = el === window ? "window" : el.jid;
+    var jid = el === win ? "window" : el.jid;
 
     return {
         jid: jid,
@@ -106,23 +130,24 @@ jBone.getData = function(el) {
 };
 
 jBone.isElement = function(el) {
-    return el instanceof jBone || el instanceof HTMLElement || typeof el === "string";
+    return el instanceof jBone || el instanceof HTMLElement || isString(el);
 };
+
+jBone._cache = {
+    events: {},
+    jid: 0
+};
+
+jBone.fn = jBone.prototype = [];
 
 jBone.merge = function(first, second) {
     var l = second.length,
         i = first.length,
         j = 0;
 
-    if (typeof l === "number") {
-        while (j < l) {
-            first[i++] = second[j];
-            j++;
-        }
-    } else {
-        while (second[j] !== undefined) {
-            first[i++] = second[j++];
-        }
+    while (j < l) {
+        first[i++] = second[j];
+        j++;
     }
 
     first.length = i;
@@ -136,8 +161,7 @@ jBone.contains = function(container, contained) {
     search = function(el, element) {
         if (el === element) {
             return result = el;
-        }
-        if (!el.parentNode) {
+        } else if (!el.parentNode) {
             return;
         }
 
@@ -151,20 +175,40 @@ jBone.contains = function(container, contained) {
     return result;
 };
 
-jBone._cache = {
-    events: {},
-    jid: 0
+jBone.extend = function(target) {
+    [].splice.call(arguments, 1).forEach(function(object) {
+      for (var prop in object) {
+        target[prop] = object[prop];
+      }
+    });
+
+    return target;
+};
+jBone.Event = function(event) {
+    var namespace, eventType;
+
+    namespace = event.split(".").splice(1).join(".");
+    eventType = event.split(".")[0];
+
+    event = doc.createEvent("Event");
+    event.initEvent(eventType, true, true);
+
+    event.namespace = namespace;
+    event.isDefaultPrevented = function() {
+        return event.defaultPrevented;
+    };
+
+    return event;
 };
 
-jBone.fn = jBone.prototype = [];
-
 jBone.fn.on = function(event) {
-    var callback, target, namespace, fn, events, expectedTarget, eventType;
+    var args = arguments,
+        callback, target, namespace, fn, events, eventType;
 
-    if (arguments.length === 2) {
-        callback = arguments[1];
+    if (args.length === 2) {
+        callback = args[1];
     } else {
-        target = arguments[1], callback = arguments[2];
+        target = args[1], callback = args[2];
     }
 
     this.forEach(function(el) {
@@ -172,7 +216,7 @@ jBone.fn.on = function(event) {
         events = jBone.getData(el).events;
         event.split(" ").forEach(function(event) {
             eventType = event.split(".")[0];
-            namespace = event.split(".")[1];
+            namespace = event.split(".").splice(1).join(".");
             events[eventType] = events[eventType] ? events[eventType] : [];
 
             fn = function(e) {
@@ -182,12 +226,8 @@ jBone.fn.on = function(event) {
 
                 if (!target) {
                     callback.call(el, e);
-                } else {
-                    if (~jBone(el).find(target).indexOf(e.target)) {
-                        callback.call(el, e);
-                    } else if (expectedTarget = jBone.contains(jBone(el).find(target), e.target)) {
-                        jBone(expectedTarget).trigger(eventType);
-                    }
+                } else if (~jBone(el).find(target).indexOf(e.target) || jBone.contains(jBone(el).find(target), e.target)) {
+                    callback.call(e.target, e);
                 }
             };
 
@@ -207,12 +247,13 @@ jBone.fn.on = function(event) {
 };
 
 jBone.fn.one = function() {
-    var event = arguments[0], callback, target;
+    var event = arguments[0], args = arguments,
+        callback, target;
 
-    if (arguments.length === 2) {
-        callback = arguments[1];
+    if (args.length === 2) {
+        callback = args[1];
     } else {
-        target = arguments[1], callback = arguments[2];
+        target = args[1], callback = args[2];
     }
 
     this.forEach(function(el) {
@@ -222,7 +263,7 @@ jBone.fn.one = function() {
                 jBone(el).off(event, fn);
             };
 
-            if (arguments.length === 2) {
+            if (args.length === 2) {
                 jBone(el).on(event, fn);
             } else {
                 jBone(el).on(event, target, fn);
@@ -234,25 +275,25 @@ jBone.fn.one = function() {
 };
 
 jBone.fn.trigger = function(event) {
-    if (!event || !event.split(".")[0]) {
+    var events = [];
+
+    if (!event) {
         return this;
     }
 
-    var namespace, eventType;
+    if (isString(event)) {
+        events = event.split(" ").map(function(event) {
+            return $.Event(event);
+        });
+    } else {
+        events = [event];
+    }
 
     this.forEach(function(el) {
-        event.split(" ").forEach(function(event) {
-            namespace = event.split(".")[1];
-            eventType = event.split(".")[0];
-
-            if ("CustomEvent" in window) {
-                event = document.createEvent("CustomEvent");
-                event.initCustomEvent(eventType, true, true, null);
-            } else {
-                event = document.createEvent("Event");
-                event.initEvent(eventType, true, true);
+        events.forEach(function(event) {
+            if (!event.type) {
+                return;
             }
-            event.namespace = namespace;
 
             if (el.dispatchEvent) {
                 el.dispatchEvent(event);
@@ -282,17 +323,13 @@ jBone.fn.off = function(event, fn) {
 
         event.split(" ").forEach(function(event) {
             eventType = event.split(".")[0];
-            namespace = event.split(".")[1];
+            namespace = event.split(".").splice(1).join(".");
 
             // remove named events
             if (events[eventType]) {
                 events[eventType].forEach(function(e) {
                     callback = getCallback(e);
-                    if (namespace) {
-                        if (e.namespace === namespace) {
-                            el.removeEventListener(eventType, callback);
-                        }
-                    } else if (!namespace) {
+                    if (!namespace || (namespace && e.namespace === namespace)) {
                         el.removeEventListener(eventType, callback);
                     }
                 });
@@ -335,11 +372,11 @@ jBone.fn.eq = function(index) {
 };
 
 jBone.fn.parent = function() {
-    var results = [];
+    var results = [], parent;
 
     this.forEach(function(el) {
-        if (!~results.indexOf(el.parentNode)) {
-            results.push(el.parentNode);
+        if (!~results.indexOf(parent = el.parentNode)) {
+            results.push(parent);
         }
     });
 
@@ -347,7 +384,7 @@ jBone.fn.parent = function() {
 };
 
 jBone.fn.toArray = function() {
-    return [].slice.call(this);
+    return slice.call(this);
 };
 
 jBone.fn.is = function() {
@@ -369,13 +406,15 @@ jBone.fn.has = function() {
 jBone.fn.attr = function() {
     var args = arguments;
 
-    if (typeof args[0] === "string" && args.length === 1) {
+    if (isString(args[0]) && args.length === 1) {
         return this[0].getAttribute(args[0]);
-    } else if (typeof args[0] === "string" && args.length > 1) {
+    }
+
+    if (args.length === 2) {
         this.forEach(function(el) {
             el.setAttribute(args[0], args[1]);
         });
-    } else if (args[0] instanceof Object) {
+    } else if (isObject(args[0])) {
         this.forEach(function(el) {
             Object.keys(args[0]).forEach(function(key) {
                 el.setAttribute(key, args[0][key]);
@@ -387,13 +426,13 @@ jBone.fn.attr = function() {
 };
 
 jBone.fn.val = function(value) {
-    if (value !== undefined) {
-        this.forEach(function(el) {
-            el.value = value;
-        });
-    } else {
+    if (arguments.length === 0) {
         return this[0].value;
     }
+
+    this.forEach(function(el) {
+        el.value = value;
+    });
 
     return this;
 };
@@ -401,11 +440,15 @@ jBone.fn.val = function(value) {
 jBone.fn.css = function() {
     var args = arguments;
 
-    if (typeof args[0] === "string" && args.length === 2) {
+    if (isString(args[0]) && args.length === 1) {
+        return win.getComputedStyle(this[0])[args[0]];
+    }
+
+    if (args.length === 2) {
         this.forEach(function(el) {
             el.style[args[0]] = args[1];
         });
-    } else if (args[0] instanceof Object) {
+    } else if (isObject(args[0])) {
         this.forEach(function(el) {
             Object.keys(args[0]).forEach(function(key) {
                 el.style[key] = args[0][key];
@@ -416,32 +459,72 @@ jBone.fn.css = function() {
     return this;
 };
 
-jBone.fn.html = function() {
-    var value = arguments[0], result;
+jBone.fn.data = function(key, value) {
+    var args = arguments,
+        setValue = function(el, key, value) {
+            if (isObject(value)) {
+                el.jdata = el.jdata || {};
+                el.jdata[key] = value;
+            } else {
+                el.dataset[key] = value;
+            }
+        };
+
+    if (args.length === 0) {
+        return jBone.extend({}, this[0].dataset, this[0].jdata);
+    }
+
+    if (args.length === 1) {
+        if (isString(key)) {
+            return this[0].dataset[key] || this[0].jdata && this[0].jdata[key];
+        } else if (isObject(key)) {
+            Object.keys(key).forEach(function(name) {
+                this.forEach(function(el) {
+                    setValue(el, name, key[name]);
+                });
+            }, this);
+        }
+    } else if (args.length === 2) {
+        this.forEach(function(el) {
+            setValue(el, key, value);
+        });
+    }
+
+    return this;
+};
+
+jBone.fn.html = function(value) {
+    var result = [];
 
     // add HTML into elements
     if (value !== undefined) {
         this.empty.call(this);
-        this.append.call(this, value);
+
+        if (!isObject(value) && !rquickExpr.exec(value)) {
+            this.forEach(function(el) {
+                if (el instanceof HTMLElement) {
+                    el.innerHTML = value;
+                }
+            });
+        } else {
+            this.append.call(this, value);
+        }
 
         return this;
     }
+
     // get HTML from element
-    else {
-        result = [];
+    this.forEach(function(el) {
+        if (el instanceof HTMLElement) {
+            result.push(el.innerHTML);
+        }
+    });
 
-        this.forEach(function(el) {
-            if (el instanceof HTMLElement) {
-                result.push(el.innerHTML);
-            }
-        });
-
-        return result.length ? result.join("") : null;
-    }
+    return result.length ? result.join("") : null;
 };
 
 jBone.fn.append = function(appended) {
-    if (typeof appended === "string") {
+    if (isString(appended)) {
         appended = jBone(appended);
     }
 
@@ -490,7 +573,7 @@ jBone.fn.remove = function() {
     return this;
 };
 
-window.jBone = window.$ = jBone;
+win.jBone = win.$ = jBone;
 
 return jBone;
 }));
