@@ -43,7 +43,7 @@ jBone.fn.on = function(event) {
                     if (~jBone(el).find(target).indexOf(e.target)) {
                         callback.call(e.target, e);
                     } else if (expectedTarget = jBone.contains(jBone(el).find(target), e.target)) {
-                        jBone(expectedTarget).trigger(eventType);
+                        callback.call(e.target, e);
                     }
                 }
             };
