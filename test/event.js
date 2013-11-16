@@ -1,5 +1,9 @@
 describe('jBone Event', function() {
 
+    after(function() {
+        $('#app').empty();
+    });
+
     it('Initialized', function() {
         expect(jBone().trigger).to.be.a('function');
         expect(jBone().off).to.be.a('function');
@@ -99,8 +103,6 @@ describe('jBone Event', function() {
 
         a.off('click').trigger('click');
         expect(counter).be.eql(2);
-
-        jBone('#app').empty();
     });
 
     it('on(event, target, callback) with deep nesting', function() {
@@ -121,8 +123,26 @@ describe('jBone Event', function() {
 
         a.find('input').trigger('click');
         expect(counter).be.eql(3);
+    });
 
-        jBone('#app').empty();
+    it('on(event, target, callback) test right target and currentTarget', function() {
+        var a = jBone('<div><span class="target"><input type="text" /></span></div>'),
+            expectedTartget, expectedCurrentTartget;
+
+        jBone('#app').html(a);
+
+        a.on('click', '.target', function(e) {
+            expect(e.target).be.eql(expectedTartget);
+            expect(e.currentTarget).be.eql(expectedCurrentTartget);
+        });
+
+        expectedCurrentTartget = a[0];
+
+        expectedTartget = a.find('input')[0];
+        a.find('input').trigger('click');
+
+        expectedTartget = a.find('.target')[0];
+        a.find('.target').trigger('click');
     });
 
     it('one(event, callback)', function() {
@@ -164,8 +184,6 @@ describe('jBone Event', function() {
 
         a.trigger('click').find('span').trigger('click');
         expect(counter).be.eql(1);
-
-        jBone('#app').empty();
     });
 
     it('one(event.namespace, callback)', function() {
@@ -215,8 +233,6 @@ describe('jBone Event', function() {
         markup.find('b').trigger('click');
 
         expect(path).be.eql('b span p div div ');
-
-        jBone('#app').empty();
     });
 
     it('trigger() on element without handlers', function() {
