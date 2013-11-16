@@ -19,7 +19,7 @@ init = function(element, data) {
 
     if (typeof element === "function") {
         element();
-    } if (element instanceof jBone) {
+    } else if (element instanceof jBone) {
         return element;
     } else if (Array.isArray(element)) {
         elements = element.map(function(el) {
