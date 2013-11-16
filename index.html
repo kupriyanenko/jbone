@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>jBone by kupriyanenko</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>jBone</h1>
+        <h2>JavaScript Library for DOM manipulation. Replacement jQuery for Backbone in browsers (2kb gzipped)</h2>
+        <a href="https://github.com/kupriyanenko/jbone" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="jbone" class="anchor" href="#jbone"><span class="octicon octicon-link"></span></a>jBone</h1>
+
+<p><a href="https://travis-ci.org/kupriyanenko/jbone"><img src="https://travis-ci.org/kupriyanenko/jbone.png?branch=master" alt="Build Status"></a></p>
+
+<p>JavaScript Library for DOM manipulation in modern browsers with jQuery-compatible API.</p>
+
+<p>Replacement jQuery for Backbone in browsers (2kb gzipped)</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Get it</p>
+
+<pre><code>$ bower install jbone --save
+</code></pre>
+
+<p>Add a <code>&lt;script&gt;</code> element for jbone.js</p>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"path/to/jbone/dist/jbone.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+<h2>
+<a name="use-it" class="anchor" href="#use-it"><span class="octicon octicon-link"></span></a>Use it</h2>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">$input</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">"&lt;input&gt;"</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s2">"class"</span><span class="o">:</span> <span class="s2">"name"</span>
+<span class="p">}).</span><span class="nx">val</span><span class="p">(</span><span class="s1">'John'</span><span class="p">);</span>
+
+<span class="nx">$input</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"click.space"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"clicked on"</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">$input</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s2">"click"</span><span class="p">);</span>
+
+<span class="nx">$input</span><span class="p">.</span><span class="nx">off</span><span class="p">(</span><span class="s2">".space"</span><span class="p">);</span>
+</pre></div>
+
+<h2>
+<a name="ajax-deferred" class="anchor" href="#ajax-deferred"><span class="octicon octicon-link"></span></a>AJAX, Deferred</h2>
+
+<p>This part is not covered on jBone. Yuo can select one of a huge amount implementations AJAX and Promises/A+.</p>
+
+<p>For example: <a href="https://github.com/cujojs/when">when</a>, <a href="https://github.com/kriskowal/q">Q</a>, <a href="https://github.com/sudhirj/simply-deferred">simply-deferred</a>, <a href="microjs.com/#ajax">AJAX</a>.</p>
+
+<p>Example AJAX connecting:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="c1">// connect reqwest on your page https://rawgithub.com/ded/reqwest/master/reqwest.min.js</span>
+
+<span class="nx">jBone</span><span class="p">.</span><span class="nx">ajax</span> <span class="o">=</span> <span class="nx">reqwest</span><span class="p">.</span><span class="nx">compat</span><span class="p">;</span>
+
+<span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="s2">"example.com"</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>Example Deffered connecting:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="c1">// connect simply-deferred on your page https://rawgithub.com/sudhirj/simply-deferred/master/deferred.min.js</span>
+
+<span class="nx">Deferred</span><span class="p">.</span><span class="nx">installInto</span><span class="p">(</span><span class="nx">jBone</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">Deferred</span><span class="p">();</span>
+
+<span class="nx">$</span><span class="p">.</span><span class="nx">when</span><span class="p">(</span><span class="nx">deferred</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// some code</span>
+<span class="p">});</span>
+</pre></div>
+
+<h2>
+<a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>API</h2>
+
+<p><a href="https://github.com/kupriyanenko/jbone/wiki/jBone">jBone</a></p>
+
+<ul>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/jBone#jboneselector">jBone(selector[, context])</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/jBone#jboneelement">jBone(element)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/jBone#jboneelementarray">jBone(elementArray)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/jBone#jbonejboneobject">jBone(jBoneObject)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/jBone#jbonehtml-attributes">jBone(html[, attributes])</a></li>
+</ul><p><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes">Attributes</a></p>
+
+<ul>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes#attrattributename">.attr(attributeName)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes#attrattributename-value">.attr(attributeName, value)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes#attrattributes">.attr(attributes)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes#val">.val()</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes#valvalue">.val(value)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes#csspropertyname-value">.css(propertyName, value)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes#cssproperties">.css(properties)</a></li>
+</ul><p><a href="https://github.com/kupriyanenko/jbone/wiki/Data">Data</a></p>
+
+<ul>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Data#datakey-value">.data(key, value)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Data#dataobj">.data(obj)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Data#datakey">.data(key)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Data#data">.data()</a></li>
+</ul><p><a href="https://github.com/kupriyanenko/jbone/wiki/Event">Event</a></p>
+
+<ul>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Event#onevent-selector-handler">.on(event[, selector], handler)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Event#oneevent-selector-handler">.one(event[, selector], handler)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Event#offevent-handler">.off(event[, handler])</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Event#triggerevent">.trigger(event)</a></li>
+</ul><p><a href="https://github.com/kupriyanenko/jbone/wiki/Manipulation">Manipulation</a></p>
+
+<ul>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Manipulation#html">.html()</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Manipulation#htmlcontent">.html(content)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendcontent">.append(content)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendtotarget">.appendTo(target)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Manipulation#empty">.empty()</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Manipulation#remove">.remove()</a></li>
+</ul><p><a href="https://github.com/kupriyanenko/jbone/wiki/Traversing">Traversing</a></p>
+
+<ul>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Traversing#findselector">.find(selector)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Traversing#getindex">.get(index)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Traversing#eqindex">.eq(index)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Traversing#parent">.parent()</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Traversing#toarray">.toArray()</a></li>
+</ul><p><a href="https://github.com/kupriyanenko/jbone/wiki/Utilities">Utilities</a></p>
+
+<ul>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Utilities#jbonemergefirst-second">jBone.merge(first, second)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Utilities#jbonecontainscontainer-contained">jBone.contains(container, contained)</a></li>
+<li><a href="https://github.com/kupriyanenko/jbone/wiki/Utilities#jboneextendtarget-object1-objectn">jBone.extend(target[, object1][, objectN])</a></li>
+</ul><p><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods">Array methods</a></p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/pop">.pop()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/push">.push()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/reverse">.reverse()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/shift">.shift()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/sort">.sort()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/splice">.splice()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/unshift">.unshift()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/concat">.concat()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/join">.join()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/slice">.slice()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/indexOf">.indexOf()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/lastIndexOf">.lastIndexOf()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/forEach">.forEach()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/every">.every()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/some">.some()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/filter">.filter()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/map">.map()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/reduce">.reduce()</a></li>
+<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/reduceRight">.reduceRight()</a></li>
+</ul><h2>
+<a name="running-the-tests" class="anchor" href="#running-the-tests"><span class="octicon octicon-link"></span></a>Running the Tests</h2>
+
+<h3>
+<a name="node" class="anchor" href="#node"><span class="octicon octicon-link"></span></a>Node</h3>
+
+<ol>
+<li><code>npm install</code></li>
+<li><code>npm test</code></li>
+</ol><h3>
+<a name="browsers" class="anchor" href="#browsers"><span class="octicon octicon-link"></span></a>Browsers</h3>
+
+<ol>
+<li><code>npm install</code></li>
+<li>Open page with tests in browser <code>test/tests.html</code>
+</li>
+</ol>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/kupriyanenko/jbone/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/kupriyanenko/jbone/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/kupriyanenko/jbone"></a> is maintained by <a href="https://github.com/kupriyanenko">kupriyanenko</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
