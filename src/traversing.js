@@ -22,7 +22,7 @@ jBone.fn.parent = function() {
     var results = [], parent;
 
     this.forEach(function(el) {
-        if (!~results.indexOf(parent = el.parentNode)) {
+        if (!~results.indexOf(parent = el.parentElement) && parent) {
             results.push(parent);
         }
     });

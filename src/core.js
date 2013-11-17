@@ -64,14 +64,17 @@ init = function(element, data) {
 },
 
 getElement = function(element, context) {
-    var tag, wraper;
+    var tag, wraper, fragment = doc.createDocumentFragment();
 
     if (isString(element) && (tag = rsingleTag.exec(element))) {
         return doc.createElement(tag[1]);
     } else if (isString(element) && (tag = rquickExpr.exec(element)) && tag[1]) {
         wraper = doc.createElement("div");
         wraper.innerHTML = element;
-        return slice.call(wraper.childNodes);
+        while(wraper.childNodes.length) {
+            fragment.appendChild(wraper.firstChild);
+        }
+        return slice.call(fragment.childNodes);
     } else if (isString(element)) {
         if (jBone.isElement(context)) {
             return jBone(context).find(element);

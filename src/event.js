@@ -71,8 +71,8 @@ jBone.fn.one = function() {
     this.forEach(function(el) {
         event.split(" ").forEach(function(event) {
             var fn = function(e) {
-                callback.call(el, e);
                 jBone(el).off(event, fn);
+                callback.call(el, e);
             };
 
             if (!target) {

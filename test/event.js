@@ -166,6 +166,20 @@ describe('jBone Event', function() {
         expect(counter).be.eql(3);
     });
 
+    it('one(event, callback) with recursive call', function() {
+        var a = jBone('<div>'), counter = 0;
+
+        a.one('click', function() {
+            counter++;
+            a.one('click', function() {
+                counter++;
+            }).trigger('click');
+        });
+        a.trigger('click');
+
+        expect(counter).be.eql(2);
+    });
+
     it('one(event, target, callback)', function() {
         var a = jBone('<div><span></span></div>'),
             counter = 0;

@@ -14,20 +14,12 @@ jBone.merge = function(first, second) {
 };
 
 jBone.contains = function(container, contained) {
-    var search, result;
+    var result;
 
-    search = function(el, element) {
-        if (el === element) {
-            return result = el;
-        } else if (!el.parentNode) {
-            return;
+    container.some(function(el) {
+        if (el.contains(contained)) {
+            return result = container;
         }
-
-        search(el.parentNode, element);
-    };
-
-    container.forEach(function(element) {
-        search(contained.parentNode, element);
     });
 
     return result;
