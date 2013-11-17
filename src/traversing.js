@@ -2,9 +2,13 @@ jBone.fn.find = function(selector) {
     var results = [];
 
     this.forEach(function(el) {
-        [].forEach.call(el.querySelectorAll(selector), function(finded) {
-            results.push(finded);
-        });
+        try {
+            [].forEach.call(el.querySelectorAll(selector), function(finded) {
+                results.push(finded);
+            });
+        } catch(e) {
+            // can't results
+        }
     });
 
     return jBone(results);
