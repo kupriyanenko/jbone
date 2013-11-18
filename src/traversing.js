@@ -3,11 +3,11 @@ jBone.fn.find = function(selector) {
 
     this.forEach(function(el) {
         try {
-            [].forEach.call(el.querySelectorAll(selector), function(finded) {
-                results.push(finded);
+            [].forEach.call(el.querySelectorAll(selector), function(found) {
+                results.push(found);
             });
         } catch(e) {
-            // can't results
+            // results not found
         }
     });
 
