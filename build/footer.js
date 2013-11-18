@@ -1,4 +1,11 @@
-win.jBone = win.$ = jBone;
+if (typeof define === "function" && define.amd) {
+    define(function() {
+        return jBone;
+    });
+}
 
-return jBone;
-}));
+if (typeof win === "object" && typeof win.document === "object") {
+    win.jBone = win.$ = jBone;
+}
+
+}());

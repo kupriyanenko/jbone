@@ -1,5 +1,5 @@
 /*!
- * jBone v0.0.16 - 2013-11-18 - Library for DOM manipulation
+ * jBone v0.0.17 - 2013-11-18 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -7,15 +7,7 @@
  * Released under the MIT license.
  */
 
-(function (root, factory) {
-    if (typeof define === "function" && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(factory);
-    } else {
-        // Browser globals
-        root.jBone = root.$ = factory();
-    }
-}(this, function () {
+(function () {
 
 var
 // Match a standalone tag
@@ -627,7 +619,14 @@ jBone.fn.remove = function() {
     return this;
 };
 
-win.jBone = win.$ = jBone;
+if (typeof define === "function" && define.amd) {
+    define(function() {
+        return jBone;
+    });
+}
 
-return jBone;
-}));
+if (typeof win === "object" && typeof win.document === "object") {
+    win.jBone = win.$ = jBone;
+}
+
+}());
