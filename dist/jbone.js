@@ -1,5 +1,5 @@
 /*!
- * jBone v0.0.14 - 2013-11-18 - Library for DOM manipulation
+ * jBone v0.0.15 - 2013-11-18 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -151,8 +151,7 @@ jBone.merge = function(first, second) {
         j = 0;
 
     while (j < l) {
-        first[i++] = second[j];
-        j++;
+        first[i++] = second[j++];
     }
 
     first.length = i;
@@ -182,6 +181,33 @@ jBone.extend = function(target) {
     return target;
 };
 
+function Event(e, data) {
+    var key, setter;
+
+    this.originalEvent = e;
+
+    setter = function(key, e) {
+        if (key === "preventDefault") {
+            this[key] = function() {
+                this.defaultPrevented = true;
+                return e[key]();
+            };
+        } else if (typeof e[key] === "function") {
+            this[key] = function() {
+                return e[key]();
+            };
+        } else {
+            this[key] = e[key];
+        }
+    };
+
+    for (key in e) {
+        setter.call(this, key, e);
+    }
+
+    jBone.extend(this, data);
+}
+
 jBone.Event = function(event, data) {
     var namespace, eventType;
 
@@ -206,7 +232,7 @@ jBone.Event = function(event, data) {
 
 jBone.fn.on = function(event) {
     var args = arguments,
-        callback, target, namespace, fn, events, eventType;
+        callback, target, namespace, fn, events, eventType, expectedTarget;
 
     if (args.length === 2) {
         callback = args[1];
@@ -229,8 +255,12 @@ jBone.fn.on = function(event) {
 
                 if (!target) {
                     callback.call(el, e);
-                } else if (~jBone(el).find(target).indexOf(e.target) || jBone.contains(jBone(el).find(target), e.target)) {
-                    callback.call(e.target, e);
+                } else if (~jBone(el).find(target).indexOf(e.target) || jBone.contains(expectedTarget = jBone(el).find(target), e.target)) {
+                    e = new Event(e, {
+                        currentTarget: expectedTarget ? expectedTarget[0] : e.target
+                    });
+
+                    callback.call(expectedTarget, e);
                 }
             };
 
@@ -356,11 +386,11 @@ jBone.fn.find = function(selector) {
 
     this.forEach(function(el) {
         try {
-            [].forEach.call(el.querySelectorAll(selector), function(finded) {
-                results.push(finded);
+            [].forEach.call(el.querySelectorAll(selector), function(found) {
+                results.push(found);
             });
         } catch(e) {
-            // can't results
+            // results not found
         }
     });
 
@@ -519,9 +549,9 @@ jBone.fn.data = function(key, value) {
 };
 
 jBone.fn.html = function(value) {
-    var result = [];
+    var result = [], el;
 
-    // add HTML into elements
+   // add HTML into elements
     if (value !== undefined) {
         this.empty().append(value);
 
@@ -529,13 +559,12 @@ jBone.fn.html = function(value) {
     }
 
     // get HTML from elements
-    this.forEach(function(el) {
-        if (el instanceof HTMLElement) {
-            result.push(el.innerHTML);
-        }
-    });
-
-    return result.length ? result.join("") : null;
+	el = this[0] || {};
+	if (el instanceof HTMLElement) {
+        result=el.innerHTML;
+    }
+    
+    return result;
 };
 
 jBone.fn.append = function(appended) {
