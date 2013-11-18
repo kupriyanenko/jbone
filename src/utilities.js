@@ -4,8 +4,7 @@ jBone.merge = function(first, second) {
         j = 0;
 
     while (j < l) {
-        first[i++] = second[j];
-        j++;
+        first[i++] = second[j++];
     }
 
     first.length = i;
