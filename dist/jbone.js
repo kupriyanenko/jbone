@@ -1,5 +1,5 @@
 /*!
- * jBone v0.0.15 - 2013-11-18 - Library for DOM manipulation
+ * jBone v0.0.16 - 2013-11-18 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -164,7 +164,7 @@ jBone.contains = function(container, contained) {
 
     container.some(function(el) {
         if (el.contains(contained)) {
-            return result = container;
+            return result = el;
         }
     });
 
@@ -253,11 +253,13 @@ jBone.fn.on = function(event) {
                     return;
                 }
 
+                expectedTarget = null;
                 if (!target) {
                     callback.call(el, e);
-                } else if (~jBone(el).find(target).indexOf(e.target) || jBone.contains(expectedTarget = jBone(el).find(target), e.target)) {
+                } else if (~jBone(el).find(target).indexOf(e.target) || (expectedTarget = jBone.contains(jBone(el).find(target), e.target))) {
+                    expectedTarget = expectedTarget || e.target;
                     e = new Event(e, {
-                        currentTarget: expectedTarget ? expectedTarget[0] : e.target
+                        currentTarget: expectedTarget
                     });
 
                     callback.call(expectedTarget, e);
