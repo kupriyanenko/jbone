@@ -1,5 +1,5 @@
 jBone.fn.html = function(value) {
-    var result = [];
+    var result = [], el;
 
    // add HTML into elements
     if (value !== undefined) {
@@ -9,10 +9,10 @@ jBone.fn.html = function(value) {
     }
 
     // get HTML from elements
-	var el = this[0] || {};
+	el = this[0] || {};
 	if (el instanceof HTMLElement) {
-            result=el.innerHTML;
-        }
+        result=el.innerHTML;
+    }
     
     return result;
 };
