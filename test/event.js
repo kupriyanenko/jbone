@@ -126,7 +126,7 @@ describe('jBone Event', function() {
     });
 
     it('on(event, target, callback) test right target and currentTarget', function() {
-        var a = jBone('<div><span class="target"><input type="text" /></span></div>'),
+        var a = jBone('<div><span class="target"><input type="text" /></span><span class="target"></span><span class="target"></span></div>'),
             expectedTartget, expectedCurrentTartget;
 
         a.appendTo('#app');
@@ -142,7 +142,7 @@ describe('jBone Event', function() {
         a.find('input').trigger('click');
 
         expectedTartget = a.find('.target')[0];
-        a.find('.target').trigger('click');
+        a.find('.target').eq(0).trigger('click');
     });
 
     it('one(event, callback)', function() {

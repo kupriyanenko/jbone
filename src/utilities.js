@@ -17,7 +17,7 @@ jBone.contains = function(container, contained) {
 
     container.some(function(el) {
         if (el.contains(contained)) {
-            return result = container;
+            return result = el;
         }
     });
 
