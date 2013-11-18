@@ -1,7 +1,7 @@
 jBone.fn.html = function(value) {
     var result = [];
 
-    // add HTML into elements
+   // add HTML into elements
     if (value !== undefined) {
         this.empty().append(value);
 
@@ -9,13 +9,12 @@ jBone.fn.html = function(value) {
     }
 
     // get HTML from elements
-    this.forEach(function(el) {
-        if (el instanceof HTMLElement) {
-            result.push(el.innerHTML);
+	var el = this[0] || {};
+	if (el instanceof HTMLElement) {
+            result=el.innerHTML;
         }
-    });
-
-    return result.length ? result.join("") : null;
+    
+    return result;
 };
 
 jBone.fn.append = function(appended) {
