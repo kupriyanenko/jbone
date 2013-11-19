@@ -1,4 +1,4 @@
-function Event(e, data) {
+function BoneEvent(e, data) {
     var key, setter;
 
     this.originalEvent = e;
@@ -75,7 +75,7 @@ jBone.fn.on = function(event) {
                     callback.call(el, e);
                 } else if (~jBone(el).find(target).indexOf(e.target) || (expectedTarget = jBone.contains(jBone(el).find(target), e.target))) {
                     expectedTarget = expectedTarget || e.target;
-                    e = new Event(e, {
+                    e = new BoneEvent(e, {
                         currentTarget: expectedTarget
                     });
 
