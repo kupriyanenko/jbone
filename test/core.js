@@ -37,6 +37,9 @@ describe('jBone Core', function() {
 
     it('jBone() with invalid data', function() {
         expect(jBone('text')).to.have.length(0);
+        expect(jBone(null)).to.have.length(0);
+        expect(jBone(undefined)).to.have.length(0);
+        expect(jBone('#')).to.have.length(0);
     });
 
     it('jBone(html) create new single DOM element', function() {

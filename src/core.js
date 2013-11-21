@@ -81,7 +81,7 @@ jBone.fn.init = function(element, data) {
         return element;
     }
     // Return element wrapped by jBone
-    else {
+    else if (element) {
         element = Array.isArray(element) ? element : [element];
         return jBone.merge(this, element);
     }
