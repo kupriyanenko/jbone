@@ -140,7 +140,6 @@ $.when(deferred).then(function(response) {
 * [.join()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/join)
 * [.slice()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/slice)
 * [.indexOf()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/indexOf)
-* [.lastIndexOf()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/lastIndexOf)
 * [.forEach()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/forEach)
 * [.every()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/every)
 * [.some()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/some)
