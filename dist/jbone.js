@@ -1,5 +1,5 @@
 /*!
- * jBone v0.0.17 - 2013-11-18 - Library for DOM manipulation
+ * jBone v0.0.18 - 2013-11-21 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -34,72 +34,73 @@ isObject = function(el) {
 },
 
 jBone = function(element, data) {
-    if (this instanceof jBone) {
-        return init.call(this, element, data);
-    } else {
-        return new jBone(element, data);
+    return new jBone.fn.init(element, data);
+};
+
+jBone.fn = jBone.prototype = [];
+
+jBone.fn.constructor = jBone;
+
+jBone.fn.init = function(element, data) {
+    var elements, tag, wraper, fragment;
+
+    if (typeof element === "string") {
+        // Create single DOM element
+        if (tag = rsingleTag.exec(element)) {
+            this[0] = doc.createElement(tag[1]);
+            this.length = 1;
+
+            if (isObject(data)) {
+                this.attr(data);
+            }
+
+            return this;
+        }
+        // Create DOM collection
+        else if ((tag = rquickExpr.exec(element)) && tag[1]) {
+            fragment = doc.createDocumentFragment();
+            wraper = doc.createElement("div");
+            wraper.innerHTML = element;
+            while(wraper.childNodes.length) {
+                fragment.appendChild(wraper.firstChild);
+            }
+            elements = slice.call(fragment.childNodes);
+
+            return jBone.merge(this, elements);
+        }
+        // Find DOM elements with querySelectorAll
+        else {
+            if (jBone.isElement(data)) {
+                return jBone(data).find(element);
+            }
+
+            try {
+                elements = slice.call(doc.querySelectorAll(element));
+
+                return jBone.merge(this, elements);
+            } catch (e) {
+                return this;
+            }
+        }
     }
-},
-
-init = function(element, data) {
-    var elements;
-
-    if (typeof element === "function") {
-        element();
-    } else if (element instanceof jBone) {
+    // Run function
+    else if (typeof element === "function") {
+        return element();
+    }
+    // Return jBone element as is
+    else if (element instanceof jBone) {
         return element;
-    } else if (Array.isArray(element)) {
-        elements = element.map(function(el) {
-            return getElement(el, data);
-        });
-    } else if (element) {
-        elements = getElement(element, data);
     }
-
-    if (elements instanceof jBone) {
-        return elements;
-    }
-
-    if (!elements) {
-        return this;
-    }
-
-    elements = Array.isArray(elements) ? elements : [elements];
-    jBone.merge(this, elements);
-
-    if (isObject(data) && !jBone.isElement(data)) {
-        this.attr(data);
+    // Return element wrapped by jBone
+    else {
+        element = Array.isArray(element) ? element : [element];
+        return jBone.merge(this, element);
     }
 
     return this;
-},
-
-getElement = function(element, context) {
-    var tag, wraper, fragment = doc.createDocumentFragment();
-
-    if (isString(element) && (tag = rsingleTag.exec(element))) {
-        return doc.createElement(tag[1]);
-    } else if (isString(element) && (tag = rquickExpr.exec(element)) && tag[1]) {
-        wraper = doc.createElement("div");
-        wraper.innerHTML = element;
-        while(wraper.childNodes.length) {
-            fragment.appendChild(wraper.firstChild);
-        }
-        return slice.call(fragment.childNodes);
-    } else if (isString(element)) {
-        if (jBone.isElement(context)) {
-            return jBone(context).find(element);
-        }
-
-        try {
-            return slice.call(doc.querySelectorAll(element));
-        } catch (e) {
-            return;
-        }
-    }
-
-    return element;
 };
+
+jBone.fn.init.prototype = jBone.fn;
 
 jBone.setId = function(el) {
     var jid = el.jid;
@@ -134,8 +135,6 @@ jBone._cache = {
     events: {},
     jid: 0
 };
-
-jBone.fn = jBone.prototype = [];
 
 jBone.merge = function(first, second) {
     var l = second.length,
@@ -173,7 +172,7 @@ jBone.extend = function(target) {
     return target;
 };
 
-function Event(e, data) {
+function BoneEvent(e, data) {
     var key, setter;
 
     this.originalEvent = e;
@@ -250,7 +249,7 @@ jBone.fn.on = function(event) {
                     callback.call(el, e);
                 } else if (~jBone(el).find(target).indexOf(e.target) || (expectedTarget = jBone.contains(jBone(el).find(target), e.target))) {
                     expectedTarget = expectedTarget || e.target;
-                    e = new Event(e, {
+                    e = new BoneEvent(e, {
                         currentTarget: expectedTarget
                     });
 
@@ -599,7 +598,7 @@ jBone.fn.appendTo = function(to) {
 
 jBone.fn.empty = function() {
     this.forEach(function(el) {
-        while (el.hasChildNodes()) {
+        while (el.lastChild) {
             el.removeChild(el.lastChild);
         }
     });
@@ -610,6 +609,7 @@ jBone.fn.empty = function() {
 jBone.fn.remove = function() {
     this.forEach(function(el) {
         el.jdata = {};
+        delete jBone._cache.events[el.jid];
 
         if (el.parentNode) {
             el.parentNode.removeChild(el);
@@ -619,8 +619,16 @@ jBone.fn.remove = function() {
     return this;
 };
 
-if (typeof define === "function" && define.amd) {
-    define(function() {
+if (typeof module === "object" && module && typeof module.exports === "object") {
+	// Expose jBone as module.exports in loaders that implement the Node
+	// module pattern (including browserify). Do not create the global, since
+	// the user will be storing it themselves locally, and globals are frowned
+	// upon in the Node module world.
+	module.exports = jBone;
+}
+// Register as a AMD module
+else if (typeof define === "function" && define.amd) {
+    define("jbone", [], function() {
         return jBone;
     });
 }
