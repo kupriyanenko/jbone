@@ -66,6 +66,7 @@ jBone.fn.empty = function() {
 jBone.fn.remove = function() {
     this.forEach(function(el) {
         el.jdata = {};
+        delete jBone._cache.events[el.jid];
 
         if (el.parentNode) {
             el.parentNode.removeChild(el);
