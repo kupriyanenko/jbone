@@ -31,7 +31,7 @@ jBone.fn = jBone.prototype = [];
 jBone.fn.constructor = jBone;
 
 jBone.fn.init = function(element, data) {
-    var elements, tag, wraper, fragment;
+    var elements, tag, wraper;
 
     if (typeof element === "string") {
         // Create single DOM element

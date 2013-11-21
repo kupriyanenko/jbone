@@ -55,7 +55,7 @@ jBone.fn.appendTo = function(to) {
 
 jBone.fn.empty = function() {
     this.forEach(function(el) {
-        while (el.hasChildNodes()) {
+        while (el.lastChild) {
             el.removeChild(el.lastChild);
         }
     });
