@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/kupriyanenko/jbone.png?branch=master)](https://travis-ci.org/kupriyanenko/jbone)
 
+http://kupriyanenko.github.io/jbone/
+
 JavaScript Library for DOM manipulation in modern browsers with jQuery-compatible API.
 
 Replacement jQuery for Backbone in browsers (2kb gzipped)
