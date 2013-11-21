@@ -10,6 +10,7 @@ module.exports = function(grunt) {
       "src/traversing.js",
       "src/attributes.js",
       "src/manipulation.js",
+      "src/extend.js",
       "build/footer.js"
     ],
     meta: {
