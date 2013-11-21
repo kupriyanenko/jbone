@@ -2,6 +2,9 @@ var
 // Match a standalone tag
 rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/,
 
+// Quick match a standalone tag
+rquickSingleTag = /^<(\w+)\s*\/?>$/,
+
 // A simple way to check for HTML strings
 // Prioritize #id over <tag> to avoid XSS via location.hash
 rquickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/,
@@ -35,7 +38,7 @@ jBone.fn.init = function(element, data) {
 
     if (typeof element === "string") {
         // Create single DOM element
-        if (tag = rsingleTag.exec(element)) {
+        if (tag = rquickSingleTag.exec(element)) {
             this[0] = doc.createElement(tag[1]);
             this.length = 1;
 
