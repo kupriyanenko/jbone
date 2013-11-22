@@ -8,6 +8,7 @@ rquickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/,
 
 // Alias for function
 slice = [].slice,
+splice = [].splice,
 keys = Object.keys,
 
 // Alias for global variables
