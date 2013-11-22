@@ -6,6 +6,7 @@ describe('jBone Manipulation', function() {
         expect(jBone().appendTo).to.be.a("function");
         expect(jBone().empty).to.be.a("function");
         expect(jBone().remove).to.be.a("function");
+        expect(jBone().replaceWith).to.be.a("function");
     });
 
     it('html(jBone)', function() {
@@ -123,4 +124,21 @@ describe('jBone Manipulation', function() {
 
         expect(a).to.be.a(jBone);
     });
+
+    it('replaceWith(HTMLElement)', function() {
+        var parent      = jBone('<div><a>');
+        var replacement = document.createElement("b");
+        parent.find('a').replaceWith(replacement);
+        expect(parent[0].childNodes).to.have.length(1);
+        expect(parent[0].childNodes[0]).to.be(replacement);
+    });
+
+    it('replaceWith(jBone)', function() {
+        var parent      = jBone('<div><a>');
+        var replacement = jBone("<b>");
+        parent.find('a').replaceWith(replacement);
+        expect(parent[0].childNodes).to.have.length(1);
+        expect(parent[0].childNodes[0]).to.be(replacement[0]);
+    });
+
 });
