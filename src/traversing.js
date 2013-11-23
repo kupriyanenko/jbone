@@ -1,13 +1,20 @@
 jBone.fn.find = function(selector) {
-    var results = [];
+    var results = [],
+        i = 0,
+        length = this.length,
+        finder;
 
-    this.forEach(function(el) {
-        if (typeof el.querySelectorAll === "function") {
+    finder = function(el) {
+        if (isFunction(el.querySelectorAll)) {
             [].forEach.call(el.querySelectorAll(selector), function(found) {
                 results.push(found);
             });
         }
-    });
+    };
+
+    for (; i < length; i++) {
+        finder(this[i]);
+    }
 
     return jBone(results);
 };

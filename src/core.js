@@ -18,10 +18,12 @@ win = window,
 isString = function(el) {
     return typeof el === "string";
 },
-
 isObject = function(el) {
     return el instanceof Object;
 },
+isFunction = function(el) {
+    return typeof el === "function";
+};
 
 jBone = function(element, data) {
     return new jBone.fn.init(element, data);
@@ -31,7 +33,7 @@ jBone.fn = jBone.prototype = {
     init: function(element, data) {
         var elements, tag, wraper, fragment;
 
-        if (typeof element === "string") {
+        if (isString(element)) {
             // Create single DOM element
             if (tag = rquickSingleTag.exec(element)) {
                 this[0] = doc.createElement(tag[1]);
@@ -71,7 +73,7 @@ jBone.fn = jBone.prototype = {
             }
         }
         // Run function
-        else if (typeof element === "function") {
+        else if (isFunction(element)) {
             return element();
         }
         // Return jBone element as is

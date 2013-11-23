@@ -1,5 +1,8 @@
 jBone.fn.attr = function(key, value) {
-    var args = arguments, setter;
+    var args = arguments,
+        i = 0,
+        length = this.length,
+        setter;
 
     if (isString(key) && args.length === 1) {
         return this[0].getAttribute(key);
@@ -17,30 +20,40 @@ jBone.fn.attr = function(key, value) {
         };
     }
 
-    this.forEach(setter);
+    for (; i < length; i++) {
+        setter(this[i]);
+    }
 
     return this;
 };
 
 jBone.fn.val = function(value) {
+    var i = 0,
+        length = this.length;
+
     if (arguments.length === 0) {
         return this[0].value;
     }
 
-    this.forEach(function(el) {
-        el.value = value;
-    });
+    for (; i < length; i++) {
+        this[i].value = value;
+    }
 
     return this;
 };
 
 jBone.fn.css = function(key, value) {
-    var args = arguments, setter;
+    var args = arguments,
+        i = 0,
+        length = this.length,
+        setter;
 
+    // Get attribute
     if (isString(key) && args.length === 1) {
         return win.getComputedStyle(this[0])[key];
     }
 
+    // Set attributes
     if (args.length === 2) {
         setter = function(el) {
             el.style[key] = value;
@@ -53,13 +66,18 @@ jBone.fn.css = function(key, value) {
         };
     }
 
-    this.forEach(setter);
+    for (; i < length; i++) {
+        setter(this[i]);
+    }
 
     return this;
 };
 
 jBone.fn.data = function(key, value) {
-    var args = arguments, data = {}, setter,
+    var args = arguments, data = {},
+        i = 0,
+        length = this.length,
+        setter,
         setValue = function(el, key, value) {
             if (isObject(value)) {
                 el.jdata = el.jdata || {};
@@ -104,7 +122,9 @@ jBone.fn.data = function(key, value) {
         };
     }
 
-    this.forEach(setter);
+    for (; i < length; i++) {
+        setter(this[i]);
+    }
 
     return this;
 };

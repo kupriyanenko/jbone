@@ -9,16 +9,18 @@ jBone.fn.html = function(value) {
     }
 
     // get HTML from elements
-	el = this[0] || {};
-	if (el instanceof HTMLElement) {
-        result=el.innerHTML;
+    el = this[0] || {};
+    if (el instanceof HTMLElement) {
+        result = el.innerHTML;
     }
-    
+
     return result;
 };
 
 jBone.fn.append = function(appended) {
-    var setter;
+    var i = 0,
+        length = this.length,
+        setter;
 
     if (isString(appended) && rquickExpr.exec(appended)) {
         appended = jBone(appended);
@@ -42,7 +44,9 @@ jBone.fn.append = function(appended) {
         };
     }
 
-    this.forEach(setter);
+    for (; i < length; i++) {
+        setter(this[i]);
+    }
 
     return this;
 };
