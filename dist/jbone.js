@@ -1,5 +1,5 @@
 /*!
- * jBone v0.0.18 - 2013-11-21 - Library for DOM manipulation
+ * jBone v0.0.19 - 2013-11-23 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -10,8 +10,8 @@
 (function () {
 
 var
-// Match a standalone tag
-rsingleTag = /^<(\w+)\s*\/?>(?:<\/\1>|)$/,
+// Quick match a standalone tag
+rquickSingleTag = /^<(\w+)\s*\/?>$/,
 
 // A simple way to check for HTML strings
 // Prioritize #id over <tag> to avoid XSS via location.hash
@@ -19,6 +19,7 @@ rquickExpr = /^(?:[^#<]*(<[\w\W]+>)[^>]*$|#([\w\-]*)$)/,
 
 // Alias for function
 slice = [].slice,
+splice = [].splice,
 keys = Object.keys,
 
 // Alias for global variables
@@ -28,77 +29,99 @@ win = window,
 isString = function(el) {
     return typeof el === "string";
 },
-
 isObject = function(el) {
     return el instanceof Object;
 },
+isFunction = function(el) {
+    return typeof el === "function";
+};
 
 jBone = function(element, data) {
     return new jBone.fn.init(element, data);
 };
 
-jBone.fn = jBone.prototype = [];
+jBone.fn = jBone.prototype = {
+    init: function(element, data) {
+        var elements, tag, wraper, fragment;
 
-jBone.fn.constructor = jBone;
+        if (isString(element)) {
+            // Create single DOM element
+            if (tag = rquickSingleTag.exec(element)) {
+                this[0] = doc.createElement(tag[1]);
+                this.length = 1;
 
-jBone.fn.init = function(element, data) {
-    var elements, tag, wraper, fragment;
+                if (isObject(data)) {
+                    this.attr(data);
+                }
 
-    if (typeof element === "string") {
-        // Create single DOM element
-        if (tag = rsingleTag.exec(element)) {
-            this[0] = doc.createElement(tag[1]);
-            this.length = 1;
-
-            if (isObject(data)) {
-                this.attr(data);
-            }
-
-            return this;
-        }
-        // Create DOM collection
-        else if ((tag = rquickExpr.exec(element)) && tag[1]) {
-            fragment = doc.createDocumentFragment();
-            wraper = doc.createElement("div");
-            wraper.innerHTML = element;
-            while(wraper.childNodes.length) {
-                fragment.appendChild(wraper.firstChild);
-            }
-            elements = slice.call(fragment.childNodes);
-
-            return jBone.merge(this, elements);
-        }
-        // Find DOM elements with querySelectorAll
-        else {
-            if (jBone.isElement(data)) {
-                return jBone(data).find(element);
-            }
-
-            try {
-                elements = slice.call(doc.querySelectorAll(element));
-
-                return jBone.merge(this, elements);
-            } catch (e) {
                 return this;
             }
-        }
-    }
-    // Run function
-    else if (typeof element === "function") {
-        return element();
-    }
-    // Return jBone element as is
-    else if (element instanceof jBone) {
-        return element;
-    }
-    // Return element wrapped by jBone
-    else {
-        element = Array.isArray(element) ? element : [element];
-        return jBone.merge(this, element);
-    }
+            // Create DOM collection
+            else if ((tag = rquickExpr.exec(element)) && tag[1]) {
+                fragment = doc.createDocumentFragment();
+                wraper = doc.createElement("div");
+                wraper.innerHTML = element;
+                while(wraper.childNodes.length) {
+                    fragment.appendChild(wraper.firstChild);
+                }
+                elements = slice.call(fragment.childNodes);
 
-    return this;
+                return jBone.merge(this, elements);
+            }
+            // Find DOM elements with querySelectorAll
+            else {
+                if (jBone.isElement(data)) {
+                    return jBone(data).find(element);
+                }
+
+                try {
+                    elements = slice.call(doc.querySelectorAll(element));
+
+                    return jBone.merge(this, elements);
+                } catch (e) {
+                    return this;
+                }
+            }
+        }
+        // Run function
+        else if (isFunction(element)) {
+            return element();
+        }
+        // Return jBone element as is
+        else if (element instanceof jBone) {
+            return element;
+        }
+        // Return element wrapped by jBone
+        else if (element) {
+            element = Array.isArray(element) ? element : [element];
+            return jBone.merge(this, element);
+        }
+
+        return this;
+    },
+
+    pop: [].pop,
+    push: [].push,
+    reverse: [].reverse,
+    shift: [].shift,
+    sort: [].sort,
+    splice: [].splice,
+    slice: [].slice,
+    indexOf: [].indexOf,
+    forEach: [].forEach,
+    unshift: [].unshift,
+    concat: [].concat,
+    join: [].join,
+    every: [].every,
+    some: [].some,
+    filter: [].filter,
+    map: [].map,
+    reduce: [].reduce,
+    reduceRight: [].reduceRight,
+    length: 0
 };
+
+jBone.fn.constructor = jBone;
 
 jBone.fn.init.prototype = jBone.fn;
 
@@ -163,10 +186,21 @@ jBone.contains = function(container, contained) {
 };
 
 jBone.extend = function(target) {
-    [].splice.call(arguments, 1).forEach(function(object) {
-      for (var prop in object) {
-        target[prop] = object[prop];
-      }
+    var k, kl, i, tg;
+
+    splice.call(arguments, 1).forEach(function(object) {
+        if (!object) {
+            return;
+        }
+
+        k = keys(object);
+        kl = k.length;
+        i = 0;
+        tg = target; //caching target for perf improvement
+
+        for (; i < kl; i++) {
+            tg[k[i]] = object[k[i]];
+        }
     });
 
     return target;
@@ -183,7 +217,7 @@ function BoneEvent(e, data) {
                 this.defaultPrevented = true;
                 return e[key]();
             };
-        } else if (typeof e[key] === "function") {
+        } else if (isFunction(e[key])) {
             this[key] = function() {
                 return e[key]();
             };
@@ -223,7 +257,9 @@ jBone.Event = function(event, data) {
 
 jBone.fn.on = function(event) {
     var args = arguments,
-        callback, target, namespace, fn, events, eventType, expectedTarget;
+        length = this.length,
+        i = 0,
+        callback, target, namespace, fn, events, eventType, expectedTarget, addListener;
 
     if (args.length === 2) {
         callback = args[1];
@@ -231,7 +267,7 @@ jBone.fn.on = function(event) {
         target = args[1], callback = args[2];
     }
 
-    this.forEach(function(el) {
+    addListener = function(el) {
         jBone.setId(el);
         events = jBone.getData(el).events;
         event.split(" ").forEach(function(event) {
@@ -265,14 +301,20 @@ jBone.fn.on = function(event) {
 
             el.addEventListener && el.addEventListener(eventType, fn, false);
         });
-    });
+    };
+
+    for (; i < length; i++) {
+        addListener(this[i]);
+    }
 
     return this;
 };
 
-jBone.fn.one = function() {
-    var event = arguments[0], args = arguments,
-        callback, target;
+jBone.fn.one = function(event) {
+    var args = arguments,
+        i = 0,
+        length = this.length,
+        callback, target, addListener;
 
     if (args.length === 2) {
         callback = args[1];
@@ -280,7 +322,7 @@ jBone.fn.one = function() {
         target = args[1], callback = args[2];
     }
 
-    this.forEach(function(el) {
+    addListener = function(el) {
         event.split(" ").forEach(function(event) {
             var fn = function(e) {
                 jBone(el).off(event, fn);
@@ -293,13 +335,20 @@ jBone.fn.one = function() {
                 jBone(el).on(event, target, fn);
             }
         });
-    });
+    };
+
+    for (; i < length; i++) {
+        addListener(this[i]);
+    }
 
     return this;
 };
 
 jBone.fn.trigger = function(event) {
-    var events = [];
+    var events = [],
+        i = 0,
+        length = this.length,
+        dispatchEvents;
 
     if (!event) {
         return this;
@@ -314,7 +363,7 @@ jBone.fn.trigger = function(event) {
         events = [event];
     }
 
-    this.forEach(function(el) {
+    dispatchEvents = function(el) {
         events.forEach(function(event) {
             if (!event.type) {
                 return;
@@ -322,22 +371,28 @@ jBone.fn.trigger = function(event) {
 
             el.dispatchEvent && el.dispatchEvent(event);
         });
-    });
+    };
+
+    for (; i < length; i++) {
+        dispatchEvents(this[i]);
+    }
 
     return this;
 };
 
 jBone.fn.off = function(event, fn) {
-    var events, callback, namespace, eventType,
+    var i = 0,
+        length = this.length,
         getCallback = function(e) {
             if (fn && e.originfn === fn) {
                 return e.fn;
             } else if (!fn) {
                 return e.fn;
             }
-        };
+        },
+        events, callback, namespace, eventType, removeListeners;
 
-    this.forEach(function(el) {
+    removeListeners = function(el) {
         events = jBone.getData(el).events;
 
         if (!events) {
@@ -369,23 +424,32 @@ jBone.fn.off = function(event, fn) {
                 });
             }
         });
-    });
+    };
+
+    for (; i < length; i++) {
+        removeListeners(this[i]);
+    }
 
     return this;
 };
 
 jBone.fn.find = function(selector) {
-    var results = [];
+    var results = [],
+        i = 0,
+        length = this.length,
+        finder;
 
-    this.forEach(function(el) {
-        try {
+    finder = function(el) {
+        if (isFunction(el.querySelectorAll)) {
             [].forEach.call(el.querySelectorAll(selector), function(found) {
                 results.push(found);
             });
-        } catch(e) {
-            // results not found
         }
-    });
+    };
+
+    for (; i < length; i++) {
+        finder(this[i]);
+    }
 
     return jBone(results);
 };
@@ -431,7 +495,10 @@ jBone.fn.has = function() {
 };
 
 jBone.fn.attr = function(key, value) {
-    var args = arguments, setter;
+    var args = arguments,
+        i = 0,
+        length = this.length,
+        setter;
 
     if (isString(key) && args.length === 1) {
         return this[0].getAttribute(key);
@@ -449,30 +516,40 @@ jBone.fn.attr = function(key, value) {
         };
     }
 
-    this.forEach(setter);
+    for (; i < length; i++) {
+        setter(this[i]);
+    }
 
     return this;
 };
 
 jBone.fn.val = function(value) {
+    var i = 0,
+        length = this.length;
+
     if (arguments.length === 0) {
         return this[0].value;
     }
 
-    this.forEach(function(el) {
-        el.value = value;
-    });
+    for (; i < length; i++) {
+        this[i].value = value;
+    }
 
     return this;
 };
 
 jBone.fn.css = function(key, value) {
-    var args = arguments, setter;
+    var args = arguments,
+        i = 0,
+        length = this.length,
+        setter;
 
+    // Get attribute
     if (isString(key) && args.length === 1) {
         return win.getComputedStyle(this[0])[key];
     }
 
+    // Set attributes
     if (args.length === 2) {
         setter = function(el) {
             el.style[key] = value;
@@ -485,13 +562,18 @@ jBone.fn.css = function(key, value) {
         };
     }
 
-    this.forEach(setter);
+    for (; i < length; i++) {
+        setter(this[i]);
+    }
 
     return this;
 };
 
 jBone.fn.data = function(key, value) {
-    var args = arguments, data = {}, setter,
+    var args = arguments, data = {},
+        i = 0,
+        length = this.length,
+        setter,
         setValue = function(el, key, value) {
             if (isObject(value)) {
                 el.jdata = el.jdata || {};
@@ -536,7 +618,9 @@ jBone.fn.data = function(key, value) {
         };
     }
 
-    this.forEach(setter);
+    for (; i < length; i++) {
+        setter(this[i]);
+    }
 
     return this;
 };
@@ -552,16 +636,18 @@ jBone.fn.html = function(value) {
     }
 
     // get HTML from elements
-	el = this[0] || {};
-	if (el instanceof HTMLElement) {
-        result=el.innerHTML;
+    el = this[0] || {};
+    if (el instanceof HTMLElement) {
+        result = el.innerHTML;
     }
-    
+
     return result;
 };
 
 jBone.fn.append = function(appended) {
-    var setter;
+    var i = 0,
+        length = this.length,
+        setter;
 
     if (isString(appended) && rquickExpr.exec(appended)) {
         appended = jBone(appended);
@@ -585,7 +671,9 @@ jBone.fn.append = function(appended) {
         };
     }
 
-    this.forEach(setter);
+    for (; i < length; i++) {
+        setter(this[i]);
+    }
 
     return this;
 };

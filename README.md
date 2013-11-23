@@ -6,7 +6,7 @@ http://kupriyanenko.github.io/jbone/
 
 JavaScript Library for DOM manipulation in modern browsers with jQuery-compatible API.
 
-Replacement jQuery for Backbone in browsers (2kb gzipped)
+Replacement jQuery for Backbone in browsers (3kb gzipped)
 
 ## Installation
 
