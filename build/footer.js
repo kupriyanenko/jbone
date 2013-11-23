@@ -16,4 +16,4 @@ if (typeof win === "object" && typeof win.document === "object") {
     win.jBone = win.$ = jBone;
 }
 
-}());
+}(window));

@@ -1,1 +1,1 @@
-(function () {
+(function (win) {

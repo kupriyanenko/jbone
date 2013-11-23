@@ -13,7 +13,6 @@ keys = Object.keys,
 
 // Alias for global variables
 doc = document,
-win = window,
 
 isString = function(el) {
     return typeof el === "string";
