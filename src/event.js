@@ -19,7 +19,9 @@ function BoneEvent(e, data) {
     };
 
     for (key in e) {
-        setter.call(this, key, e);
+        if (e.hasOwnProperty(key) || typeof e[key] === "function") {
+            setter.call(this, key, e);
+        }
     }
 
     jBone.extend(this, data);

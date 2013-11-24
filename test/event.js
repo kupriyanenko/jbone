@@ -145,6 +145,22 @@ describe('jBone Event', function() {
         a.find('.target').eq(0).trigger('click');
     });
 
+    it('on(event, target, callback) preventDefault', function() {
+        var a = jBone('<div><span></span></div>'),
+            counter = 0;
+
+        jBone('#app').html(a);
+
+        a.on('click', 'span', function(e) {
+            expect(e.defaultPrevented).be.eql(false);
+            e.preventDefault();
+
+            expect(e.defaultPrevented).be.eql(true);
+        });
+
+        a.find('span').trigger('click');
+    });
+
     it('one(event, callback)', function() {
         var div = jBone('<div>'), counter = 0, fn = function() {
             counter++;

@@ -49,7 +49,7 @@ jBone.fn = jBone.prototype = {
                 fragment = doc.createDocumentFragment();
                 wraper = doc.createElement("div");
                 wraper.innerHTML = element;
-                while(wraper.childNodes.length) {
+                while (wraper.lastChild) {
                     fragment.appendChild(wraper.firstChild);
                 }
                 elements = slice.call(fragment.childNodes);
