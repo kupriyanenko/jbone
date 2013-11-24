@@ -8,6 +8,7 @@ describe('jBone Event', function() {
         expect(jBone().trigger).to.be.a('function');
         expect(jBone().off).to.be.a('function');
         expect(jBone().on).to.be.a('function');
+        expect(jBone().one).to.be.a('function');
     });
 
     it('on() off() trigger() initialized', function() {
