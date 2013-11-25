@@ -1,5 +1,5 @@
 /*!
- * jBone v0.0.19 - 2013-11-23 - Library for DOM manipulation
+ * jBone v1.0.0 - 2013-11-25 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -7,7 +7,7 @@
  * Released under the MIT license.
  */
 
-(function () {
+(function (win) {
 
 var
 // Quick match a standalone tag
@@ -24,7 +24,6 @@ keys = Object.keys,
 
 // Alias for global variables
 doc = document,
-win = window,
 
 isString = function(el) {
     return typeof el === "string";
@@ -61,7 +60,7 @@ jBone.fn = jBone.prototype = {
                 fragment = doc.createDocumentFragment();
                 wraper = doc.createElement("div");
                 wraper.innerHTML = element;
-                while(wraper.childNodes.length) {
+                while (wraper.lastChild) {
                     fragment.appendChild(wraper.firstChild);
                 }
                 elements = slice.call(fragment.childNodes);
@@ -227,7 +226,9 @@ function BoneEvent(e, data) {
     };
 
     for (key in e) {
-        setter.call(this, key, e);
+        if (e.hasOwnProperty(key) || typeof e[key] === "function") {
+            setter.call(this, key, e);
+        }
     }
 
     jBone.extend(this, data);
@@ -716,7 +717,7 @@ if (typeof module === "object" && module && typeof module.exports === "object") 
 }
 // Register as a AMD module
 else if (typeof define === "function" && define.amd) {
-    define("jbone", [], function() {
+    define(function() {
         return jBone;
     });
 }
@@ -725,4 +726,4 @@ if (typeof win === "object" && typeof win.document === "object") {
     win.jBone = win.$ = jBone;
 }
 
-}());
+}(window));
