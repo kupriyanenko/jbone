@@ -8,9 +8,13 @@ JavaScript Library for DOM manipulation in modern browsers with jQuery-compatibl
 
 Replacement jQuery for Backbone in browsers (2.5kb gzipped)
 
-## Installation
+## Why jBone?
 
-Get it
+jBone is extremely small (2.5kb) and realy fast library. Main jBone idea - it's as much as possible to use native JavaScript methods in your project.
+
+jBone it is ideal solutions for applications based on Backbone and running on mobile devices. jBone project was created to allow people using Backbone without jQuery.
+
+## Get it
 
 ```
 $ bower install jbone --save
@@ -26,16 +30,33 @@ Add a ```<script>``` element for jbone.js
 
 ```javascript
 var $input = $("<input>", {
-	"class": "name"
+    "class": "name"
 }).val('John');
 
 $input.on("click.space", function(e) {
-	console.log("clicked on", this);
+    console.log("clicked on", this);
 });
 
 $input.trigger("click");
 
 $input.off(".space");
+```
+
+## Extend it
+
+```javascript
+jBone.fn.addClass = function(className) {
+    var i = 0,
+        length = this.length;
+
+    for (; i < length; i++) {
+        this[i].classList.add(className);
+    }
+
+    return this;
+};
+
+$('.header').addClass('loaded');
 ```
 
 ## AJAX, Deferred
@@ -56,7 +77,7 @@ $.ajax({
 });
 ```
 
-Example Deffered connecting:
+Example Deferred connecting:
 
 ```javascript
 // connect simply-deferred on your page https://rawgithub.com/sudhirj/simply-deferred/master/deferred.min.js
