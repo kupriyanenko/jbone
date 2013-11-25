@@ -7,7 +7,7 @@ if (typeof module === "object" && module && typeof module.exports === "object") 
 }
 // Register as a AMD module
 else if (typeof define === "function" && define.amd) {
-    define("jbone", [], function() {
+    define(function() {
         return jBone;
     });
 }
