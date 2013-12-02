@@ -1,5 +1,5 @@
 jBone.fn.html = function(value) {
-    var result = [], el;
+    var result, el;
 
    // add HTML into elements
     if (value !== undefined) {
