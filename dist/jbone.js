@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.0 - 2013-11-25 - Library for DOM manipulation
+ * jBone v1.0.1 - 2013-12-09 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -627,7 +627,7 @@ jBone.fn.data = function(key, value) {
 };
 
 jBone.fn.html = function(value) {
-    var result = [], el;
+    var result, el;
 
    // add HTML into elements
     if (value !== undefined) {
