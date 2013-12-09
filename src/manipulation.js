@@ -1,20 +1,17 @@
 jBone.fn.html = function(value) {
-    var result, el;
+    var args = arguments,
+        el;
 
-   // add HTML into elements
-    if (value !== undefined) {
-        this.empty().append(value);
-
-        return this;
+    // add HTML into elements
+    if (args.length === 1 && value !== undefined) {
+        return this.empty().append(value);
+    }
+    // get HTML from element
+    else if (args.length === 0 && (el = this[0])) {
+        return el.innerHTML;
     }
 
-    // get HTML from elements
-    el = this[0] || {};
-    if (el instanceof HTMLElement) {
-        result = el.innerHTML;
-    }
-
-    return result;
+    return this;
 };
 
 jBone.fn.append = function(appended) {
@@ -45,7 +42,7 @@ jBone.fn.append = function(appended) {
     }
 
     for (; i < length; i++) {
-        setter(this[i]);
+        setter(this[i], i);
     }
 
     return this;
@@ -69,12 +66,10 @@ jBone.fn.empty = function() {
 
 jBone.fn.remove = function() {
     this.forEach(function(el) {
-        el.jdata = {};
         delete jBone._cache.events[el.jid];
 
-        if (el.parentNode) {
-            el.parentNode.removeChild(el);
-        }
+        el.jdata = {};
+        el.parentNode && el.parentNode.removeChild(el);
     });
 
     return this;

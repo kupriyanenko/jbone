@@ -38,6 +38,19 @@ describe('jBone Manipulation', function() {
         expect(a[0].childNodes).to.have.length(2);
     });
 
+    it('html(undefined)', function() {
+        var a = jBone('<div>test</div>');
+
+        a.html(undefined);
+        expect(a.html()).eql('test');
+    });
+
+    it('html()', function() {
+        var a = jBone('<div>test <span>text</span></div>');
+
+        expect(a.html()).eql('test <span>text</span>');
+    });
+
     it('append(html)', function() {
         var a = jBone('<div><span></span></div>').append('<span></span><p></p>');
 
