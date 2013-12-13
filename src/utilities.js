@@ -15,7 +15,7 @@ jBone.merge = function(first, second) {
 jBone.contains = function(container, contained) {
     var result;
 
-    container.some(function(el) {
+    container.reverse().some(function(el) {
         if (el.contains(contained)) {
             return result = el;
         }
