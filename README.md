@@ -1,12 +1,13 @@
 # jBone 
 
 [![Build Status](https://travis-ci.org/kupriyanenko/jbone.png?branch=master)](https://travis-ci.org/kupriyanenko/jbone)
+[![Bower version](https://badge.fury.io/bo/jbone.png)](http://badge.fury.io/bo/jbone)
 
 http://kupriyanenko.github.io/jbone/
 
 JavaScript Library for DOM manipulation in modern browsers with jQuery-compatible API.
 
-Replacement jQuery for Backbone in browsers (2.5kb gzipped)
+Replacement jQuery for Backbone in browsers (2.5kb gzipped, faster than jQuery/Zepto)
 
 ## Why jBone?
 
