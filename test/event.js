@@ -353,4 +353,29 @@ describe('jBone Event', function() {
         expect(counter).be.eql(3);
     });
 
+    it('off should remove event handlers from cache', function() {
+        var div = jBone('<div>'),
+            fn = function() {};
+
+        div.on('click', fn);
+
+        expect(jBone._cache.events[jBone.getData(div).jid].click[0].originfn).be.eql(fn);
+
+        div.off('click');
+
+        expect(jBone._cache.events[jBone.getData(div).jid].click[0]).be.eql(undefined);
+
+        div.on('click.test', fn);
+        div.off('click', function() {});
+        div.off('click.test', function() {});
+        div.off('.test', function() {});
+        div.off('.namespace');
+
+        expect(jBone._cache.events[jBone.getData(div).jid].click[1]).to.be.an('object');
+
+        div.off('.test');
+
+        expect(jBone._cache.events[jBone.getData(div).jid].click[1]).be.eql(undefined);
+    });
+
 });

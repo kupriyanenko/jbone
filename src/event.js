@@ -177,14 +177,22 @@ jBone.fn.trigger = function(event) {
 jBone.fn.off = function(event, fn) {
     var i = 0,
         length = this.length,
-        getCallback = function(e) {
-            if (fn && e.originfn === fn) {
-                return e.fn;
-            } else if (!fn) {
-                return e.fn;
+        removeListener = function(events, eventType, index, el, e) {
+            var callback;
+
+            // get callback
+            if ((fn && e.originfn === fn) || !fn) {
+                callback = e.fn;
+            }
+
+            if (events[eventType][index].fn === callback) {
+                el.removeEventListener(eventType, callback);
+
+                // remove handler from cache
+                delete jBone._cache.events[jBone.getData(el).jid][eventType][index];
             }
         },
-        events, callback, namespace, eventType, removeListeners;
+        events, namespace, eventType, removeListeners;
 
     removeListeners = function(el) {
         events = jBone.getData(el).events;
@@ -199,20 +207,18 @@ jBone.fn.off = function(event, fn) {
 
             // remove named events
             if (events[eventType]) {
-                events[eventType].forEach(function(e) {
-                    callback = getCallback(e);
+                events[eventType].forEach(function(e, index) {
                     if (!namespace || (namespace && e.namespace === namespace)) {
-                        el.removeEventListener(eventType, callback);
+                        removeListener(events, eventType, index, el, e);
                     }
                 });
             }
             // remove all namespaced events
             else if (namespace) {
-                keys(events).forEach(function(key) {
-                    events[key].forEach(function(e) {
-                        callback = getCallback(e);
+                keys(events).forEach(function(eventType) {
+                    events[eventType].forEach(function(e, index) {
                         if (e.namespace.split(".")[0] === namespace.split(".")[0]) {
-                            el.removeEventListener(key, callback);
+                            removeListener(events, eventType, index, el, e);
                         }
                     });
                 });
