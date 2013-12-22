@@ -50,3 +50,16 @@ jBone.fn.offset = function(value) {
 
     return this;
 };
+
+jBone.fn.replaceWith = function(сontent) {
+    var replacement = сontent instanceof jBone ? сontent[0] : сontent;
+
+    this.forEach(function(el) {
+        if (el.parentNode) {
+            el.parentNode.replaceChild(replacement, el);
+            jBone(el).remove();
+        }
+    });
+
+    return this;
+};
