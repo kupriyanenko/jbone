@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.2 - 2013-12-13 - Library for DOM manipulation
+ * jBone v1.0.3 - 2013-12-24 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -384,14 +384,22 @@ jBone.fn.trigger = function(event) {
 jBone.fn.off = function(event, fn) {
     var i = 0,
         length = this.length,
-        getCallback = function(e) {
-            if (fn && e.originfn === fn) {
-                return e.fn;
-            } else if (!fn) {
-                return e.fn;
+        removeListener = function(events, eventType, index, el, e) {
+            var callback;
+
+            // get callback
+            if ((fn && e.originfn === fn) || !fn) {
+                callback = e.fn;
+            }
+
+            if (events[eventType][index].fn === callback) {
+                el.removeEventListener(eventType, callback);
+
+                // remove handler from cache
+                delete jBone._cache.events[jBone.getData(el).jid][eventType][index];
             }
         },
-        events, callback, namespace, eventType, removeListeners;
+        events, namespace, eventType, removeListeners;
 
     removeListeners = function(el) {
         events = jBone.getData(el).events;
@@ -406,20 +414,18 @@ jBone.fn.off = function(event, fn) {
 
             // remove named events
             if (events[eventType]) {
-                events[eventType].forEach(function(e) {
-                    callback = getCallback(e);
+                events[eventType].forEach(function(e, index) {
                     if (!namespace || (namespace && e.namespace === namespace)) {
-                        el.removeEventListener(eventType, callback);
+                        removeListener(events, eventType, index, el, e);
                     }
                 });
             }
             // remove all namespaced events
             else if (namespace) {
-                keys(events).forEach(function(key) {
-                    events[key].forEach(function(e) {
-                        callback = getCallback(e);
+                keys(events).forEach(function(eventType) {
+                    events[eventType].forEach(function(e, index) {
                         if (e.namespace.split(".")[0] === namespace.split(".")[0]) {
-                            el.removeEventListener(key, callback);
+                            removeListener(events, eventType, index, el, e);
                         }
                     });
                 });
@@ -704,11 +710,11 @@ jBone.fn.remove = function() {
 };
 
 if (typeof module === "object" && module && typeof module.exports === "object") {
-	// Expose jBone as module.exports in loaders that implement the Node
-	// module pattern (including browserify). Do not create the global, since
-	// the user will be storing it themselves locally, and globals are frowned
-	// upon in the Node module world.
-	module.exports = jBone;
+    // Expose jBone as module.exports in loaders that implement the Node
+    // module pattern (including browserify). Do not create the global, since
+    // the user will be storing it themselves locally, and globals are frowned
+    // upon in the Node module world.
+    module.exports = jBone;
 }
 // Register as a AMD module
 else if (typeof define === "function" && define.amd) {
