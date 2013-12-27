@@ -1,0 +1,21 @@
+{
+  "name": "jbone",
+  "repo": "kupriyanenko/jbone",
+  "description": "JavaScript Library for DOM manipulation. Replacement jQuery for Backbone in browsers (2.5kb gzipped)",
+  "version": "1.0.3",
+  "keywords": [
+    "jquery",
+    "jbone",
+    "backbone",
+    "javascript",
+    "library"
+  ],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "main": "dist/jbone.js",
+  "scripts": [
+    "dist/jbone.js",
+    "dist/jbone.min.js"
+  ]
+}
