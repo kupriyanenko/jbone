@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/kupriyanenko/jbone.png?branch=master)](https://travis-ci.org/kupriyanenko/jbone)
 [![Bower version](https://badge.fury.io/bo/jbone.png)](http://badge.fury.io/bo/jbone)
-[![Total views](https://sourcegraph.com/api/repos/github.com/kupriyanenko/jbone/counters/views.png)](https://sourcegraph.com/github.com/kupriyanenko/jbone)
 
 http://kupriyanenko.github.io/jbone/
 
