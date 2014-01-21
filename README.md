@@ -21,7 +21,7 @@ jBone it is ideal solutions for applications based on Backbone and running on mo
 $ bower install jbone --save
 ```
 
-Add a ```<script>``` element for jbone.js
+Add a `<script>` element for jbone.js
 
 ```html
 <script src="path/to/jbone/dist/jbone.js"></script>
@@ -32,7 +32,7 @@ Add a ```<script>``` element for jbone.js
 ```javascript
 var $input = $("<input>", {
     "class": "name"
-}).val('John');
+}).val("John");
 
 $input.on("click.space", function(e) {
     console.log("clicked on", this);
@@ -57,7 +57,7 @@ jBone.fn.addClass = function(className) {
     return this;
 };
 
-$('.header').addClass('loaded');
+$(".header").addClass("loaded");
 ```
 
 ## AJAX, Deferred
@@ -74,7 +74,7 @@ Example AJAX connecting:
 jBone.ajax = reqwest.compat;
 
 $.ajax({
-    url: "example.com"
+    url: "http://example.com"
 });
 ```
 
@@ -174,10 +174,10 @@ $.when(deferred).then(function(response) {
 
 ### Node
 
-1. ```npm install```
-2. ```npm test```
+1. `npm install`
+2. `npm test`
 
 ### Browsers
 
-1. ```npm install```
-2. Open page with tests in browser ```test/tests.html```
+1. `npm install`
+2. Open page with tests in browser `test/tests.html`
