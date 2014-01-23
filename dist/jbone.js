@@ -1,19 +1,15 @@
 /*!
- * jBone v1.0.3 - 2014-01-22 - Library for DOM manipulation
+ * jBone v1.0.3 - 2013-12-24 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
- * Copyright 2014 Alexey Kupriyanenko
+ * Copyright 2013 Alexey Kupriyanenko
  * Released under the MIT license.
  */
 
 (function (win) {
 
 var
-// cache previous versions
-_$ = win.$,
-_jBone = win.jBone,
-
 // Quick match a standalone tag
 rquickSingleTag = /^<(\w+)\s*\/?>$/,
 
@@ -37,17 +33,10 @@ isObject = function(el) {
 },
 isFunction = function(el) {
     return typeof el === "function";
-},
-jBone = function(element, data) {
-    return new jBone.fn.init(element, data);
 };
 
-// set previous values and return the instance upon calling the no-conflict mode
-jBone.noConflict = function() {
-    win.$ = _$;
-    win.jBone = _jBone;
-
-    return jBone;
+jBone = function(element, data) {
+    return new jBone.fn.init(element, data);
 };
 
 jBone.fn = jBone.prototype = {
@@ -732,7 +721,9 @@ else if (typeof define === "function" && define.amd) {
     define(function() {
         return jBone;
     });
-} else if (typeof win === "object" && typeof win.document === "object") {
+}
+
+if (typeof win === "object" && typeof win.document === "object") {
     win.jBone = win.$ = jBone;
 }
 
