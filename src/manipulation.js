@@ -55,22 +55,34 @@ jBone.fn.appendTo = function(to) {
 };
 
 jBone.fn.empty = function() {
-    this.forEach(function(el) {
+    var i = 0,
+        length = this.length,
+        el;
+
+    for (; i < length; i++) {
+        el = this[i];
+
         while (el.lastChild) {
             el.removeChild(el.lastChild);
         }
-    });
+    }
 
     return this;
 };
 
 jBone.fn.remove = function() {
-    this.forEach(function(el) {
+    var i = 0,
+        length = this.length,
+        el;
+
+    for (; i < length; i++) {
+        el = this[i];
+
         delete jBone._cache.events[el.jid];
 
         el.jdata = {};
         el.parentNode && el.parentNode.removeChild(el);
-    });
+    }
 
     return this;
 };
