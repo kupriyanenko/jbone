@@ -1,4 +1,8 @@
 var
+// cache previous versions
+_$ = win.$,
+_jBone = win.jBone,
+
 // Quick match a standalone tag
 rquickSingleTag = /^<(\w+)\s*\/?>$/,
 
@@ -22,10 +26,17 @@ isObject = function(el) {
 },
 isFunction = function(el) {
     return typeof el === "function";
-};
-
+},
 jBone = function(element, data) {
     return new jBone.fn.init(element, data);
+};
+
+// set previous values and return the instance upon calling the no-conflict mode
+jBone.noConflict = function() {
+    win.$ = _$;
+    win.jBone = _jBone;
+
+    return jBone;
 };
 
 jBone.fn = jBone.prototype = {
