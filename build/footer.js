@@ -10,7 +10,9 @@ else if (typeof define === "function" && define.amd) {
     define(function() {
         return jBone;
     });
-} else if (typeof win === "object" && typeof win.document === "object") {
+}
+
+if (typeof win === "object" && typeof win.document === "object") {
     win.jBone = win.$ = jBone;
 }
 
