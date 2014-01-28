@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.4 - 2014-01-23 - Library for DOM manipulation
+ * jBone v1.0.5 - 2014-01-28 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -744,7 +744,9 @@ else if (typeof define === "function" && define.amd) {
     define(function() {
         return jBone;
     });
-} else if (typeof win === "object" && typeof win.document === "object") {
+}
+
+if (typeof win === "object" && typeof win.document === "object") {
     win.jBone = win.$ = jBone;
 }
 
