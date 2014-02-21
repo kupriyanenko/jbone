@@ -179,5 +179,5 @@ $.when(deferred).then(function(response) {
 
 ### Browsers
 
-1. `npm install`
+1. `bower install`
 2. Open page with tests in browser `test/tests.html`
