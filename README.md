@@ -17,9 +17,25 @@ jBone it is ideal solutions for applications based on Backbone and running on mo
 
 ## Get it
 
+##### With bower
+
 ```
 $ bower install jbone --save
 ```
+
+##### With component
+
+```
+component install kupriyanenko/jbone
+```
+
+##### With nodejs or browserify
+
+```
+$ npm install jbone --save
+```
+
+## Use it
 
 Add a `<script>` element for jbone.js
 
@@ -27,7 +43,13 @@ Add a `<script>` element for jbone.js
 <script src="path/to/jbone/dist/jbone.js"></script>
 ```
 
-## Use it
+Or include like npm module (with nodejs or browserify)
+
+```javascript
+var $ = require('jbone');
+```
+
+And write awesome code:
 
 ```javascript
 var $input = $("<input>", {
