@@ -33,31 +33,62 @@
         <h1>
 <a name="jbone" class="anchor" href="#jbone"><span class="octicon octicon-link"></span></a>jBone</h1>
 
-<p><a href="https://travis-ci.org/kupriyanenko/jbone"><img src="https://travis-ci.org/kupriyanenko/jbone.png?branch=master" alt="Build Status"></a></p>
+<p><a href="https://travis-ci.org/kupriyanenko/jbone"><img src="https://travis-ci.org/kupriyanenko/jbone.png?branch=master" alt="Build Status"></a>
+<a href="http://badge.fury.io/bo/jbone"><img src="https://badge.fury.io/bo/jbone.png" alt="Bower version"></a>
+<a href="http://badge.fury.io/js/jbone"><img src="https://badge.fury.io/js/jbone.png" alt="NPM version"></a></p>
+
+<p><a href="http://kupriyanenko.github.io/jbone/">http://kupriyanenko.github.io/jbone/</a></p>
 
 <p>JavaScript Library for DOM manipulation in modern browsers with jQuery-compatible API.</p>
 
-<p>Replacement jQuery for Backbone in browsers (2kb gzipped)</p>
+<p>Replacement jQuery for Backbone in browsers (2.5kb gzipped, faster than jQuery/Zepto)</p>
 
 <h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a name="why-jbone" class="anchor" href="#why-jbone"><span class="octicon octicon-link"></span></a>Why jBone?</h2>
 
-<p>Get it</p>
+<p>jBone is extremely small (2.5kb) and realy fast library. Main jBone idea - it's as much as possible to use native JavaScript methods in your project.</p>
+
+<p>jBone it is ideal solutions for applications based on Backbone and running on mobile devices. jBone project was created to allow people using Backbone without jQuery.</p>
+
+<h2>
+<a name="get-it" class="anchor" href="#get-it"><span class="octicon octicon-link"></span></a>Get it</h2>
+
+<h5>
+<a name="with-bower" class="anchor" href="#with-bower"><span class="octicon octicon-link"></span></a>With bower</h5>
 
 <pre><code>$ bower install jbone --save
 </code></pre>
+
+<h5>
+<a name="with-component" class="anchor" href="#with-component"><span class="octicon octicon-link"></span></a>With component</h5>
+
+<pre><code>component install kupriyanenko/jbone
+</code></pre>
+
+<h5>
+<a name="with-nodejs-or-browserify" class="anchor" href="#with-nodejs-or-browserify"><span class="octicon octicon-link"></span></a>With nodejs or browserify</h5>
+
+<pre><code>$ npm install jbone --save
+</code></pre>
+
+<h2>
+<a name="use-it" class="anchor" href="#use-it"><span class="octicon octicon-link"></span></a>Use it</h2>
 
 <p>Add a <code>&lt;script&gt;</code> element for jbone.js</p>
 
 <div class="highlight highlight-html"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"path/to/jbone/dist/jbone.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 </pre></div>
 
-<h2>
-<a name="use-it" class="anchor" href="#use-it"><span class="octicon octicon-link"></span></a>Use it</h2>
+<p>Or include like npm module (with nodejs or browserify)</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">$</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'jbone'</span><span class="p">);</span>
+</pre></div>
+
+<p>And write awesome code:</p>
 
 <div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">$input</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">"&lt;input&gt;"</span><span class="p">,</span> <span class="p">{</span>
     <span class="s2">"class"</span><span class="o">:</span> <span class="s2">"name"</span>
-<span class="p">}).</span><span class="nx">val</span><span class="p">(</span><span class="s1">'John'</span><span class="p">);</span>
+<span class="p">}).</span><span class="nx">val</span><span class="p">(</span><span class="s2">"John"</span><span class="p">);</span>
 
 <span class="nx">$input</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"click.space"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"clicked on"</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
@@ -66,6 +97,23 @@
 <span class="nx">$input</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s2">"click"</span><span class="p">);</span>
 
 <span class="nx">$input</span><span class="p">.</span><span class="nx">off</span><span class="p">(</span><span class="s2">".space"</span><span class="p">);</span>
+</pre></div>
+
+<h2>
+<a name="extend-it" class="anchor" href="#extend-it"><span class="octicon octicon-link"></span></a>Extend it</h2>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">jBone</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">addClass</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">className</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="nx">length</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+
+    <span class="k">for</span> <span class="p">(;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">className</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="nx">$</span><span class="p">(</span><span class="s2">".header"</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">"loaded"</span><span class="p">);</span>
 </pre></div>
 
 <h2>
@@ -82,11 +130,11 @@
 <span class="nx">jBone</span><span class="p">.</span><span class="nx">ajax</span> <span class="o">=</span> <span class="nx">reqwest</span><span class="p">.</span><span class="nx">compat</span><span class="p">;</span>
 
 <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
-    <span class="nx">url</span><span class="o">:</span> <span class="s2">"example.com"</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="s2">"http://example.com"</span>
 <span class="p">});</span>
 </pre></div>
 
-<p>Example Deffered connecting:</p>
+<p>Example Deferred connecting:</p>
 
 <div class="highlight highlight-javascript"><pre><span class="c1">// connect simply-deferred on your page https://rawgithub.com/sudhirj/simply-deferred/master/deferred.min.js</span>
 
@@ -171,7 +219,6 @@
 <li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/join">.join()</a></li>
 <li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/slice">.slice()</a></li>
 <li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/indexOf">.indexOf()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/lastIndexOf">.lastIndexOf()</a></li>
 <li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/forEach">.forEach()</a></li>
 <li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/every">.every()</a></li>
 <li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/some">.some()</a></li>
@@ -192,13 +239,13 @@
 <a name="browsers" class="anchor" href="#browsers"><span class="octicon octicon-link"></span></a>Browsers</h3>
 
 <ol>
-<li><code>npm install</code></li>
+<li><code>bower install</code></li>
 <li>Open page with tests in browser <code>test/tests.html</code>
 </li>
 </ol>
       </section>
       <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
