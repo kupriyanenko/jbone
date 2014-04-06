@@ -1,254 +1,102 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>jBone by kupriyanenko</title>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>jBone</title>
+  <link rel="stylesheet" href="stylesheets/styles.css">
+  <link rel="stylesheet" href="javascripts/prismjs/prism.css">
+</head>
+<body>
+  <ul class="main-menu">
+    <li class="menu-item"><a href="/">Home</a></li>
+    <li class="menu-item"><a href="https://github.com/kupriyanenko/jbone/wiki">Docs</a></li>
+    <li class="menu-item"><a href="https://github.com/kupriyanenko/jbone">Code</a></li>
+  </ul>
+  <div class="site-wrapper">
+    <header class="main-header">
+      <div class="main-logo"></div>
+      <h1 class="main-name">jBone.</h1>
+      <p class="main-descr">JavaScript Library for DOM manipulation. Replacement jQuery for Backbone in browsers.</p>
+    </header>
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1 class="header">jBone</h1>
-        <p class="header">JavaScript Library for DOM manipulation. Replacement jQuery for Backbone in browsers (2kb gzipped)</p>
+    <div class="content">
+      <h1>It is</h1>
+      <p>JavaScript Library for DOM manipulation in modern browsers with jQuery-compatible API.</p>
+      <p>Replacement jQuery for Backbone in browsers (2.5kb gzipped, faster than jQuery/Zepto)</p>
 
-        <ul>
-          <li class="download"><a class="buttons" href="https://github.com/kupriyanenko/jbone/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/kupriyanenko/jbone/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/kupriyanenko/jbone">View On GitHub</a></li>
-        </ul>
+      <h1>Why jBone?</h1>
+      <p>jBone is extremely small (2.5kb) and realy fast library. Main jBone idea - it's as much as possible to use native JavaScript methods in your project.</p>
+      <p>jBone it is ideal solutions for applications based on Backbone and running on mobile devices. jBone project was created to allow people using Backbone without jQuery.</p>
 
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/kupriyanenko">kupriyanenko</a></p>
+      <h1>Get it</h1>
+      <p>With bower</p>
+      <pre><code class="language-bash">$ bower install jbone --save</code></pre>
+      <p>With component</p>
+      <pre><code class="language-bash">$ component install kupriyanenko/jbone</code></pre>
+      <p>With nodejs or browserify</p>
+      <pre><code class="language-bash">$ npm install jbone --save</code></pre>
 
+      <h1>Use it</h1>
+      <p>Add a <code>&lt;script&gt;</code> element for jbone.js</p>
+      <pre><code class="language-javascript">&lt;script src="path/to/jbone/dist/jbone.js"&gt;&lt;/script&gt;</code></pre>
+      <p>Or include like npm module (with nodejs or browserify)</p>
+      <pre><code class="language-javascript">var $ = require('jbone');</code></pre>
+      <p>And write awesome code:</p>
+      <pre><code class="language-javascript">var $input = $("&lt;input&gt;", {
+    "class": "name"
+}).val("John");
 
-      </header>
-      <section>
-        <h1>
-<a name="jbone" class="anchor" href="#jbone"><span class="octicon octicon-link"></span></a>jBone</h1>
+$input.on("click.space", function(e) {
+    console.log("clicked on", this);
+});
 
-<p><a href="https://travis-ci.org/kupriyanenko/jbone"><img src="https://travis-ci.org/kupriyanenko/jbone.png?branch=master" alt="Build Status"></a>
-<a href="http://badge.fury.io/bo/jbone"><img src="https://badge.fury.io/bo/jbone.png" alt="Bower version"></a>
-<a href="http://badge.fury.io/js/jbone"><img src="https://badge.fury.io/js/jbone.png" alt="NPM version"></a></p>
+$input.trigger("click");
 
-<p><a href="http://kupriyanenko.github.io/jbone/">http://kupriyanenko.github.io/jbone/</a></p>
+$input.off(".space");</code></pre>
 
-<p>JavaScript Library for DOM manipulation in modern browsers with jQuery-compatible API.</p>
+      <h1>Extend it</h1>
+      <pre><code class="language-javascript">jBone.fn.addClass = function(className) {
+    var i = 0,
+        length = this.length;
 
-<p>Replacement jQuery for Backbone in browsers (2.5kb gzipped, faster than jQuery/Zepto)</p>
+    for (; i &lt; length; i++) {
+        this[i].classList.add(className);
+    }
 
-<h2>
-<a name="why-jbone" class="anchor" href="#why-jbone"><span class="octicon octicon-link"></span></a>Why jBone?</h2>
+    return this;
+};
 
-<p>jBone is extremely small (2.5kb) and realy fast library. Main jBone idea - it's as much as possible to use native JavaScript methods in your project.</p>
+$(".header").addClass("loaded");</code></pre>
+      
+      <h1>AJAX, Deferred</h1>
+      <p>This part is not covered on jBone. Yuo can select one of a huge amount implementations AJAX and Promises/A+.</p>
+      <p>For example: <a href="https://github.com/cujojs/when">when</a>, <a href="https://github.com/kriskowal/q">Q</a>, <a href="https://github.com/sudhirj/simply-deferred">simply-deferred</a>, <a href="/kupriyanenko/jbone/blob/master/microjs.com/#ajax">AJAX</a>.</p>
+      <p>Example AJAX connecting:</p>
+      <pre><code class="language-javascript">// connect reqwest on your page https://rawgithub.com/ded/reqwest/master/reqwest.min.js
 
-<p>jBone it is ideal solutions for applications based on Backbone and running on mobile devices. jBone project was created to allow people using Backbone without jQuery.</p>
+jBone.ajax = reqwest.compat;
 
-<h2>
-<a name="get-it" class="anchor" href="#get-it"><span class="octicon octicon-link"></span></a>Get it</h2>
+$.ajax({
+    url: "http://example.com"
+});</code></pre>
+      <p>Example Deferred connecting:</p>
+      <pre><code class="language-javascript">// connect simply-deferred on your page https://rawgithub.com/sudhirj/simply-deferred/master/deferred.min.js
 
-<h5>
-<a name="with-bower" class="anchor" href="#with-bower"><span class="octicon octicon-link"></span></a>With bower</h5>
+Deferred.installInto(jBone);
 
-<pre><code>$ bower install jbone --save
-</code></pre>
+var deferred = $.Deferred();
 
-<h5>
-<a name="with-component" class="anchor" href="#with-component"><span class="octicon octicon-link"></span></a>With component</h5>
-
-<pre><code>component install kupriyanenko/jbone
-</code></pre>
-
-<h5>
-<a name="with-nodejs-or-browserify" class="anchor" href="#with-nodejs-or-browserify"><span class="octicon octicon-link"></span></a>With nodejs or browserify</h5>
-
-<pre><code>$ npm install jbone --save
-</code></pre>
-
-<h2>
-<a name="use-it" class="anchor" href="#use-it"><span class="octicon octicon-link"></span></a>Use it</h2>
-
-<p>Add a <code>&lt;script&gt;</code> element for jbone.js</p>
-
-<div class="highlight highlight-html"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"path/to/jbone/dist/jbone.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
-</pre></div>
-
-<p>Or include like npm module (with nodejs or browserify)</p>
-
-<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">$</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'jbone'</span><span class="p">);</span>
-</pre></div>
-
-<p>And write awesome code:</p>
-
-<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">$input</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">"&lt;input&gt;"</span><span class="p">,</span> <span class="p">{</span>
-    <span class="s2">"class"</span><span class="o">:</span> <span class="s2">"name"</span>
-<span class="p">}).</span><span class="nx">val</span><span class="p">(</span><span class="s2">"John"</span><span class="p">);</span>
-
-<span class="nx">$input</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"click.space"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"clicked on"</span><span class="p">,</span> <span class="k">this</span><span class="p">);</span>
-<span class="p">});</span>
-
-<span class="nx">$input</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="s2">"click"</span><span class="p">);</span>
-
-<span class="nx">$input</span><span class="p">.</span><span class="nx">off</span><span class="p">(</span><span class="s2">".space"</span><span class="p">);</span>
-</pre></div>
-
-<h2>
-<a name="extend-it" class="anchor" href="#extend-it"><span class="octicon octicon-link"></span></a>Extend it</h2>
-
-<div class="highlight highlight-javascript"><pre><span class="nx">jBone</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">addClass</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">className</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="nx">length</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
-
-    <span class="k">for</span> <span class="p">(;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">this</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">classList</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">className</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="k">this</span><span class="p">;</span>
-<span class="p">};</span>
-
-<span class="nx">$</span><span class="p">(</span><span class="s2">".header"</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">"loaded"</span><span class="p">);</span>
-</pre></div>
-
-<h2>
-<a name="ajax-deferred" class="anchor" href="#ajax-deferred"><span class="octicon octicon-link"></span></a>AJAX, Deferred</h2>
-
-<p>This part is not covered on jBone. Yuo can select one of a huge amount implementations AJAX and Promises/A+.</p>
-
-<p>For example: <a href="https://github.com/cujojs/when">when</a>, <a href="https://github.com/kriskowal/q">Q</a>, <a href="https://github.com/sudhirj/simply-deferred">simply-deferred</a>, <a href="microjs.com/#ajax">AJAX</a>.</p>
-
-<p>Example AJAX connecting:</p>
-
-<div class="highlight highlight-javascript"><pre><span class="c1">// connect reqwest on your page https://rawgithub.com/ded/reqwest/master/reqwest.min.js</span>
-
-<span class="nx">jBone</span><span class="p">.</span><span class="nx">ajax</span> <span class="o">=</span> <span class="nx">reqwest</span><span class="p">.</span><span class="nx">compat</span><span class="p">;</span>
-
-<span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
-    <span class="nx">url</span><span class="o">:</span> <span class="s2">"http://example.com"</span>
-<span class="p">});</span>
-</pre></div>
-
-<p>Example Deferred connecting:</p>
-
-<div class="highlight highlight-javascript"><pre><span class="c1">// connect simply-deferred on your page https://rawgithub.com/sudhirj/simply-deferred/master/deferred.min.js</span>
-
-<span class="nx">Deferred</span><span class="p">.</span><span class="nx">installInto</span><span class="p">(</span><span class="nx">jBone</span><span class="p">);</span>
-
-<span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">Deferred</span><span class="p">();</span>
-
-<span class="nx">$</span><span class="p">.</span><span class="nx">when</span><span class="p">(</span><span class="nx">deferred</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// some code</span>
-<span class="p">});</span>
-</pre></div>
-
-<h2>
-<a name="api" class="anchor" href="#api"><span class="octicon octicon-link"></span></a>API</h2>
-
-<p><a href="https://github.com/kupriyanenko/jbone/wiki/jBone">jBone</a></p>
-
-<ul>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/jBone#jboneselector">jBone(selector[, context])</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/jBone#jboneelement">jBone(element)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/jBone#jboneelementarray">jBone(elementArray)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/jBone#jbonejboneobject">jBone(jBoneObject)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/jBone#jbonehtml-attributes">jBone(html[, attributes])</a></li>
-</ul><p><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes">Attributes</a></p>
-
-<ul>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes#attrattributename">.attr(attributeName)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes#attrattributename-value">.attr(attributeName, value)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes#attrattributes">.attr(attributes)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes#val">.val()</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes#valvalue">.val(value)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes#csspropertyname-value">.css(propertyName, value)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Attributes#cssproperties">.css(properties)</a></li>
-</ul><p><a href="https://github.com/kupriyanenko/jbone/wiki/Data">Data</a></p>
-
-<ul>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Data#datakey-value">.data(key, value)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Data#dataobj">.data(obj)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Data#datakey">.data(key)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Data#data">.data()</a></li>
-</ul><p><a href="https://github.com/kupriyanenko/jbone/wiki/Event">Event</a></p>
-
-<ul>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Event#onevent-selector-handler">.on(event[, selector], handler)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Event#oneevent-selector-handler">.one(event[, selector], handler)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Event#offevent-handler">.off(event[, handler])</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Event#triggerevent">.trigger(event)</a></li>
-</ul><p><a href="https://github.com/kupriyanenko/jbone/wiki/Manipulation">Manipulation</a></p>
-
-<ul>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Manipulation#html">.html()</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Manipulation#htmlcontent">.html(content)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendcontent">.append(content)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendtotarget">.appendTo(target)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Manipulation#empty">.empty()</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Manipulation#remove">.remove()</a></li>
-</ul><p><a href="https://github.com/kupriyanenko/jbone/wiki/Traversing">Traversing</a></p>
-
-<ul>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Traversing#findselector">.find(selector)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Traversing#getindex">.get(index)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Traversing#eqindex">.eq(index)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Traversing#parent">.parent()</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Traversing#toarray">.toArray()</a></li>
-</ul><p><a href="https://github.com/kupriyanenko/jbone/wiki/Utilities">Utilities</a></p>
-
-<ul>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Utilities#jbonemergefirst-second">jBone.merge(first, second)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Utilities#jbonecontainscontainer-contained">jBone.contains(container, contained)</a></li>
-<li><a href="https://github.com/kupriyanenko/jbone/wiki/Utilities#jboneextendtarget-object1-objectn">jBone.extend(target[, object1][, objectN])</a></li>
-</ul><p><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods">Array methods</a></p>
-
-<ul>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/pop">.pop()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/push">.push()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/reverse">.reverse()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/shift">.shift()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/sort">.sort()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/splice">.splice()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/unshift">.unshift()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/concat">.concat()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/join">.join()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/slice">.slice()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/indexOf">.indexOf()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/forEach">.forEach()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/every">.every()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/some">.some()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/filter">.filter()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/map">.map()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/reduce">.reduce()</a></li>
-<li><a href="https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/reduceRight">.reduceRight()</a></li>
-</ul><h2>
-<a name="running-the-tests" class="anchor" href="#running-the-tests"><span class="octicon octicon-link"></span></a>Running the Tests</h2>
-
-<h3>
-<a name="node" class="anchor" href="#node"><span class="octicon octicon-link"></span></a>Node</h3>
-
-<ol>
-<li><code>npm install</code></li>
-<li><code>npm test</code></li>
-</ol><h3>
-<a name="browsers" class="anchor" href="#browsers"><span class="octicon octicon-link"></span></a>Browsers</h3>
-
-<ol>
-<li><code>bower install</code></li>
-<li>Open page with tests in browser <code>test/tests.html</code>
-</li>
-</ol>
-      </section>
-      <footer>
-        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
-      </footer>
+$.when(deferred).then(function(response) {
+    // awesome code
+});</code></pre>
+      
+      <h1>API</h1>
+      <p><a href="https://github.com/kupriyanenko/jbone#api">See documentsation for API</a></p>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		
-  </body>
+  </div>
+  <a href="https://github.com/kupriyanenko/jbone"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+  <script src="javascripts/prismjs/prism.js"></script>
+  <script src="javascripts/prismjs/components/prism-bash.min.js"></script>
+  <script src="javascripts/prismjs/components/prism-javascript.min.js"></script>
+</body>
 </html>
