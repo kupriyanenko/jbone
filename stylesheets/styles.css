@@ -11,6 +11,11 @@ h1 {
     margin: 1em 0;
 }
 
+h2 {
+    font-size: 20px;
+    margin: 1em 0;
+}
+
 p {
     font-size: 15px;
     line-height: 1.5em;
@@ -84,4 +89,18 @@ a:hover {
 .main-descr {
     font-size: 18px;
     color: #acacac;
+}
+
+.row {
+    overflow: hidden;
+}
+
+.row p {
+    padding: 0 100px 0 0;
+    color: #858585;
+}
+
+.col-50 {
+    float: left;
+    width: 50%;
 }
