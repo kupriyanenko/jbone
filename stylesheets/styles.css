@@ -42,6 +42,7 @@ a:hover {
     list-style: none;
     background: rgba(255, 255, 255, 0.83);
     text-align: center;
+    z-index: 2;
 }
 
 .menu-item {
@@ -73,11 +74,43 @@ a:hover {
     border-bottom: 1px dashed #dddddd;
 }
 
-.main-logo {
+.main-logo,
+.logo-bg,
+.logo-name {
     width: 304px;
     height: 304px;
+    position: relative;
+}
+
+.main-logo {
+    overflow: hidden;
     margin: 0 auto 3em;
-    background: 0 0 url(../images/logo.png) no-repeat;
+}
+
+.logo-bg,
+.logo-name {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;    
+}
+
+.logo-name {
+    background: 0 0 url(../images/logoname.png) no-repeat;
+    z-index: 1;
+}
+
+.logo-bg {
+    background: 0 0 url(../images/logobg.jpg) no-repeat;
+    -moz-transition: all 1s;
+    -webkit-transition: all 1s;
+    transition: all 1s;
+}
+
+.logo-wrapper:hover .logo-bg {
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
 }
 
 .main-name {
