@@ -59,7 +59,7 @@ a:hover {
 }
 
 .site-wrapper {
-    width: 800px;
+    width: 850px;
     margin: auto;
 }
 
@@ -130,16 +130,17 @@ a:hover {
 
 .row {
     overflow: hidden;
+    margin: 1em 0 0;
 }
 
 .row p {
-    padding: 0 30px 0 0;
+    padding: 0 25px 0 0;
     color: #858585;
 }
 
 .row img {
     float: left;
-    margin: 35px 20px 0 0;
+    margin: 35px 30px 0 0;
 }
 
 .row .descr {
