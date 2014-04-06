@@ -124,13 +124,26 @@ a:hover {
     color: #acacac;
 }
 
+.info-content {
+    margin-top: 2.5em;
+}
+
 .row {
     overflow: hidden;
 }
 
 .row p {
-    padding: 0 100px 0 0;
+    padding: 0 30px 0 0;
     color: #858585;
+}
+
+.row img {
+    float: left;
+    margin: 35px 20px 0 0;
+}
+
+.row .descr {
+    overflow: hidden;
 }
 
 .col-50 {
