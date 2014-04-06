@@ -56,8 +56,8 @@ module.exports = function(grunt) {
       },
       dist: {
         src: "<%= src %>",
-        dest: 'dist/jbone.js',
-      },
+        dest: 'dist/jbone.js'
+      }
     },
     uglify: {
       options: {

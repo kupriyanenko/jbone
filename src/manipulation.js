@@ -79,8 +79,7 @@ jBone.fn.remove = function() {
         el = this[i];
 
         delete jBone._cache.events[el.jid];
-
-        el.jdata = {};
+        delete el.jdata;
         el.parentNode && el.parentNode.removeChild(el);
     }
 

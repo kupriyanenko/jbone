@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.7 - 2014-02-21 - Library for DOM manipulation
+ * jBone v1.0.8 - 2014-04-06 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -724,8 +724,7 @@ jBone.fn.remove = function() {
         el = this[i];
 
         delete jBone._cache.events[el.jid];
-
-        el.jdata = {};
+        delete el.jdata;
         el.parentNode && el.parentNode.removeChild(el);
     }
 
