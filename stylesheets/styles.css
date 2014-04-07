@@ -1,9 +1,11 @@
 @import url(normalize.css);
 
 body {
+    -moz-font-smoothing: antialiased;
     -webkit-font-smoothing: antialiased;
     font-smoothing: antialiased;
     font-family: 'Helvetica', Arial, sans-serif;
+    font-size: 85%;
 }
 
 h1 {
