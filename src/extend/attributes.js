@@ -1,4 +1,4 @@
-jBone.fn.prop = function(name, value) {
+fn.prop = function(name, value) {
     var result;
 
     if (arguments.length === 1) {
@@ -20,29 +20,13 @@ jBone.fn.prop = function(name, value) {
     return this;
 };
 
-jBone.fn.removeAttr = function(name) {
+fn.removeAttr = function(name) {
     this.forEach(function(el) {
         el.removeAttribute(name);
     });
 };
 
-jBone.fn.hasClass = function(className) {
-    return this.some(function(el) {
-        return el.classList.contains(className);
-    });
-};
-
-jBone.fn.removeClass = function(className) {
-    this.forEach(function(el) {
-        className.split(" ").forEach(function(className) {
-            el.classList.remove(className);
-        });
-    });
-
-    return this;
-};
-
-jBone.fn.addClass = function(className) {
+fn.addClass = function(className) {
     var i = 0,
         j = 0,
         length = this.length,
@@ -59,7 +43,23 @@ jBone.fn.addClass = function(className) {
     return this;
 };
 
-jBone.fn.toggleClass = function(className) {
+fn.removeClass = function(className) {
+    this.forEach(function(el) {
+        className.split(" ").forEach(function(className) {
+            el.classList.remove(className);
+        });
+    });
+
+    return this;
+};
+
+fn.hasClass = function(className) {
+    return this.some(function(el) {
+        return el.classList.contains(className);
+    });
+};
+
+fn.toggleClass = function(className) {
     this.forEach(function(el) {
         el.classList.toggle(className);
     });

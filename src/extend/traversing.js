@@ -1,4 +1,4 @@
-jBone.fn.closest = function(selector) {
+fn.closest = function(selector) {
     var parents, target, result;
 
     parents = jBone(selector);
@@ -11,7 +11,7 @@ jBone.fn.closest = function(selector) {
     return jBone(result);
 };
 
-jBone.fn.parents = function(selector) {
+fn.parents = function(selector) {
     var result = [], parents, target;
 
     if (selector) {
@@ -39,7 +39,7 @@ jBone.fn.parents = function(selector) {
     return jBone(result);
 };
 
-jBone.fn.children = function() {
+fn.children = function() {
     var result = [];
 
     this.forEach(function(el) {
@@ -53,7 +53,7 @@ jBone.fn.children = function() {
     return jBone(result);
 };
 
-jBone.fn.not = function(condition) {
+fn.not = function(condition) {
     var result = [];
 
     result = this.filter(function(el) {
@@ -63,7 +63,7 @@ jBone.fn.not = function(condition) {
     return jBone(result);
 };
 
-jBone.fn.siblings = function(includeSelf) {
+fn.siblings = function(includeSelf) {
     var result = [], parent;
 
     this.forEach(function(el) {
@@ -81,7 +81,7 @@ jBone.fn.siblings = function(includeSelf) {
     return jBone(result);
 };
 
-jBone.fn.next = function() {
+fn.next = function() {
     var result = [], next;
 
     this.forEach(function(el) {
@@ -93,7 +93,7 @@ jBone.fn.next = function() {
     return jBone(result);
 };
 
-jBone.fn.prev = function() {
+fn.prev = function() {
     var result = [], previous;
 
     this.forEach(function(el) {
@@ -105,15 +105,15 @@ jBone.fn.prev = function() {
     return jBone(result);
 };
 
-jBone.fn.first = function() {
+fn.first = function() {
     return this.eq(0);
 };
 
-jBone.fn.last = function() {
+fn.last = function() {
     return this.eq(this.length - 1);
 };
 
-jBone.fn.index = function(element) {
+fn.index = function(element) {
     if (element instanceof jBone) {
         element = element[0];
     }
@@ -123,7 +123,7 @@ jBone.fn.index = function(element) {
     }
 };
 
-jBone.fn.is = function(match) {
+fn.is = function(match) {
     match = match.split(", ");
 
     return this.some(function(el) {
