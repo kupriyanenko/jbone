@@ -28,8 +28,9 @@ isFunction = function(el) {
     return typeof el === "function";
 },
 jBone = function(element, data) {
-    return new jBone.fn.init(element, data);
-};
+    return new fn.init(element, data);
+},
+fn;
 
 // set previous values and return the instance upon calling the no-conflict mode
 jBone.noConflict = function() {
@@ -39,7 +40,7 @@ jBone.noConflict = function() {
     return jBone;
 };
 
-jBone.fn = jBone.prototype = {
+fn = jBone.fn = jBone.prototype = {
     init: function(element, data) {
         var elements, tag, wraper, fragment;
 
@@ -120,9 +121,9 @@ jBone.fn = jBone.prototype = {
     length: 0
 };
 
-jBone.fn.constructor = jBone;
+fn.constructor = jBone;
 
-jBone.fn.init.prototype = jBone.fn;
+fn.init.prototype = fn;
 
 jBone.setId = function(el) {
     var jid = el.jid;

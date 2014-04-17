@@ -1,4 +1,4 @@
-jBone.fn.html = function(value) {
+fn.html = function(value) {
     var args = arguments,
         el;
 
@@ -14,7 +14,7 @@ jBone.fn.html = function(value) {
     return this;
 };
 
-jBone.fn.append = function(appended) {
+fn.append = function(appended) {
     var i = 0,
         length = this.length,
         setter;
@@ -48,13 +48,13 @@ jBone.fn.append = function(appended) {
     return this;
 };
 
-jBone.fn.appendTo = function(to) {
+fn.appendTo = function(to) {
     jBone(to).append(this);
 
     return this;
 };
 
-jBone.fn.empty = function() {
+fn.empty = function() {
     var i = 0,
         length = this.length,
         el;
@@ -70,7 +70,7 @@ jBone.fn.empty = function() {
     return this;
 };
 
-jBone.fn.remove = function() {
+fn.remove = function() {
     var i = 0,
         length = this.length,
         el;

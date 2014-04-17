@@ -1,16 +1,14 @@
-jBone.fn.find = function(selector) {
+fn.find = function(selector) {
     var results = [],
         i = 0,
         length = this.length,
-        finder;
-
-    finder = function(el) {
-        if (isFunction(el.querySelectorAll)) {
-            [].forEach.call(el.querySelectorAll(selector), function(found) {
-                results.push(found);
-            });
-        }
-    };
+        finder = function(el) {
+            if (isFunction(el.querySelectorAll)) {
+                [].forEach.call(el.querySelectorAll(selector), function(found) {
+                    results.push(found);
+                });
+            }
+        };
 
     for (; i < length; i++) {
         finder(this[i]);
@@ -19,31 +17,34 @@ jBone.fn.find = function(selector) {
     return jBone(results);
 };
 
-jBone.fn.get = function(index) {
+fn.get = function(index) {
     return this[index];
 };
 
-jBone.fn.eq = function(index) {
+fn.eq = function(index) {
     return jBone(this[index]);
 };
 
-jBone.fn.parent = function() {
-    var results = [], parent;
+fn.parent = function() {
+    var results = [],
+        parent,
+        i = 0,
+        length = this.length;
 
-    this.forEach(function(el) {
-        if (!~results.indexOf(parent = el.parentElement) && parent) {
+    for (; i < length; i++) {
+        if (!~results.indexOf(parent = this[i].parentElement) && parent) {
             results.push(parent);
         }
-    });
+    }
 
     return jBone(results);
 };
 
-jBone.fn.toArray = function() {
+fn.toArray = function() {
     return slice.call(this);
 };
 
-jBone.fn.is = function() {
+fn.is = function() {
     var args = arguments;
 
     return this.some(function(el) {
@@ -51,7 +52,7 @@ jBone.fn.is = function() {
     });
 };
 
-jBone.fn.has = function() {
+fn.has = function() {
     var args = arguments;
 
     return this.some(function(el) {

@@ -1,4 +1,4 @@
-jBone.fn.attr = function(key, value) {
+fn.attr = function(key, value) {
     var args = arguments,
         i = 0,
         length = this.length,
@@ -27,7 +27,7 @@ jBone.fn.attr = function(key, value) {
     return this;
 };
 
-jBone.fn.val = function(value) {
+fn.val = function(value) {
     var i = 0,
         length = this.length;
 
@@ -42,7 +42,7 @@ jBone.fn.val = function(value) {
     return this;
 };
 
-jBone.fn.css = function(key, value) {
+fn.css = function(key, value) {
     var args = arguments,
         i = 0,
         length = this.length,
@@ -73,7 +73,7 @@ jBone.fn.css = function(key, value) {
     return this;
 };
 
-jBone.fn.data = function(key, value) {
+fn.data = function(key, value) {
     var args = arguments, data = {},
         i = 0,
         length = this.length,

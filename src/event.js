@@ -49,7 +49,7 @@ jBone.Event = function(event, data) {
     }, data);
 };
 
-jBone.fn.on = function(event) {
+fn.on = function(event) {
     var args = arguments,
         length = this.length,
         i = 0,
@@ -104,7 +104,7 @@ jBone.fn.on = function(event) {
     return this;
 };
 
-jBone.fn.one = function(event) {
+fn.one = function(event) {
     var args = arguments,
         i = 0,
         length = this.length,
@@ -138,7 +138,7 @@ jBone.fn.one = function(event) {
     return this;
 };
 
-jBone.fn.trigger = function(event) {
+fn.trigger = function(event) {
     var events = [],
         i = 0,
         length = this.length,
@@ -174,7 +174,7 @@ jBone.fn.trigger = function(event) {
     return this;
 };
 
-jBone.fn.off = function(event, fn) {
+fn.off = function(event, fn) {
     var i = 0,
         length = this.length,
         removeListener = function(events, eventType, index, el, e) {
