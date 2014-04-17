@@ -43,11 +43,18 @@ jBone.fn.removeClass = function(className) {
 };
 
 jBone.fn.addClass = function(className) {
-    this.forEach(function(el) {
-        className.split(" ").forEach(function(className) {
-            el.classList.add(className);
-        });
-    });
+    var i = 0,
+        j = 0,
+        length = this.length,
+        classes;
+
+    for (; i < length; i++) {
+        classes = className.trim().split(/\s+/);
+
+        for (; j < classes.length; j++) {
+            this[i].classList.add(classes[j]);
+        }
+    }
 
     return this;
 };
