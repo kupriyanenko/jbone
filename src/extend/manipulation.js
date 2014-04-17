@@ -1,4 +1,4 @@
-jBone.fn.text = function() {
+fn.text = function() {
     var result = [];
 
     this.forEach(function(el) {
@@ -8,7 +8,7 @@ jBone.fn.text = function() {
     return result.join("");
 };
 
-jBone.fn.detach = function() {
+fn.detach = function() {
     this.forEach(function(el) {
         if (el.parentNode) {
             el.parentNode.removeChild(el);
@@ -18,7 +18,7 @@ jBone.fn.detach = function() {
     return this;
 };
 
-jBone.fn.insertAfter = function(ref) {
+fn.insertAfter = function(ref) {
     if (ref instanceof jBone) {
         ref = ref[0];
     }
@@ -35,7 +35,7 @@ jBone.fn.insertAfter = function(ref) {
     return this;
 };
 
-jBone.fn.offset = function(value) {
+fn.offset = function(value) {
     if (value) {
         this.forEach(function(el) {
             el.offsetTop = value.top;
@@ -51,7 +51,7 @@ jBone.fn.offset = function(value) {
     return this;
 };
 
-jBone.fn.replaceWith = function(сontent) {
+fn.replaceWith = function(сontent) {
     var replacement = сontent instanceof jBone ? сontent[0] : сontent;
 
     this.forEach(function(el) {

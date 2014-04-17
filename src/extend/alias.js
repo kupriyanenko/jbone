@@ -1,8 +1,8 @@
-jBone.fn.click = function() {
+fn.click = function() {
     return this.trigger("click");
 };
 
-jBone.fn.height = function(value) {
+fn.height = function(value) {
     if (value !== undefined) {
         this.forEach(function(el) {
             el.style.height = value;
@@ -14,12 +14,12 @@ jBone.fn.height = function(value) {
     return this[0].clientHeight;
 };
 
-jBone.fn.focus = function() {
+fn.focus = function() {
     return this.trigger("focus");
 };
 
-jBone.fn.scrollTop = function() {
+fn.scrollTop = function() {
     return this[0].scrollTop || this[0].scrollY || 0;
 };
 
-jBone.fn.bind = jBone.fn.on;
+fn.bind = fn.on;

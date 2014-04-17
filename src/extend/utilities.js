@@ -1,6 +1,6 @@
 jBone.support = {};
 
-jBone.fn.each = function(fn) {
+fn.each = function(fn) {
     var length = this.length >>> 0,
         i = -1;
 
@@ -13,6 +13,10 @@ jBone.fn.each = function(fn) {
     return this;
 };
 
+fn.map = function() {
+    return jBone([].map.apply(this, arguments));
+};
+
 jBone.camelCase = function(string) {
     return string.replace(/-([\da-z])/gi, function(all, letter) {
         return letter.toUpperCase();
@@ -21,9 +25,5 @@ jBone.camelCase = function(string) {
 
 jBone.proxy = function(fn, context) {
     return fn.bind(context);
-};
-
-jBone.fn.map = function() {
-    return jBone([].map.apply(this, arguments));
 };
 

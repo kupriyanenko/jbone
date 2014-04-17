@@ -27,10 +27,10 @@ function showHide(elements, show) {
     return elements;
 }
 
-jBone.fn.show = function() {
+fn.show = function() {
     return showHide(this, true);
 };
 
-jBone.fn.hide = function() {
+fn.hide = function() {
     return showHide(this);
 };
