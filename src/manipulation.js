@@ -75,10 +75,13 @@ fn.remove = function() {
         length = this.length,
         el;
 
+    // remove all listners
+    this.off();
+
     for (; i < length; i++) {
         el = this[i];
 
-        delete jBone._cache.events[el.jid];
+        // remove data and nodes
         delete el.jdata;
         el.parentNode && el.parentNode.removeChild(el);
     }

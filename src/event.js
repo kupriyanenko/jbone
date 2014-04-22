@@ -201,6 +201,15 @@ fn.off = function(event, fn) {
             return;
         }
 
+        // remove all events
+        if (!event && events) {
+            return keys(events).forEach(function(eventType) {
+                events[eventType].forEach(function(e, index) {
+                    removeListener(events, eventType, index, el, e);
+                });
+            });
+        }
+
         event.split(" ").forEach(function(event) {
             eventType = event.split(".")[0];
             namespace = event.split(".").splice(1).join(".");

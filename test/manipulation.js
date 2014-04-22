@@ -136,4 +136,18 @@ describe('jBone Manipulation', function() {
 
         expect(a).to.be.a(jBone);
     });
+
+    it('remove() should remoe all event listners', function() {
+        var a = jBone('<a>'),
+            i = 0;
+        a.on('click', function() {
+            i++;
+        });
+
+        a.remove();
+
+        a.trigger('click');
+
+        expect(i).to.be.eql(0);
+    });
 });

@@ -247,7 +247,7 @@ describe('jBone Event', function() {
     });
 
     it('trigger() order', function() {
-        var markup = jBone('<div><div><p><span><b>b</b></span></p></div></div>'),
+        var markup = jBone('<div><div><p><span><b></b></span></p></div></div>'),
             path = '';
 
         jBone('#app').append(markup);
@@ -263,7 +263,7 @@ describe('jBone Event', function() {
 
         markup.find('b').trigger('click');
 
-        expect(path).be.eql('b span p div div ');
+        expect(path).be.eql('b p div div ');
     });
 
     it('trigger() on element without handlers', function() {
