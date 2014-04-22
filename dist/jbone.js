@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.8 - 2014-04-06 - Library for DOM manipulation
+ * jBone v1.0.9 - 2014-04-22 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -39,8 +39,9 @@ isFunction = function(el) {
     return typeof el === "function";
 },
 jBone = function(element, data) {
-    return new jBone.fn.init(element, data);
-};
+    return new fn.init(element, data);
+},
+fn;
 
 // set previous values and return the instance upon calling the no-conflict mode
 jBone.noConflict = function() {
@@ -50,7 +51,7 @@ jBone.noConflict = function() {
     return jBone;
 };
 
-jBone.fn = jBone.prototype = {
+fn = jBone.fn = jBone.prototype = {
     init: function(element, data) {
         var elements, tag, wraper, fragment;
 
@@ -131,9 +132,9 @@ jBone.fn = jBone.prototype = {
     length: 0
 };
 
-jBone.fn.constructor = jBone;
+fn.constructor = jBone;
 
-jBone.fn.init.prototype = jBone.fn;
+fn.init.prototype = fn;
 
 jBone.setId = function(el) {
     var jid = el.jid;
@@ -267,7 +268,7 @@ jBone.Event = function(event, data) {
     }, data);
 };
 
-jBone.fn.on = function(event) {
+fn.on = function(event) {
     var args = arguments,
         length = this.length,
         i = 0,
@@ -322,7 +323,7 @@ jBone.fn.on = function(event) {
     return this;
 };
 
-jBone.fn.one = function(event) {
+fn.one = function(event) {
     var args = arguments,
         i = 0,
         length = this.length,
@@ -356,7 +357,7 @@ jBone.fn.one = function(event) {
     return this;
 };
 
-jBone.fn.trigger = function(event) {
+fn.trigger = function(event) {
     var events = [],
         i = 0,
         length = this.length,
@@ -392,7 +393,7 @@ jBone.fn.trigger = function(event) {
     return this;
 };
 
-jBone.fn.off = function(event, fn) {
+fn.off = function(event, fn) {
     var i = 0,
         length = this.length,
         removeListener = function(events, eventType, index, el, e) {
@@ -417,6 +418,15 @@ jBone.fn.off = function(event, fn) {
 
         if (!events) {
             return;
+        }
+
+        // remove all events
+        if (!event && events) {
+            return keys(events).forEach(function(eventType) {
+                events[eventType].forEach(function(e, index) {
+                    removeListener(events, eventType, index, el, e);
+                });
+            });
         }
 
         event.split(" ").forEach(function(event) {
@@ -451,19 +461,17 @@ jBone.fn.off = function(event, fn) {
     return this;
 };
 
-jBone.fn.find = function(selector) {
+fn.find = function(selector) {
     var results = [],
         i = 0,
         length = this.length,
-        finder;
-
-    finder = function(el) {
-        if (isFunction(el.querySelectorAll)) {
-            [].forEach.call(el.querySelectorAll(selector), function(found) {
-                results.push(found);
-            });
-        }
-    };
+        finder = function(el) {
+            if (isFunction(el.querySelectorAll)) {
+                [].forEach.call(el.querySelectorAll(selector), function(found) {
+                    results.push(found);
+                });
+            }
+        };
 
     for (; i < length; i++) {
         finder(this[i]);
@@ -472,31 +480,34 @@ jBone.fn.find = function(selector) {
     return jBone(results);
 };
 
-jBone.fn.get = function(index) {
+fn.get = function(index) {
     return this[index];
 };
 
-jBone.fn.eq = function(index) {
+fn.eq = function(index) {
     return jBone(this[index]);
 };
 
-jBone.fn.parent = function() {
-    var results = [], parent;
+fn.parent = function() {
+    var results = [],
+        parent,
+        i = 0,
+        length = this.length;
 
-    this.forEach(function(el) {
-        if (!~results.indexOf(parent = el.parentElement) && parent) {
+    for (; i < length; i++) {
+        if (!~results.indexOf(parent = this[i].parentElement) && parent) {
             results.push(parent);
         }
-    });
+    }
 
     return jBone(results);
 };
 
-jBone.fn.toArray = function() {
+fn.toArray = function() {
     return slice.call(this);
 };
 
-jBone.fn.is = function() {
+fn.is = function() {
     var args = arguments;
 
     return this.some(function(el) {
@@ -504,7 +515,7 @@ jBone.fn.is = function() {
     });
 };
 
-jBone.fn.has = function() {
+fn.has = function() {
     var args = arguments;
 
     return this.some(function(el) {
@@ -512,7 +523,7 @@ jBone.fn.has = function() {
     });
 };
 
-jBone.fn.attr = function(key, value) {
+fn.attr = function(key, value) {
     var args = arguments,
         i = 0,
         length = this.length,
@@ -541,7 +552,7 @@ jBone.fn.attr = function(key, value) {
     return this;
 };
 
-jBone.fn.val = function(value) {
+fn.val = function(value) {
     var i = 0,
         length = this.length;
 
@@ -556,7 +567,7 @@ jBone.fn.val = function(value) {
     return this;
 };
 
-jBone.fn.css = function(key, value) {
+fn.css = function(key, value) {
     var args = arguments,
         i = 0,
         length = this.length,
@@ -587,7 +598,7 @@ jBone.fn.css = function(key, value) {
     return this;
 };
 
-jBone.fn.data = function(key, value) {
+fn.data = function(key, value) {
     var args = arguments, data = {},
         i = 0,
         length = this.length,
@@ -643,7 +654,7 @@ jBone.fn.data = function(key, value) {
     return this;
 };
 
-jBone.fn.html = function(value) {
+fn.html = function(value) {
     var args = arguments,
         el;
 
@@ -659,7 +670,7 @@ jBone.fn.html = function(value) {
     return this;
 };
 
-jBone.fn.append = function(appended) {
+fn.append = function(appended) {
     var i = 0,
         length = this.length,
         setter;
@@ -693,13 +704,13 @@ jBone.fn.append = function(appended) {
     return this;
 };
 
-jBone.fn.appendTo = function(to) {
+fn.appendTo = function(to) {
     jBone(to).append(this);
 
     return this;
 };
 
-jBone.fn.empty = function() {
+fn.empty = function() {
     var i = 0,
         length = this.length,
         el;
@@ -715,15 +726,18 @@ jBone.fn.empty = function() {
     return this;
 };
 
-jBone.fn.remove = function() {
+fn.remove = function() {
     var i = 0,
         length = this.length,
         el;
 
+    // remove all listners
+    this.off();
+
     for (; i < length; i++) {
         el = this[i];
 
-        delete jBone._cache.events[el.jid];
+        // remove data and nodes
         delete el.jdata;
         el.parentNode && el.parentNode.removeChild(el);
     }
