@@ -371,11 +371,11 @@ describe('jBone Event', function() {
         div.off('.test', function() {});
         div.off('.namespace');
 
-        expect(jBone._cache.events[jBone.getData(div).jid].click[1]).to.be.an('object');
+        expect(jBone._cache.events[jBone.getData(div).jid].click[0]).to.be.an('object');
 
         div.off('.test');
 
-        expect(jBone._cache.events[jBone.getData(div).jid].click[1]).be.eql(undefined);
+        expect(jBone._cache.events[jBone.getData(div).jid].click[0]).be.eql(undefined);
     });
 
 });

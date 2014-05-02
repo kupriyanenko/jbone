@@ -44,6 +44,9 @@ fn = jBone.fn = jBone.prototype = {
     init: function(element, data) {
         var elements, tag, wraper, fragment;
 
+        if (!element) {
+            return this;
+        }
         if (isString(element)) {
             // Create single DOM element
             if (tag = rquickSingleTag.exec(element)) {
@@ -57,7 +60,7 @@ fn = jBone.fn = jBone.prototype = {
                 return this;
             }
             // Create DOM collection
-            else if ((tag = rquickExpr.exec(element)) && tag[1]) {
+            if ((tag = rquickExpr.exec(element)) && tag[1]) {
                 fragment = doc.createDocumentFragment();
                 wraper = doc.createElement("div");
                 wraper.innerHTML = element;
@@ -69,30 +72,35 @@ fn = jBone.fn = jBone.prototype = {
                 return jBone.merge(this, elements);
             }
             // Find DOM elements with querySelectorAll
-            else {
-                if (jBone.isElement(data)) {
-                    return jBone(data).find(element);
-                }
+            if (jBone.isElement(data)) {
+                return jBone(data).find(element);
+            }
 
-                try {
-                    elements = slice.call(doc.querySelectorAll(element));
+            try {
+                elements = doc.querySelectorAll(element);
 
-                    return jBone.merge(this, elements);
-                } catch (e) {
-                    return this;
-                }
+                return jBone.merge(this, elements);
+            } catch (e) {
+                return this;
             }
         }
+        // Wrap DOMElement
+        if (element.nodeType) {
+            this[0] = element;
+            this.length = 1;
+
+            return this;
+        }
         // Run function
-        else if (isFunction(element)) {
+        if (isFunction(element)) {
             return element();
         }
         // Return jBone element as is
-        else if (element instanceof jBone) {
+        if (element instanceof jBone) {
             return element;
         }
         // Return element wrapped by jBone
-        else if (element) {
+        if (element) {
             element = Array.isArray(element) ? element : [element];
             return jBone.merge(this, element);
         }
@@ -151,7 +159,7 @@ jBone.getData = function(el) {
 };
 
 jBone.isElement = function(el) {
-    return el instanceof jBone || el instanceof HTMLElement || isString(el);
+    return el && el instanceof jBone || el instanceof HTMLElement || isString(el);
 };
 
 jBone._cache = {

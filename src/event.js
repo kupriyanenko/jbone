@@ -189,10 +189,10 @@ fn.off = function(event, fn) {
                 el.removeEventListener(eventType, callback);
 
                 // remove handler from cache
-                delete jBone._cache.events[jBone.getData(el).jid][eventType][index];
+                jBone._cache.events[jBone.getData(el).jid][eventType].splice(index, 1);
             }
         },
-        events, namespace, eventType, removeListeners;
+        events, namespace, removeListeners, eventType;
 
     removeListeners = function(el) {
         events = jBone.getData(el).events;
