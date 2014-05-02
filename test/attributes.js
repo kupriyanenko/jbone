@@ -9,7 +9,7 @@ describe('jBone Attributes', function() {
 
     it('Set attributes in init function', function() {
         var a = jBone('<a>', {
-                class: 'test'
+            class: 'test'
         });
 
         expect(a[0].getAttribute('class')).to.be('test');
@@ -17,7 +17,7 @@ describe('jBone Attributes', function() {
 
     it('attr(name) getting attributes', function() {
         var a = jBone('<a>', {
-                title: 'link'
+            title: 'link'
         });
 
         expect(a.attr('title')).to.be('link');
@@ -69,6 +69,12 @@ describe('jBone Attributes', function() {
 
         expect(a[0].style).to.have.property('height', '100px');
         expect(a[0].style).to.have.property('width', '10px');
+    });
+
+    it('css(key) getting value', function() {
+        var a = jBone('<div>').css('display', 'none').appendTo('#app');
+
+        expect(a.css('display')).to.be('none');
     });
 
     it('data(key, value)', function() {

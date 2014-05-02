@@ -5,7 +5,7 @@ fn.attr = function(key, value) {
         setter;
 
     if (isString(key) && args.length === 1) {
-        return this[0].getAttribute(key);
+        return this[0] && this[0].getAttribute(key);
     }
 
     if (args.length === 2) {
@@ -32,7 +32,7 @@ fn.val = function(value) {
         length = this.length;
 
     if (arguments.length === 0) {
-        return this[0].value;
+        return this[0] && this[0].value;
     }
 
     for (; i < length; i++) {
@@ -50,7 +50,7 @@ fn.css = function(key, value) {
 
     // Get attribute
     if (isString(key) && args.length === 1) {
-        return win.getComputedStyle(this[0])[key];
+        return this[0] && win.getComputedStyle(this[0])[key];
     }
 
     // Set attributes
@@ -96,7 +96,7 @@ fn.data = function(key, value) {
             }
         };
 
-    // Get data
+    // Get all data
     if (args.length === 0) {
         this[0].jdata && (data = this[0].jdata);
 
@@ -105,8 +105,10 @@ fn.data = function(key, value) {
         }, this);
 
         return data;
-    } else if (args.length === 1 && isString(key)) {
-        return getValue(this[0].dataset[key] || this[0].jdata && this[0].jdata[key]);
+    }
+    // Get data by name
+    if (args.length === 1 && isString(key)) {
+        return this[0] && getValue(this[0].dataset[key] || this[0].jdata && this[0].jdata[key]);
     }
 
     // Set data
