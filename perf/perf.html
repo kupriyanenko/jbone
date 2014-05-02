@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Performance</title>
+	<script src="../dist/jbone.js"></script>
+	<script src="../bower_components/lodash/dist/lodash.js"></script>
+	<script src="../bower_components/platform/platform.js"></script>
+	<script src="../bower_components/benchmark/benchmark.js"></script>
+
+	<script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+	<script src="https://rawgit.com/jashkenas/backbone/master/backbone.js"></script>
+	<script src="https://rawgit.com/jashkenas/backbone/master/backbone.js"></script>
+</head>
+<body>
+	<script>
+		var jbBackbone = Backbone.noConflict();
+		jbBackbone.$ = jBone;
+
+		var jqBackbone = Backbone.noConflict();
+		jqBackbone.$ = jQuery;
+	</script>
+
+	<div id="suite"></div>
+
+	<script src="suite.js"></script>
+
+	<script src="core.js"></script>
+	<script src="attributes.js"></script>
+	<script src="events.js"></script>
+	<script src="manipulation.js"></script>
+	<script src="backbone.js"></script>
+</body>
+</html>
