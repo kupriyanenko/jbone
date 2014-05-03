@@ -1,8 +1,6 @@
 addSuite({
   name: 'Backbone View',
   setup: function(suite) {
-    var el = document.getElementById('suite');
-
     suite.jbView = jbBackbone.View.extend({
       events: { click: function() {} }
     });
