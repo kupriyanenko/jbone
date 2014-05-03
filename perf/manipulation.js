@@ -1,14 +1,14 @@
-addSuite({
-  name: 'Remove Element',
-  setup: function(suite) {
+describe("Remove Element", function() {
+  setup(function(suite) {
     suite.jbEl = jBone('<span>');
     suite.jqEl = jQuery('<span>');
-  }
-}, [
-  ['jBone', function(suite) {
+  });
+
+  bench("jBone", function(suite) {
     suite.jbEl.remove();
-  }],
-  ['jQuery', function(suite) {
+  });
+
+  bench("jQuery", function(suite) {
     suite.jqEl.remove();
-  }]
-]);
+  });
+});

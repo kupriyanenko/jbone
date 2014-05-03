@@ -3,32 +3,25 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Performance</title>
-	<script src="../dist/jbone.js"></script>
-	<script src="../bower_components/lodash/dist/lodash.js"></script>
-	<script src="../bower_components/platform/platform.js"></script>
-	<script src="../bower_components/benchmark/benchmark.js"></script>
+	<link rel="stylesheet" href="../bower_components/astrobench/src/style.css">
 
-	<script src="https://code.jquery.com/jquery-2.1.0.js"></script>
-	<script src="https://rawgit.com/jashkenas/backbone/master/backbone.js"></script>
-	<script src="https://rawgit.com/jashkenas/backbone/master/backbone.js"></script>
+	<script src="../dist/jbone.js"></script>
+	<script src="vendors/jquery.js"></script>
+	<script src="vendors/lodash.js"></script>
+	<script src="vendors/backbone.js"></script>
+	<script src="vendors/backbone.js"></script>
 </head>
 <body>
-	<script>
-		var jbBackbone = Backbone.noConflict();
-		jbBackbone.$ = jBone;
-
-		var jqBackbone = Backbone.noConflict();
-		jqBackbone.$ = jQuery;
-	</script>
-
+	<div id="astrobench"></div>
 	<div id="suite"></div>
+	
+	<script src="../bower_components/astrobench/dist/main.js"></script>
 
-	<script src="suite.js"></script>
-
+	<!-- set of tests -->
 	<script src="core.js"></script>
-	<script src="attributes.js"></script>
 	<script src="events.js"></script>
 	<script src="manipulation.js"></script>
+	<script src="attributes.js"></script>
 	<script src="backbone.js"></script>
 </body>
 </html>

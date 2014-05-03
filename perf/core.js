@@ -1,71 +1,65 @@
-addSuite({
-  name: 'Init'
-}, [
-  ['jBone', function() {
-      jBone();
-  }],
-  ['jQuery', function() {
-      jQuery();
-  }]
-]);
+describe("Init", function() {
+  bench("jBone", function() {
+    jBone();
+  });
 
-addSuite({
-  name: 'Wrap DOM Node'
-}, [
-  ['jBone', function() {
+  bench("jQuery", function() {
+    jQuery();
+  });
+});
+
+describe("Wrap DOM Node", function() {
+  bench("jBone", function() {
     jBone(document.createElement('div'));
-  }],
-  ['jQuery', function() {
+  });
+
+  bench("jQuery", function() {
     jQuery(document.createElement('div'));
-  }]
-]);
+  });
+});
 
-addSuite({
-  name: 'Create single Node'
-}, [
-  ['jBone', function() {
+describe("Create single Node", function() {
+  bench("jBone", function() {
     jBone('<span>');
-  }],
-  ['jQuery', function() {
+  });
+
+  bench("jQuery", function() {
     jQuery('<span>');
-  }]
-]);
+  });
+});
 
-addSuite({
-  name: 'Create multiple Nodes'
-}, [
-  ['jBone', function() {
+describe("Create multiple Nodes", function() {
+  bench("jBone", function() {
     jBone('<p><span></span><span></span></p>');
-  }],
-  ['jQuery', function() {
-    jQuery('<p><span></span><span></span></p>');
-  }]
-]);
+  });
 
-addSuite({
-  name: 'Create Node and define attributes'
-}, [
-  ['jBone', function() {
+  bench("jQuery", function() {
+    jQuery('<p><span></span><span></span></p>');
+  });
+});
+
+describe("Create Node and define attributes", function() {
+  bench("jBone", function() {
     jBone('<span>', {
       'class': 'test',
       'name': 'value'
     });
-  }],
-  ['jQuery', function() {
+  });
+
+  bench("jQuery", function() {
     jQuery('<span>', {
       'class': 'test',
       'name': 'value'
     });
-  }]
-]);
+  });
+});
 
-addSuite({
-  name: 'Search by selector'
-}, [
-  ['jBone', function(suite) {
+describe("Search by selector", function() {
+  bench("jBone", function() {
     jBone('div');
-  }],
-  ['jQuery', function(suite) {
+  });
+
+  bench("jQuery", function() {
     jQuery('div');
-  }]
-]);
+  });
+});

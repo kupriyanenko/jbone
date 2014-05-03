@@ -1,6 +1,11 @@
-addSuite({
-  name: 'Backbone View',
-  setup: function(suite) {
+var jbBackbone = Backbone.noConflict();
+jbBackbone.$ = jBone;
+
+var jqBackbone = Backbone.noConflict();
+jqBackbone.$ = jQuery;
+
+describe("Backbone View", function() {
+  setup(function(suite) {
     suite.jbView = jbBackbone.View.extend({
       events: { click: function() {} }
     });
@@ -8,12 +13,13 @@ addSuite({
     suite.jqView = jqBackbone.View.extend({
       events: { click: function() {} }
     });
-  }
-}, [
-  ['jBone', function(suite) {
+  });
+
+  bench("jBone", function(suite) {
     (new suite.jbView()).remove();
-  }],
-  ['jQuery', function(suite) {
+  });
+
+  bench("jQuery", function(suite) {
     (new suite.jqView()).remove();
-  }]
-]);
+  });
+});
