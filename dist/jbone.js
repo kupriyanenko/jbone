@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.9 - 2014-04-22 - Library for DOM manipulation
+ * jBone v1.0.11 - 2014-05-03 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -55,6 +55,9 @@ fn = jBone.fn = jBone.prototype = {
     init: function(element, data) {
         var elements, tag, wraper, fragment;
 
+        if (!element) {
+            return this;
+        }
         if (isString(element)) {
             // Create single DOM element
             if (tag = rquickSingleTag.exec(element)) {
@@ -68,7 +71,7 @@ fn = jBone.fn = jBone.prototype = {
                 return this;
             }
             // Create DOM collection
-            else if ((tag = rquickExpr.exec(element)) && tag[1]) {
+            if ((tag = rquickExpr.exec(element)) && tag[1]) {
                 fragment = doc.createDocumentFragment();
                 wraper = doc.createElement("div");
                 wraper.innerHTML = element;
@@ -80,30 +83,35 @@ fn = jBone.fn = jBone.prototype = {
                 return jBone.merge(this, elements);
             }
             // Find DOM elements with querySelectorAll
-            else {
-                if (jBone.isElement(data)) {
-                    return jBone(data).find(element);
-                }
+            if (jBone.isElement(data)) {
+                return jBone(data).find(element);
+            }
 
-                try {
-                    elements = slice.call(doc.querySelectorAll(element));
+            try {
+                elements = doc.querySelectorAll(element);
 
-                    return jBone.merge(this, elements);
-                } catch (e) {
-                    return this;
-                }
+                return jBone.merge(this, elements);
+            } catch (e) {
+                return this;
             }
         }
+        // Wrap DOMElement
+        if (element.nodeType) {
+            this[0] = element;
+            this.length = 1;
+
+            return this;
+        }
         // Run function
-        else if (isFunction(element)) {
+        if (isFunction(element)) {
             return element();
         }
         // Return jBone element as is
-        else if (element instanceof jBone) {
+        if (element instanceof jBone) {
             return element;
         }
         // Return element wrapped by jBone
-        else if (element) {
+        if (element) {
             element = Array.isArray(element) ? element : [element];
             return jBone.merge(this, element);
         }
@@ -162,7 +170,7 @@ jBone.getData = function(el) {
 };
 
 jBone.isElement = function(el) {
-    return el instanceof jBone || el instanceof HTMLElement || isString(el);
+    return el && el instanceof jBone || el instanceof HTMLElement || isString(el);
 };
 
 jBone._cache = {
@@ -408,10 +416,10 @@ fn.off = function(event, fn) {
                 el.removeEventListener(eventType, callback);
 
                 // remove handler from cache
-                delete jBone._cache.events[jBone.getData(el).jid][eventType][index];
+                jBone._cache.events[jBone.getData(el).jid][eventType].splice(index, 1);
             }
         },
-        events, namespace, eventType, removeListeners;
+        events, namespace, removeListeners, eventType;
 
     removeListeners = function(el) {
         events = jBone.getData(el).events;
@@ -530,7 +538,7 @@ fn.attr = function(key, value) {
         setter;
 
     if (isString(key) && args.length === 1) {
-        return this[0].getAttribute(key);
+        return this[0] && this[0].getAttribute(key);
     }
 
     if (args.length === 2) {
@@ -557,7 +565,7 @@ fn.val = function(value) {
         length = this.length;
 
     if (arguments.length === 0) {
-        return this[0].value;
+        return this[0] && this[0].value;
     }
 
     for (; i < length; i++) {
@@ -575,7 +583,7 @@ fn.css = function(key, value) {
 
     // Get attribute
     if (isString(key) && args.length === 1) {
-        return win.getComputedStyle(this[0])[key];
+        return this[0] && win.getComputedStyle(this[0])[key];
     }
 
     // Set attributes
@@ -621,7 +629,7 @@ fn.data = function(key, value) {
             }
         };
 
-    // Get data
+    // Get all data
     if (args.length === 0) {
         this[0].jdata && (data = this[0].jdata);
 
@@ -630,8 +638,10 @@ fn.data = function(key, value) {
         }, this);
 
         return data;
-    } else if (args.length === 1 && isString(key)) {
-        return getValue(this[0].dataset[key] || this[0].jdata && this[0].jdata[key]);
+    }
+    // Get data by name
+    if (args.length === 1 && isString(key)) {
+        return this[0] && getValue(this[0].dataset[key] || this[0].jdata && this[0].jdata[key]);
     }
 
     // Set data
@@ -757,9 +767,9 @@ else if (typeof define === "function" && define.amd) {
     define(function() {
         return jBone;
     });
-}
 
-if (typeof win === "object" && typeof win.document === "object") {
+    win.jBone = win.$ = jBone;
+} else if (typeof win === "object" && typeof win.document === "object") {
     win.jBone = win.$ = jBone;
 }
 
