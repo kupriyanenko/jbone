@@ -9,6 +9,6 @@
   "devDependencies": {
     "mocha": "1.13.0",
     "expect": "0.2.0",
-    "astrobench": "0.0.1"
+    "astrobench": "0.0.2"
   }
 }

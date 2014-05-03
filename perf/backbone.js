@@ -4,8 +4,8 @@ jbBackbone.$ = jBone;
 var jqBackbone = Backbone.noConflict();
 jqBackbone.$ = jQuery;
 
-describe("Backbone View", function() {
-  setup(function(suite) {
+describe("Backbone View", function(suite) {
+  setup(function() {
     suite.jbView = jbBackbone.View.extend({
       events: { click: function() {} }
     });
@@ -15,11 +15,11 @@ describe("Backbone View", function() {
     });
   });
 
-  bench("jBone", function(suite) {
+  bench("jBone", function() {
     (new suite.jbView()).remove();
   });
 
-  bench("jQuery", function(suite) {
+  bench("jQuery", function() {
     (new suite.jqView()).remove();
   });
 });

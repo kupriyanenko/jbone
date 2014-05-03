@@ -1,14 +1,14 @@
-describe("Remove Element", function() {
-  setup(function(suite) {
+describe("Remove Element", function(suite) {
+  setup(function() {
     suite.jbEl = jBone('<span>');
     suite.jqEl = jQuery('<span>');
   });
 
-  bench("jBone", function(suite) {
+  bench("jBone", function() {
     suite.jbEl.remove();
   });
 
-  bench("jQuery", function(suite) {
+  bench("jQuery", function() {
     suite.jqEl.remove();
   });
 });

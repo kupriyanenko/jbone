@@ -1,44 +1,44 @@
-describe("on/off events", function() {
-  setup(function(suite) {
+describe("on/off events", function(suite) {
+  setup(function() {
     suite.jbEl = jBone('<span>');
     suite.jqEl = jQuery('<span>');
   });
 
-  bench("jBone", function(suite) {
+  bench("jBone", function() {
     suite.jbEl.on('click', function() {}).off();
   });
 
-  bench("jQuery", function(suite) {
+  bench("jQuery", function() {
     suite.jqEl.on('click', function() {}).off();
   });
 });
 
-describe("off with eventType", function() {
-  setup(function(suite) {
+describe("off with eventType", function(suite) {
+  setup(function() {
     suite.jbEl = jBone('<span>');
     suite.jqEl = jQuery('<span>');
   });
 
-  bench("jBone", function(suite) {
+  bench("jBone", function() {
     suite.jbEl.on('click', function() {}).off('click');
   });
 
-  bench("jQuery", function(suite) {
+  bench("jQuery", function() {
     suite.jqEl.on('click', function() {}).off('click');
   });
 });
 
-describe("off with namespace", function() {
-  setup(function(suite) {
+describe("off with namespace", function(suite) {
+  setup(function() {
     suite.jbEl = jBone('<span>');
     suite.jqEl = jQuery('<span>');
   });
 
-  bench("jBone", function(suite) {
+  bench("jBone", function() {
     suite.jbEl.on('click.space', function() {}).off('.space');
   });
 
-  bench("jQuery", function(suite) {
+  bench("jQuery", function() {
     suite.jqEl.on('click.space', function() {}).off('.space');
   });
 });
