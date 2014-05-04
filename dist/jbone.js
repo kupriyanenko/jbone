@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.11 - 2014-05-03 - Library for DOM manipulation
+ * jBone v1.0.12 - 2014-05-04 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -246,7 +246,7 @@ function BoneEvent(e, data) {
     };
 
     for (key in e) {
-        if (e.hasOwnProperty(key) || typeof e[key] === "function") {
+        if (e[key] || typeof e[key] === "function") {
             setter.call(this, key, e);
         }
     }
@@ -285,7 +285,8 @@ fn.on = function(event) {
     if (args.length === 2) {
         callback = args[1];
     } else {
-        target = args[1], callback = args[2];
+        target = args[1];
+        callback = args[2];
     }
 
     addListener = function(el) {
@@ -380,7 +381,7 @@ fn.trigger = function(event) {
             return jBone.Event(event);
         });
     } else {
-        event = event instanceof Event ? event : $.Event(event);
+        event = event instanceof Event ? event : jBone.Event(event);
         events = [event];
     }
 
