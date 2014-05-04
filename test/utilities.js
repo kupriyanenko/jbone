@@ -22,7 +22,7 @@ describe('jBone Unilities', function() {
 
         expect(jBone.contains(a, c)).ok();
         expect(jBone.contains(a.find('span'), c)).eql(a.find('span')[0]);
-        expect(jBone.contains(a, b)).not.ok();
+        expect(jBone.contains(a, b[0])).not.ok();
     });
 
     it('extend(target, element)', function() {
