@@ -126,36 +126,18 @@ describe('jBone Event', function() {
         expect(counter).be.eql(3);
     });
 
-    it('on(event, target, callback) test right target and currentTarget', function() {
-        var a = jBone('<div><span class="target"><input type="text" /></span><span class="target"></span><span class="target"></span></div>'),
-            expectedTartget, expectedCurrentTartget;
-
-        a.appendTo('#app');
-
-        a.on('click', '.target', function(e) {
-            expect(e.target).be.eql(expectedTartget);
-            expect(e.currentTarget).be.eql(expectedCurrentTartget);
-        });
-
-        expectedCurrentTartget = a.find('.target')[0];
-
-        expectedTartget = a.find('input')[0];
-        a.find('input').trigger('click');
-
-        expectedTartget = a.find('.target')[0];
-        a.find('.target').eq(0).trigger('click');
-    });
-
     it('on(event, target, callback) preventDefault', function() {
-        var a = jBone('<div><span></span></div>'),
+        var a = jBone('<div><span><p></p></span></div>'),
             counter = 0;
 
         jBone('#app').html(a);
 
-        a.on('click', 'span', function(e) {
-            expect(e.defaultPrevented).be.eql(false);
+        a.on('click', function(e) {
+            expect(e.defaultPrevented).to.not.be.ok;
             e.preventDefault();
+        });
 
+        a.on('click', 'span', function(e) {
             expect(e.defaultPrevented).be.eql(true);
         });
 
