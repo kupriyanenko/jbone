@@ -19,13 +19,25 @@ fn.append = function(appended) {
         length = this.length,
         setter;
 
+    // create jBone object and then append
     if (isString(appended) && rquickExpr.exec(appended)) {
         appended = jBone(appended);
-    } else if (!isObject(appended)) {
+    }
+    // create text node for inserting
+    else if (!isObject(appended)) {
         appended = document.createTextNode(appended);
     }
 
-    if (appended instanceof jBone) {
+    // just append NodeElement
+    if (appended instanceof Node) {
+        setter = function(el) {
+            el.appendChild(appended);
+        };
+    }
+    // wrap object by jBone, and then append
+    else {
+        appended = appended instanceof jBone ? appended : jBone(appended);
+
         setter = function(el, i) {
             appended.forEach(function(node) {
                 if (i) {
@@ -34,10 +46,6 @@ fn.append = function(appended) {
                     el.appendChild(node);
                 }
             });
-        };
-    } else if (appended instanceof Node) {
-        setter = function(el) {
-            el.appendChild(appended);
         };
     }
 

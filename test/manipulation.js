@@ -82,6 +82,18 @@ describe('jBone Manipulation', function() {
         expect(a.find('span')).to.have.length(2);
     });
 
+    it('append(NodeList)', function() {
+        var a = jBone('<div>'),
+            f = document.createDocumentFragment();
+
+        f.appendChild(document.createElement('span'));
+        f.appendChild(document.createElement('span'));
+
+        a.append(f.childNodes);
+
+        expect(a.find('span')).to.have.length(2);
+    });
+
     it('append(text)', function() {
         var a = jBone('<div>');
 
