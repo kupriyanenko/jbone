@@ -25,7 +25,11 @@ isObject = function(el) {
     return el instanceof Object;
 },
 isFunction = function(el) {
-    return typeof el === "function";
+    var getType = {};
+    return el && getType.toString.call(el) === "[object Function]";
+},
+isArray = function(el) {
+    return Array.isArray(el);
 },
 jBone = function(element, data) {
     return new fn.init(element, data);
@@ -99,13 +103,9 @@ fn = jBone.fn = jBone.prototype = {
         if (element instanceof jBone) {
             return element;
         }
-        // Return element wrapped by jBone
-        if (element) {
-            element = Array.isArray(element) ? element : [element];
-            return jBone.merge(this, element);
-        }
 
-        return this;
+        // Return element wrapped by jBone
+        return jBone.makeArray(element, this);
     },
 
     pop: [].pop,

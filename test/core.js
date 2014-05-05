@@ -99,4 +99,16 @@ describe('jBone Core', function() {
         expect(jBone.getData(a).jid).to.be(jBone.getData(b).jid);
     });
 
+    it('jBone(NodeList)', function() {
+        var fragment = document.createDocumentFragment(),
+            a0 = document.createElement('a'),
+            a1 = document.createElement('a');
+        fragment.appendChild(a0);
+        fragment.appendChild(a1);
+
+        var $a = $(fragment.childNodes);
+
+        expect($a).have.length(2);
+    });
+
 });

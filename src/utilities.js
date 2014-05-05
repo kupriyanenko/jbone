@@ -1,3 +1,19 @@
+function isArraylike(obj) {
+    var length = obj.length,
+        type = typeof obj;
+
+    if (isFunction(type) || obj === win) {
+        return false;
+    }
+
+    if (obj.nodeType === 1 && length) {
+        return true;
+    }
+
+    return isArray(type) || length === 0 ||
+        typeof length === "number" && length > 0 && (length - 1) in obj;
+}
+
 jBone.merge = function(first, second) {
     var l = second.length,
         i = first.length,
@@ -43,4 +59,18 @@ jBone.extend = function(target) {
     });
 
     return target;
+};
+
+jBone.makeArray = function(arr, results) {
+    var ret = results || [];
+
+    if (arr !== null) {
+        if (isArraylike(arr)) {
+            jBone.merge(ret, isString(arr) ? [arr] : arr);
+        } else {
+            ret.push(arr);
+        }
+    }
+
+    return ret;
 };
