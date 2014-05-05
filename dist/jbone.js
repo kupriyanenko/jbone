@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.12 - 2014-05-04 - Library for DOM manipulation
+ * jBone v1.0.15 - 2014-05-05 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -36,7 +36,11 @@ isObject = function(el) {
     return el instanceof Object;
 },
 isFunction = function(el) {
-    return typeof el === "function";
+    var getType = {};
+    return el && getType.toString.call(el) === "[object Function]";
+},
+isArray = function(el) {
+    return Array.isArray(el);
 },
 jBone = function(element, data) {
     return new fn.init(element, data);
@@ -110,13 +114,9 @@ fn = jBone.fn = jBone.prototype = {
         if (element instanceof jBone) {
             return element;
         }
-        // Return element wrapped by jBone
-        if (element) {
-            element = Array.isArray(element) ? element : [element];
-            return jBone.merge(this, element);
-        }
 
-        return this;
+        // Return element wrapped by jBone
+        return jBone.makeArray(element, this);
     },
 
     pop: [].pop,
@@ -178,6 +178,22 @@ jBone._cache = {
     jid: 0
 };
 
+function isArraylike(obj) {
+    var length = obj.length,
+        type = typeof obj;
+
+    if (isFunction(type) || obj === win) {
+        return false;
+    }
+
+    if (obj.nodeType === 1 && length) {
+        return true;
+    }
+
+    return isArray(type) || length === 0 ||
+        typeof length === "number" && length > 0 && (length - 1) in obj;
+}
+
 jBone.merge = function(first, second) {
     var l = second.length,
         i = first.length,
@@ -223,6 +239,20 @@ jBone.extend = function(target) {
     });
 
     return target;
+};
+
+jBone.makeArray = function(arr, results) {
+    var ret = results || [];
+
+    if (arr !== null) {
+        if (isArraylike(arr)) {
+            jBone.merge(ret, isString(arr) ? [arr] : arr);
+        } else {
+            ret.push(arr);
+        }
+    }
+
+    return ret;
 };
 
 function BoneEvent(e, data) {
@@ -686,13 +716,25 @@ fn.append = function(appended) {
         length = this.length,
         setter;
 
+    // create jBone object and then append
     if (isString(appended) && rquickExpr.exec(appended)) {
         appended = jBone(appended);
-    } else if (!isObject(appended)) {
+    }
+    // create text node for inserting
+    else if (!isObject(appended)) {
         appended = document.createTextNode(appended);
     }
 
-    if (appended instanceof jBone) {
+    // just append NodeElement
+    if (appended instanceof Node) {
+        setter = function(el) {
+            el.appendChild(appended);
+        };
+    }
+    // wrap object by jBone, and then append
+    else {
+        appended = appended instanceof jBone ? appended : jBone(appended);
+
         setter = function(el, i) {
             appended.forEach(function(node) {
                 if (i) {
@@ -701,10 +743,6 @@ fn.append = function(appended) {
                     el.appendChild(node);
                 }
             });
-        };
-    } else if (appended instanceof Node) {
-        setter = function(el) {
-            el.appendChild(appended);
         };
     }
 

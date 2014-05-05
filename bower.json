@@ -1,6 +1,6 @@
 {
   "name": "jbone",
-  "version": "1.0.12",
+  "version": "1.0.15",
   "ignore": [
     "**/.*",
     "node_modules",
