@@ -196,6 +196,8 @@ fn.off = function(event, fn) {
         events, namespace, removeListeners, eventType;
 
     removeListeners = function(el) {
+        var l, eventsByType, e;
+
         events = jBone.getData(el).events;
 
         if (!events) {
@@ -205,9 +207,12 @@ fn.off = function(event, fn) {
         // remove all events
         if (!event && events) {
             return keys(events).forEach(function(eventType) {
-                events[eventType].forEach(function(e, index) {
-                    removeListener(events, eventType, index, el, e);
-                });
+                eventsByType = events[eventType];
+                l = eventsByType.length;
+
+                while(l--) {
+                    removeListener(events, eventType, l, el, eventsByType[l]);
+                }
             });
         }
 
@@ -217,20 +222,28 @@ fn.off = function(event, fn) {
 
             // remove named events
             if (events[eventType]) {
-                events[eventType].forEach(function(e, index) {
+                eventsByType = events[eventType];
+                l = eventsByType.length;
+
+                while(l--) {
+                    e = eventsByType[l];
                     if (!namespace || (namespace && e.namespace === namespace)) {
-                        removeListener(events, eventType, index, el, e);
+                        removeListener(events, eventType, l, el, e);
                     }
-                });
+                }
             }
             // remove all namespaced events
             else if (namespace) {
                 keys(events).forEach(function(eventType) {
-                    events[eventType].forEach(function(e, index) {
+                    eventsByType = events[eventType];
+                    l = eventsByType.length;
+
+                    while(l--) {
+                        e = eventsByType[l];
                         if (e.namespace.split(".")[0] === namespace.split(".")[0]) {
-                            removeListener(events, eventType, index, el, e);
+                            removeListener(events, eventType, l, el, e);
                         }
-                    });
+                    }
                 });
             }
         });

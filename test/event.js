@@ -360,4 +360,25 @@ describe('jBone Event', function() {
         expect(jBone._cache.events[jBone.getData(div).jid].click[0]).be.eql(undefined);
     });
 
+    it('off should remove all events', function() {
+        var el = jBone('<div>').appendTo('body'),
+            i = 0;
+
+        el.on('click', function() {
+            i++;
+        });
+        el.on('click', function() {
+            i++;
+        });
+
+        el.trigger('click');
+
+        expect(i).be.eql(2);
+
+        el.off('click');
+        el.trigger('click');
+
+        expect(i).be.eql(2);
+    });
+
 });
