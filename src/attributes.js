@@ -130,3 +130,29 @@ fn.data = function(key, value) {
 
     return this;
 };
+
+fn.removeData = function(key) {
+    var i = 0,
+        length = this.length,
+        jdata, dataset;
+
+    for (; i < length; i++) {
+        jdata = this[i].jdata;
+        dataset = this[i].dataset;
+
+        if (key) {
+            jdata && jdata[key] && delete jdata[key];
+            delete dataset[key];
+        } else {
+            for (key in jdata) {
+                delete jdata[key];
+            }
+
+            for (key in dataset) {
+                delete dataset[key];
+            }
+        }
+    }
+
+    return this;
+};

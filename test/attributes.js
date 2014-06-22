@@ -115,4 +115,36 @@ describe('jBone Attributes', function() {
         expect(a.data('third')).be.eql(obj);
     });
 
+    it('removeData(key)', function() {
+        var a = jBone('<div>');
+
+        a.data('name', 'John');
+        a.data('fn', function() {});
+        expect(a.data('name')).be.eql('John');
+
+        a
+            .removeData('name')
+            .removeData('fn');
+        expect(a.data('name')).be.eql(undefined);
+        expect(a.data('fn')).be.eql(undefined);
+    });
+
+    it('removeData()', function() {
+        var a = jBone('<div>');
+
+        a.data('name', 'John');
+        a.data('fn', function() {});
+        expect(a.data('name')).be.eql('John');
+
+        a.removeData();
+        expect(a.data('name')).be.eql(undefined);
+        expect(a.data('fn')).be.eql(undefined);
+    });
+
+    it('removeData(key) and removeData() witn not defined keys', function() {
+        var a = jBone('<div>');
+        a.removeData('name');
+        a.removeData();
+    });
+
 });
