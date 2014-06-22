@@ -1,4 +1,4 @@
-describe("on/off events", function(suite) {
+suite("on/off events", function(suite) {
   setup(function() {
     suite.jbEl = jBone('<span>');
     suite.jqEl = jQuery('<span>');
@@ -13,7 +13,7 @@ describe("on/off events", function(suite) {
   });
 });
 
-describe("off with eventType", function(suite) {
+suite("off with eventType", function(suite) {
   setup(function() {
     suite.jbEl = jBone('<span>');
     suite.jqEl = jQuery('<span>');
@@ -28,7 +28,7 @@ describe("off with eventType", function(suite) {
   });
 });
 
-describe("off with namespace", function(suite) {
+suite("off with namespace", function(suite) {
   setup(function() {
     suite.jbEl = jBone('<span>');
     suite.jqEl = jQuery('<span>');

@@ -1,4 +1,4 @@
-describe("Set attribute", function(suite) {
+suite("Set attribute", function(suite) {
   setup(function() {
     suite.jbEl = jBone('<span>');
     suite.jqEl = jQuery('<span>');
@@ -13,7 +13,7 @@ describe("Set attribute", function(suite) {
   });
 });
 
-describe("Get attribute", function(suite) {
+suite("Get attribute", function(suite) {
   setup(function() {
     suite.jbEl = jBone('<span>', {
       name: 'value'
@@ -32,7 +32,7 @@ describe("Get attribute", function(suite) {
   });
 });
 
-describe("Set value", function(suite) {
+suite("Set value", function(suite) {
   setup(function() {
     suite.jbEl = jBone('<input>');
     suite.jqEl = jQuery('<input>');
@@ -47,7 +47,7 @@ describe("Set value", function(suite) {
   });
 });
 
-describe("Get value", function(suite) {
+suite("Get value", function(suite) {
   setup(function() {
     suite.jbEl = jBone('<input>').val('name', 'value');
     suite.jqEl = jQuery('<input>').val('name', 'value');
@@ -62,7 +62,7 @@ describe("Get value", function(suite) {
   });
 });
 
-describe("Set css", function(suite) {
+suite("Set css", function(suite) {
   setup(function() {
     suite.jbEl = jBone('<span>');
     suite.jqEl = jQuery('<span>');
@@ -77,7 +77,7 @@ describe("Set css", function(suite) {
   });
 });
 
-describe("Get css", function(suite) {
+suite("Get css", function(suite) {
   setup(function() {
     suite.jbEl = jBone('<span>').css('color', 'red').appendTo('#suite');
     suite.jqEl = jQuery('<span>').css('color', 'red').appendTo('#suite');
@@ -92,7 +92,7 @@ describe("Get css", function(suite) {
   });
 });
 
-describe("Set normal data", function(suite) {
+suite("Set normal data", function(suite) {
   setup(function() {
     suite.jbEl = jBone('<span>');
     suite.jqEl = jQuery('<span>');
@@ -107,7 +107,7 @@ describe("Set normal data", function(suite) {
   });
 });
 
-describe("Set object data", function(suite) {
+suite("Set object data", function(suite) {
   setup(function() {
     suite.jbEl = jBone('<span>');
     suite.jqEl = jQuery('<span>');
@@ -122,7 +122,7 @@ describe("Set object data", function(suite) {
   });
 });
 
-describe("Get normal data", function(suite) {
+suite("Get normal data", function(suite) {
   setup(function() {
     suite.jbEl = jBone('<span>').data('key', 'value');
     suite.jqEl = jQuery('<span>').data('key', 'value');
@@ -137,7 +137,7 @@ describe("Get normal data", function(suite) {
   });
 });
 
-describe("Get object data", function(suite) {
+suite("Get object data", function(suite) {
   setup(function() {
     suite.jbEl = jBone('<span>').data('key', {});
     suite.jqEl = jQuery('<span>').data('key', {});

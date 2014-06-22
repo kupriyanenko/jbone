@@ -1,4 +1,4 @@
-describe("Remove Element", function(suite) {
+suite("Remove Element", function(suite) {
   setup(function() {
     suite.jbEl = jBone('<span>');
     suite.jqEl = jQuery('<span>');

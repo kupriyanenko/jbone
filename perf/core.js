@@ -1,4 +1,4 @@
-describe("Init", function() {
+suite("Init", function() {
   bench("jBone", function() {
     jBone();
   });
@@ -8,7 +8,7 @@ describe("Init", function() {
   });
 });
 
-describe("Wrap DOM Node", function() {
+suite("Wrap DOM Node", function() {
   bench("jBone", function() {
     jBone(document.createElement('div'));
   });
@@ -18,7 +18,7 @@ describe("Wrap DOM Node", function() {
   });
 });
 
-describe("Create single Node", function() {
+suite("Create single Node", function() {
   bench("jBone", function() {
     jBone('<span>');
   });
@@ -28,7 +28,7 @@ describe("Create single Node", function() {
   });
 });
 
-describe("Create multiple Nodes", function() {
+suite("Create multiple Nodes", function() {
   bench("jBone", function() {
     jBone('<p><span></span><span></span></p>');
   });
@@ -38,7 +38,7 @@ describe("Create multiple Nodes", function() {
   });
 });
 
-describe("Create Node and define attributes", function() {
+suite("Create Node and define attributes", function() {
   bench("jBone", function() {
     jBone('<span>', {
       'class': 'test',
@@ -54,7 +54,7 @@ describe("Create Node and define attributes", function() {
   });
 });
 
-describe("Search by selector", function() {
+suite("Search by selector", function() {
   bench("jBone", function() {
     jBone('div');
   });

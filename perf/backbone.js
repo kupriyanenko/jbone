@@ -4,7 +4,7 @@ jbBackbone.$ = jBone;
 var jqBackbone = Backbone.noConflict();
 jqBackbone.$ = jQuery;
 
-describe("Backbone View", function(suite) {
+suite("Backbone View", function(suite) {
   setup(function() {
     suite.jbView = jbBackbone.View.extend({
       events: { click: function() {} }
