@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.17 - 2014-05-23 - Library for DOM manipulation
+ * jBone v1.0.18 - 2014-07-08 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -708,6 +708,32 @@ fn.data = function(key, value) {
     return this;
 };
 
+fn.removeData = function(key) {
+    var i = 0,
+        length = this.length,
+        jdata, dataset;
+
+    for (; i < length; i++) {
+        jdata = this[i].jdata;
+        dataset = this[i].dataset;
+
+        if (key) {
+            jdata && jdata[key] && delete jdata[key];
+            delete dataset[key];
+        } else {
+            for (key in jdata) {
+                delete jdata[key];
+            }
+
+            for (key in dataset) {
+                delete dataset[key];
+            }
+        }
+    }
+
+    return this;
+};
+
 fn.html = function(value) {
     var args = arguments,
         el;
@@ -738,26 +764,17 @@ fn.append = function(appended) {
         appended = document.createTextNode(appended);
     }
 
-    // just append NodeElement
-    if (appended instanceof Node) {
-        setter = function(el) {
-            el.appendChild(appended);
-        };
-    }
-    // wrap object by jBone, and then append
-    else {
-        appended = appended instanceof jBone ? appended : jBone(appended);
+    appended = appended instanceof jBone ? appended : jBone(appended);
 
-        setter = function(el, i) {
-            appended.forEach(function(node) {
-                if (i) {
-                    el.appendChild(node.cloneNode());
-                } else {
-                    el.appendChild(node);
-                }
-            });
-        };
-    }
+    setter = function(el, i) {
+        appended.forEach(function(node) {
+            if (i) {
+                el.appendChild(node.cloneNode());
+            } else {
+                el.appendChild(node);
+            }
+        });
+    };
 
     for (; i < length; i++) {
         setter(this[i], i);

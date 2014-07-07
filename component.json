@@ -2,7 +2,7 @@
   "name": "jbone",
   "repo": "kupriyanenko/jbone",
   "description": "JavaScript Library for DOM manipulation. Replacement jQuery for Backbone in browsers (2.5kb gzipped)",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "keywords": [
     "jquery",
     "jbone",
