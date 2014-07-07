@@ -64,14 +64,14 @@ describe('jBone Manipulation', function() {
     });
 
     it('append(HTMLElement)', function() {
-        var a = jBone('<div><p></p></div>');
+        var a = jBone('<div><p></p><p></p></div>');
         a.find('p').append(document.createElement('span'));
 
-        expect(a.find('p, span')).to.have.length(2);
+        expect(a.find('p, span')).to.have.length(4);
     });
 
     it('append(DocumentFragment)', function() {
-        var a = jBone('<div><p></p></div>');
+        var a = jBone('<div></div>');
         var b = document.createDocumentFragment();
 
         b.appendChild(document.createElement('span'));
@@ -101,6 +101,14 @@ describe('jBone Manipulation', function() {
         a.append(1);
 
         expect(a.html()).to.eql('text1');
+    });
+
+    it('append(text) for multiple elements should add text each nodes', function() {
+        var a = jBone('<div><span></span><span></span></div>');
+
+        a.find('span').append('text');
+
+        expect(a[0].textContent).to.eql('texttext');
     });
 
     it('appendTo()', function() {

@@ -28,26 +28,17 @@ fn.append = function(appended) {
         appended = document.createTextNode(appended);
     }
 
-    // just append NodeElement
-    if (appended instanceof Node) {
-        setter = function(el) {
-            el.appendChild(appended);
-        };
-    }
-    // wrap object by jBone, and then append
-    else {
-        appended = appended instanceof jBone ? appended : jBone(appended);
+    appended = appended instanceof jBone ? appended : jBone(appended);
 
-        setter = function(el, i) {
-            appended.forEach(function(node) {
-                if (i) {
-                    el.appendChild(node.cloneNode());
-                } else {
-                    el.appendChild(node);
-                }
-            });
-        };
-    }
+    setter = function(el, i) {
+        appended.forEach(function(node) {
+            if (i) {
+                el.appendChild(node.cloneNode());
+            } else {
+                el.appendChild(node);
+            }
+        });
+    };
 
     for (; i < length; i++) {
         setter(this[i], i);
