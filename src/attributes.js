@@ -27,6 +27,17 @@ fn.attr = function(key, value) {
     return this;
 };
 
+fn.removeAttr = function(key) {
+    var i = 0,
+        length = this.length;
+
+    for (; i < length; i++) {
+        this[i].removeAttribute(key);
+    }
+
+    return this;
+};
+
 fn.val = function(value) {
     var i = 0,
         length = this.length;

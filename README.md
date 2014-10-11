@@ -130,6 +130,7 @@ $.when(deferred).then(function(response) {
 * [.attr(attributeName)](https://github.com/kupriyanenko/jbone/wiki/Attributes#attrattributename)
 * [.attr(attributeName, value)](https://github.com/kupriyanenko/jbone/wiki/Attributes#attrattributename-value)
 * [.attr(attributes)](https://github.com/kupriyanenko/jbone/wiki/Attributes#attrattributes)
+* [.removeAttr(attributeName)](https://github.com/kupriyanenko/jbone/wiki/Attributes#removeattrattributename)
 * [.val()](https://github.com/kupriyanenko/jbone/wiki/Attributes#val)
 * [.val(value)](https://github.com/kupriyanenko/jbone/wiki/Attributes#valvalue)
 * [.css(propertyName, value)](https://github.com/kupriyanenko/jbone/wiki/Attributes#csspropertyname-value)
@@ -141,6 +142,8 @@ $.when(deferred).then(function(response) {
 * [.data(obj)](https://github.com/kupriyanenko/jbone/wiki/Data#dataobj)
 * [.data(key)](https://github.com/kupriyanenko/jbone/wiki/Data#datakey)
 * [.data()](https://github.com/kupriyanenko/jbone/wiki/Data#data)
+* [.removeData(key)](https://github.com/kupriyanenko/jbone/wiki/Data#removedatakey)
+* [.removeData()](https://github.com/kupriyanenko/jbone/wiki/Data#removedata)
 
 [Event](https://github.com/kupriyanenko/jbone/wiki/Event)
 

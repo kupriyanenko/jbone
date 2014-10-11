@@ -36,6 +36,19 @@ describe('jBone Attributes', function() {
         expect(a.attr('target')).to.be('_blank');
     });
 
+    it('removeAttr(key) should remove attribute', function() {
+        var $el = jBone('<div>');
+        $el.attr('name', 'value');
+        $el.removeAttr('name');
+        expect($el.attr('name')).to.be(null);
+    });
+
+    it('removeAttr(key) should works correct if attr is not exist', function() {
+        var $el = jBone('<div>');
+        $el.removeAttr('name');
+        expect($el.attr('name')).to.be(null);
+    });
+
     it('val() getting value', function() {
         var a = jBone('<input>');
         a[0].value = 'test';
