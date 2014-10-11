@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.18 - 2014-07-08 - Library for DOM manipulation
+ * jBone v1.0.19 - 2014-10-12 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -599,6 +599,17 @@ fn.attr = function(key, value) {
 
     for (; i < length; i++) {
         setter(this[i]);
+    }
+
+    return this;
+};
+
+fn.removeAttr = function(key) {
+    var i = 0,
+        length = this.length;
+
+    for (; i < length; i++) {
+        this[i].removeAttribute(key);
     }
 
     return this;
