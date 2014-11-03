@@ -35,6 +35,34 @@ fn.insertAfter = function(ref) {
     return this;
 };
 
+fn.prepend = function (prepended) {
+    var i = 0, length = this.length, setter;
+
+    // create jBone object and then prepend
+    if (isString(prepended) && rquickExpr.exec(prepended)) {
+        prepended = jBone(prepended);
+    }
+    // create text node for inserting
+    else if (!isObject(prepended)) {
+        prepended = document.createTextNode(prepended);
+    }
+    prepended = prepended instanceof jBone ? prepended : jBone(prepended);
+
+    setter = function(el, i) {
+        prepended.forEach(function(node, index) {
+            el.insertBefore( i ? node.cloneNode(true) : node, el.children[index]);
+        });
+    };
+
+    for (; i < length; i++) {
+        setter(this[i], i);
+    }
+
+    return this;
+-};
+
+
+
 fn.offset = function(value) {
     if (value) {
         this.forEach(function(el) {
