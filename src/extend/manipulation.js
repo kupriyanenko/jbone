@@ -61,8 +61,6 @@ fn.prepend = function (prepended) {
     return this;
 };
 
-
-
 fn.offset = function(value) {
     if (value) {
         this.forEach(function(el) {
