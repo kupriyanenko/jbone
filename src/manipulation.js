@@ -33,7 +33,7 @@ fn.append = function(appended) {
     setter = function(el, i) {
         appended.forEach(function(node) {
             if (i) {
-                el.appendChild(node.cloneNode());
+                el.appendChild(node.cloneNode(true));
             } else {
                 el.appendChild(node);
             }
