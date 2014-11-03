@@ -59,7 +59,7 @@ fn.prepend = function (prepended) {
     }
 
     return this;
--};
+};
 
 
 
