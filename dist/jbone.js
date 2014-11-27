@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.19 - 2014-10-12 - Library for DOM manipulation
+ * jBone v1.0.20 - 2014-11-27 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -780,7 +780,7 @@ fn.append = function(appended) {
     setter = function(el, i) {
         appended.forEach(function(node) {
             if (i) {
-                el.appendChild(node.cloneNode());
+                el.appendChild(node.cloneNode(true));
             } else {
                 el.appendChild(node);
             }
