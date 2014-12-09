@@ -53,27 +53,21 @@ fn.on = function(event) {
     var args = arguments,
         length = this.length,
         i = 0,
-        callback, target, data, namespace, fn, events, eventType, expectedTarget, addListener;
+        callback = slice.call(args, -1)[0],
+        target, data, namespace, fn, events, eventType, expectedTarget, addListener;
 
-    // .on('click', function() {})
-    if (args.length === 2) {
-        callback = args[1];
-    }
     // .on('click', '.selector', function() {})
-    else if (args.length === 3 && isString(args[1])) {
+    if (args.length === 3 && isString(args[1])) {
         target = args[1];
-        callback = args[2];
     }
     // .on('click', { key: value }, function() {})
     else if (args.length === 3 && isObject(args[1])) {
         data = args[1];
-        callback = args[2];
     }
     // .on('click', '.selector', { key: value }, function() {})
     else if (args.length === 4) {
         target = args[1];
         data = args[2];
-        callback = args[3];
     }
 
     addListener = function(el) {
