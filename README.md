@@ -147,8 +147,8 @@ $.when(deferred).then(function(response) {
 
 [Event](https://github.com/kupriyanenko/jbone/wiki/Event)
 
-* [.on(event[, selector], handler)](https://github.com/kupriyanenko/jbone/wiki/Event#onevent-selector-handler)
-* [.one(event[, selector], handler)](https://github.com/kupriyanenko/jbone/wiki/Event#oneevent-selector-handler)
+* [.on(event[, selector, data], handler)](https://github.com/kupriyanenko/jbone/wiki/Event#onevent-selector-data-handler)
+* [.one(event[, selector, data], handler)](https://github.com/kupriyanenko/jbone/wiki/Event#oneevent-selector-data-handler)
 * [.off(event[, handler])](https://github.com/kupriyanenko/jbone/wiki/Event#offevent-handler)
 * [.trigger(event)](https://github.com/kupriyanenko/jbone/wiki/Event#triggerevent)
 
