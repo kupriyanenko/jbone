@@ -54,9 +54,11 @@ describe('jBone Event', function() {
     });
 
     it('on(event, callback) with same function', function() {
-        var div = jBone('<div>'), counter = 0, func = function() {
-            counter++;
-        };
+        var div = jBone('<div>'),
+            counter = 0,
+            func = function() {
+                counter++;
+            };
 
         div.on('foo.bar', func).on('foo.zar', func);
         div.trigger('foo.bar');
@@ -67,6 +69,16 @@ describe('jBone Event', function() {
         div.trigger('foo.bar');
 
         expect(counter).be.eql(1, 'Verify that removing events still work.');
+    });
+
+    it('on(event, data, callback)', function() {
+        var div = jBone('<div>');
+
+        div.on('foo', {foo: 'bar'}, function(e) {
+            expect(e.data.foo).be.eql('bar');
+        });
+
+        div.trigger('foo');
     });
 
     it('on(multiple event, callback)', function() {
@@ -104,6 +116,16 @@ describe('jBone Event', function() {
 
         a.off('click').trigger('click');
         expect(counter).be.eql(2);
+    });
+
+    it('on(event, target, data, callback)', function() {
+        var div = jBone('<div><span></span></div>');
+
+        div.on('foo', 'span', {foo: 'bar'}, function(e) {
+            expect(e.data.foo).be.eql('bar');
+        });
+
+        div.find('span').trigger('foo');
     });
 
     it('on(event, target, callback) with deep nesting', function() {
@@ -165,6 +187,16 @@ describe('jBone Event', function() {
         expect(counter).be.eql(3);
     });
 
+    it('one(event, data, callback)', function() {
+        var div = jBone('<div>');
+
+        div.one('click', {foo: 'bar'}, function(e) {
+            expect(e.data.foo).be.eql('bar');
+        });
+
+        div.trigger('click');
+    });
+
     it('one(event, callback) with recursive call', function() {
         var a = jBone('<div>'), counter = 0;
 
@@ -197,6 +229,16 @@ describe('jBone Event', function() {
 
         a.trigger('click').find('span').trigger('click');
         expect(counter).be.eql(1);
+    });
+
+    it('one(event, target, data, callback)', function() {
+        var div = jBone('<div><span></span></div>');
+
+        div.one('foo', 'span', {foo: 'bar'}, function(e) {
+            expect(e.data.foo).be.eql('bar');
+        });
+
+        div.find('span').trigger('foo');
     });
 
     it('one(event.namespace, callback)', function() {
