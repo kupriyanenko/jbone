@@ -25,8 +25,7 @@ isObject = function(el) {
     return el instanceof Object;
 },
 isFunction = function(el) {
-    var getType = {};
-    return el && getType.toString.call(el) === "[object Function]";
+    return ({}).toString.call(el) === "[object Function]";
 },
 isArray = function(el) {
     return Array.isArray(el);
