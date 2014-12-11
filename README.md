@@ -115,6 +115,20 @@ $.when(deferred).then(function(response) {
 });
 ```
 
+## Browser support
+
+Internet Explorer 9+
+
+Safari 6+
+
+iOS 5+ Safari
+
+Android 2.3+ Browser
+
+Chrome
+
+Firefox
+
 ## API
 
 [jBone](https://github.com/kupriyanenko/jbone/wiki/jBone)
