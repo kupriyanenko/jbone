@@ -41,20 +41,15 @@ jBone.contains = function(container, contained) {
 };
 
 jBone.extend = function(target) {
-    var k, kl, i, tg;
+    var tg;
 
-    splice.call(arguments, 1).forEach(function(object) {
-        if (!object) {
-            return;
-        }
-
-        k = keys(object);
-        kl = k.length;
-        i = 0;
+    splice.call(arguments, 1).forEach(function(source) {
         tg = target; //caching target for perf improvement
 
-        for (; i < kl; i++) {
-            tg[k[i]] = object[k[i]];
+        if (source) {
+            for (var prop in source) {
+                tg[prop] = source[prop];
+            }
         }
     });
 
