@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.20 - 2014-11-27 - Library for DOM manipulation
+ * jBone v1.0.21 - 2014-12-12 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -36,8 +36,7 @@ isObject = function(el) {
     return el instanceof Object;
 },
 isFunction = function(el) {
-    var getType = {};
-    return el && getType.toString.call(el) === "[object Function]";
+    return ({}).toString.call(el) === "[object Function]";
 },
 isArray = function(el) {
     return Array.isArray(el);
@@ -221,20 +220,15 @@ jBone.contains = function(container, contained) {
 };
 
 jBone.extend = function(target) {
-    var k, kl, i, tg;
+    var tg;
 
-    splice.call(arguments, 1).forEach(function(object) {
-        if (!object) {
-            return;
-        }
-
-        k = keys(object);
-        kl = k.length;
-        i = 0;
+    splice.call(arguments, 1).forEach(function(source) {
         tg = target; //caching target for perf improvement
 
-        for (; i < kl; i++) {
-            tg[k[i]] = object[k[i]];
+        if (source) {
+            for (var prop in source) {
+                tg[prop] = source[prop];
+            }
         }
     });
 
@@ -310,19 +304,33 @@ fn.on = function(event) {
     var args = arguments,
         length = this.length,
         i = 0,
-        callback, target, namespace, fn, events, eventType, expectedTarget, addListener;
+        callback = slice.call(args, -1)[0],
+        target, data, namespace, fn, events, eventType, expectedTarget, addListener;
 
-    if (args.length === 2) {
-        callback = args[1];
-    } else {
+    // .on('click', '.selector', function() {})
+    if (args.length === 3 && isString(args[1])) {
         target = args[1];
-        callback = args[2];
+    }
+    // .on('click', { key: value }, function() {})
+    else if (args.length === 3 && isObject(args[1])) {
+        data = args[1];
+    }
+    // .on('click', '.selector', { key: value }, function() {})
+    else if (args.length === 4) {
+        target = args[1];
+        data = args[2];
     }
 
     addListener = function(el) {
         jBone.setId(el);
         events = jBone.getData(el).events;
         event.split(" ").forEach(function(event) {
+            var eventOptions = {};
+
+            if (data) {
+                eventOptions.data = data;
+            }
+
             eventType = event.split(".")[0];
             namespace = event.split(".").splice(1).join(".");
             events[eventType] = events[eventType] || [];
@@ -333,15 +341,14 @@ fn.on = function(event) {
                 }
 
                 expectedTarget = null;
+
                 if (!target) {
-                    callback.call(el, e);
+                    callback.call(el, new BoneEvent(e, eventOptions));
                 } else if (~jBone(el).find(target).indexOf(e.target) || (expectedTarget = jBone.contains(jBone(el).find(target), e.target))) {
                     expectedTarget = expectedTarget || e.target;
-                    e = new BoneEvent(e, {
-                        currentTarget: expectedTarget
-                    });
+                    eventOptions.currentTarget = expectedTarget;
 
-                    callback.call(expectedTarget, e);
+                    callback.call(expectedTarget, new BoneEvent(e, eventOptions));
                 }
             };
 
@@ -366,26 +373,20 @@ fn.one = function(event) {
     var args = arguments,
         i = 0,
         length = this.length,
-        callback, target, addListener;
-
-    if (args.length === 2) {
-        callback = args[1];
-    } else {
-        target = args[1], callback = args[2];
-    }
+        oneArgs = slice.call(args, 1, args.length - 1),
+        callback = slice.call(args, -1)[0],
+        addListener;
 
     addListener = function(el) {
+        var $el =  jBone(el);
+
         event.split(" ").forEach(function(event) {
             var fn = function(e) {
-                jBone(el).off(event, fn);
+                $el.off(event, fn);
                 callback.call(el, e);
             };
 
-            if (!target) {
-                jBone(el).on(event, fn);
-            } else {
-                jBone(el).on(event, target, fn);
-            }
+            $el.on.apply($el, [event].concat(oneArgs, fn));
         });
     };
 
