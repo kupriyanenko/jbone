@@ -1,36 +1,36 @@
-# jBone 
+# Meet jBone
 
-[![Build Status](https://travis-ci.org/kupriyanenko/jbone.png?branch=master)](https://travis-ci.org/kupriyanenko/jbone)
-[![Bower version](https://badge.fury.io/bo/jbone.png)](http://badge.fury.io/bo/jbone)
-[![NPM version](https://badge.fury.io/js/jbone.png)](http://badge.fury.io/js/jbone)
+[![Build Status](https://travis-ci.org/kupriyanenko/jbone.svg?branch=master)](https://travis-ci.org/kupriyanenko/jbone)
+[![Bower version](https://badge.fury.io/bo/jbone.svg)](http://badge.fury.io/bo/jbone)
+[![npm version](https://badge.fury.io/js/jbone.svg)](http://badge.fury.io/js/jbone)
 
-http://kupriyanenko.github.io/jbone/
+jBone is very small and fast abstraction for Events and DOM manipulation in modern browsers with identical jQuery interfaces in most cases.
 
-JavaScript Library for DOM manipulation in modern browsers with jQuery-compatible API.
-
-Replacement jQuery for Backbone in browsers (2.5kb gzipped, faster than jQuery/Zepto)
+It replaces jQuery for Backbone in web and mobile applications (about 2.5kb gzipped, much faster than jQuery and Zepto).
 
 ## Why jBone?
 
-jBone is extremely small (2.5kb) and realy fast library. Main jBone idea - it's as much as possible to use native JavaScript methods in your project.
+The main idea of jBone is to use native JavaScript methods as much as possible in your project.
 
-jBone it is ideal solutions for applications based on Backbone and running on mobile devices. jBone project was created to allow people using Backbone without jQuery.
+It is superior solution for applications based on Backbone and running on mobile devices as it is extremely small (2.5kb) and really fast library.
+
+jBone project was created to allow people to use Backbone without jQuery.
 
 ## Get it
 
-##### With bower
+##### Via bower
 
 ```
 $ bower install jbone --save
 ```
 
-##### With component
+##### Via component
 
 ```
 component install kupriyanenko/jbone
 ```
 
-##### With nodejs or browserify
+##### Via nodejs or browserify
 
 ```
 $ npm install jbone --save
@@ -44,7 +44,7 @@ Add a `<script>` element for jbone.js
 <script src="path/to/jbone/dist/jbone.js"></script>
 ```
 
-Or include like npm module (with nodejs or browserify)
+Or include it like npm module (with nodejs or browserify)
 
 ```javascript
 var $ = require('jbone');
@@ -85,11 +85,11 @@ $(".header").addClass("loaded");
 
 ## AJAX, Deferred
 
-This part is not covered on jBone. Yuo can select one of a huge amount implementations AJAX and Promises/A+.
+This part is not covered in jBone. You can choose one of a huge amount of AJAX implementations as well as standard Promises/A+ implementations.
 
 For example: [when](https://github.com/cujojs/when), [Q](https://github.com/kriskowal/q), [simply-deferred](https://github.com/sudhirj/simply-deferred), [AJAX](microjs.com/#ajax).
 
-Example AJAX connecting:
+Example of AJAX connection:
 
 ```javascript
 // connect reqwest on your page https://rawgithub.com/ded/reqwest/master/reqwest.min.js
@@ -101,7 +101,7 @@ $.ajax({
 });
 ```
 
-Example Deferred connecting:
+Example of connection with Deferred Object:
 
 ```javascript
 // connect simply-deferred on your page https://rawgithub.com/sudhirj/simply-deferred/master/deferred.min.js
