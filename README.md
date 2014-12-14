@@ -16,6 +16,8 @@ It is superior solution for applications based on Backbone and running on mobile
 
 jBone project was created to allow people to use Backbone without jQuery.
 
+See benchmark results [here](http://kupriyanenko.github.io/jbone/perf.html).
+
 ## Get it
 
 ##### Via bower
