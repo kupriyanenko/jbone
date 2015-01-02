@@ -119,7 +119,7 @@ fn.data = function(key, value) {
     }
     // Get data by name
     if (args.length === 1 && isString(key)) {
-        return this[0] && getValue(this[0].dataset[key] || this[0].jdata && this[0].jdata[key]);
+        return this[0] && getValue(this[0].getAttribute('data-'+ key) || this[0].jdata && this[0].jdata[key]);
     }
 
     // Set data
