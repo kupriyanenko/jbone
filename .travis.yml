@@ -1,6 +1,12 @@
 language: node_js
 node_js:
 - '0.10'
+env:
+  global:
+    - secure: HJpHP8GOc2SHZ9VVWeV+Z/bzTkgeCp75c8BJ2T7FR59IpJ2QxHVZbplfqUheb5r9CJ0BQ84/LdMYfZwrR8mfT/uR9p/DZz7kFxBAvPIoEywIOizbQcK65vDWpG4Yr9g9yihOFnXKkWk4xx/zS/AV5PKQwmw9L1jKEl+iXVsVzqw=
+    - secure: LKv35dk0FNiHaJKrgUrqs2/JCPYof05mC8DIQzJs14Mnuh9YoXOJi22FisgmGvA92zDvryqNCvHqUtcfR9G6T/+ZPL5UFuBLXRBGas2mlWfZh4O+6LhGeVEEjmlrTny1Vu2R63EKI/83xE6TVneujjlfvVuJEvjCnr9VQtBaU9w=
+addons:
+  sauce_connect: true
 before_install:
 - npm install grunt-cli bower -g
 notifications:
