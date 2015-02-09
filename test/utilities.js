@@ -48,4 +48,18 @@ describe('jBone Unilities', function() {
         expect(d).eql(c);
     });
 
+    it('unique(array) should return array with the duplicates removed', function() {
+        // with numbers
+        expect(jBone.unique([1, 2, 1])).eql([1, 2]);
+
+        // with strings
+        expect(jBone.unique(['a', 'a', 'b'])).eql(['a', 'b']);
+
+        // with DOM elemets
+        var a = $('div')[0];
+        var b = $('span')[0];
+
+        expect(jBone.unique([a, b, a])).eql([a, b]);
+    });
+
 });

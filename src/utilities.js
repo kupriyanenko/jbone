@@ -69,3 +69,19 @@ jBone.makeArray = function(arr, results) {
 
     return ret;
 };
+
+jBone.unique = function(array) {
+    if (array == null) {
+        return [];
+    }
+
+    var result = [];
+
+    for (var i = 0, length = array.length; i < length; i++) {
+        var value = array[i];
+        if (result.indexOf(value) < 0) {
+            result.push(value);
+        }
+    }
+    return result;
+};
