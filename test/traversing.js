@@ -16,11 +16,17 @@ describe('jBone Traversing', function() {
         expect(a.find('div')).to.have.length(0);
     });
 
-    it('get(index)', function() {
+    it('get(index) should return element by index', function() {
         var a = jBone('<div></div><span></span>');
 
         expect(a.get(1).tagName.toLowerCase()).to.be('span');
         expect(a.get(1)).to.be.an(HTMLElement);
+    });
+
+    it('get() without arguments should return an array of all of the elements', function() {
+        var a = jBone('<div></div><span></span>');
+
+        expect(a.get()).to.have.length(2);
     });
 
     it('eq(index)', function() {

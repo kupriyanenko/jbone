@@ -18,7 +18,13 @@ fn.find = function(selector) {
 };
 
 fn.get = function(index) {
-    return this[index];
+    return index != null ?
+
+        // Return just the one element from the set
+        (index < 0 ? this[index + this.length] : this[index]) :
+
+        // Return all the elements in a clean array
+        slice.call(this);
 };
 
 fn.eq = function(index) {
