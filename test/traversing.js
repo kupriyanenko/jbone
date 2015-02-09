@@ -57,4 +57,16 @@ describe('jBone Traversing', function() {
 
         expect(a.parent()).to.have.length(3);
     });
+
+    it('add(elements) should create a new jBone object with elements added to the set of matched elements', function() {
+        var div = $('<div></div><div></div>');
+
+        var dspan = div.add($('<span>'));
+
+        // origin collection should't be changed
+        expect(div).to.have.length(2);
+
+        // new collection should include elements from origin collection
+        expect(dspan).to.have.length(3);
+    });
 });

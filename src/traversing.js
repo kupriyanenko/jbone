@@ -65,3 +65,9 @@ fn.has = function() {
         return el.querySelectorAll(args[0]).length;
     });
 };
+
+fn.add = function(selector, context) {
+    return jBone.unique(
+        jBone.merge(this.get(), jBone(selector, context))
+    );
+};
