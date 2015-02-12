@@ -1,9 +1,9 @@
 /*!
- * jBone v1.0.21 - 2014-12-12 - Library for DOM manipulation
+ * jBone v1.0.22 - 2015-02-12 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
- * Copyright 2014 Alexey Kupriyanenko
+ * Copyright 2015 Alexey Kupriyanenko
  * Released under the MIT license.
  */
 
@@ -247,6 +247,22 @@ jBone.makeArray = function(arr, results) {
     }
 
     return ret;
+};
+
+jBone.unique = function(array) {
+    if (array == null) {
+        return [];
+    }
+
+    var result = [];
+
+    for (var i = 0, length = array.length; i < length; i++) {
+        var value = array[i];
+        if (result.indexOf(value) < 0) {
+            result.push(value);
+        }
+    }
+    return result;
 };
 
 function BoneEvent(e, data) {
@@ -534,7 +550,13 @@ fn.find = function(selector) {
 };
 
 fn.get = function(index) {
-    return this[index];
+    return index != null ?
+
+        // Return just the one element from the set
+        (index < 0 ? this[index + this.length] : this[index]) :
+
+        // Return all the elements in a clean array
+        slice.call(this);
 };
 
 fn.eq = function(index) {
@@ -574,6 +596,12 @@ fn.has = function() {
     return this.some(function(el) {
         return el.querySelectorAll(args[0]).length;
     });
+};
+
+fn.add = function(selector, context) {
+    return jBone.unique(
+        jBone.merge(this.get(), jBone(selector, context))
+    );
 };
 
 fn.attr = function(key, value) {
