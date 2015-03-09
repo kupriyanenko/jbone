@@ -64,9 +64,6 @@ module.exports = function(grunt) {
         banner: "<%= meta.banner %>"
       },
       min: {
-        options: {
-          report: "gzip"
-        },
         files: {
           "dist/jbone.min.js": ["dist/jbone.js"]
         }
