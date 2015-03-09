@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.22 - 2015-02-12 - Library for DOM manipulation
+ * jBone v1.0.23 - 2015-03-09 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -316,16 +316,78 @@ jBone.Event = function(event, data) {
     }, data);
 };
 
-fn.on = function(event) {
+jBone.event = {
+    add: function(el, types, handler, data, selector) {
+        var eventHandler = function() {
+                jBone.event.dispatch.apply(el, arguments);
+            },
+            events, eventType, t, event;
+
+        jBone.setId(el);
+        events = jBone.getData(el).events;
+
+        types = types.split(" ");
+        t = types.length;
+        while (t--) {
+            event = types[t];
+
+            eventType = event.split(".")[0];
+            events[eventType] = events[eventType] || [];
+
+            if (!events[eventType].length) {
+                el.addEventListener && el.addEventListener(eventType, eventHandler, false);
+            }
+
+            events[eventType].push({
+                namespace: event.split(".").splice(1).join("."),
+                fn: eventHandler,
+                selector: selector,
+                data: data,
+                originfn: handler
+            });
+        }
+    },
+
+    dispatch: function(e) {
+        var i = 0,
+            el = this,
+            handlerQueue = jBone.getData(el).events[e.type],
+            length = handlerQueue.length,
+            expectedTarget,
+            handler,
+            eventOptions;
+
+        for (; i < length; i++) {
+            eventOptions = {};
+            handler = handlerQueue[i];
+            handler.data && (eventOptions.data = handler.data);
+
+            if (!handler.selector) {
+                if (!(e.namespace && e.namespace !== handler.namespace)) {
+                    handler.originfn.call(el, new BoneEvent(e, eventOptions));
+                }
+            } else if (~jBone(el).find(handler.selector).indexOf(e.target) || (expectedTarget = jBone.contains(jBone(el).find(handler.selector), e.target))) {
+                expectedTarget = expectedTarget || e.target;
+                eventOptions.currentTarget = expectedTarget;
+
+                if (!(e.namespace && e.namespace !== handler.namespace)) {
+                    handler.originfn.call(expectedTarget, new BoneEvent(e, eventOptions));
+                }
+            }
+        }
+    }
+};
+
+fn.on = function(types) {
     var args = arguments,
         length = this.length,
         i = 0,
-        callback = slice.call(args, -1)[0],
-        target, data, namespace, fn, events, eventType, expectedTarget, addListener;
+        handler = slice.call(args, -1)[0],
+        selector, data;
 
     // .on('click', '.selector', function() {})
     if (args.length === 3 && isString(args[1])) {
-        target = args[1];
+        selector = args[1];
     }
     // .on('click', { key: value }, function() {})
     else if (args.length === 3 && isObject(args[1])) {
@@ -333,53 +395,12 @@ fn.on = function(event) {
     }
     // .on('click', '.selector', { key: value }, function() {})
     else if (args.length === 4) {
-        target = args[1];
+        selector = args[1];
         data = args[2];
     }
 
-    addListener = function(el) {
-        jBone.setId(el);
-        events = jBone.getData(el).events;
-        event.split(" ").forEach(function(event) {
-            var eventOptions = {};
-
-            if (data) {
-                eventOptions.data = data;
-            }
-
-            eventType = event.split(".")[0];
-            namespace = event.split(".").splice(1).join(".");
-            events[eventType] = events[eventType] || [];
-
-            fn = function(e) {
-                if (e.namespace && e.namespace !== namespace) {
-                    return;
-                }
-
-                expectedTarget = null;
-
-                if (!target) {
-                    callback.call(el, new BoneEvent(e, eventOptions));
-                } else if (~jBone(el).find(target).indexOf(e.target) || (expectedTarget = jBone.contains(jBone(el).find(target), e.target))) {
-                    expectedTarget = expectedTarget || e.target;
-                    eventOptions.currentTarget = expectedTarget;
-
-                    callback.call(expectedTarget, new BoneEvent(e, eventOptions));
-                }
-            };
-
-            events[eventType].push({
-                namespace: namespace,
-                fn: fn,
-                originfn: callback
-            });
-
-            el.addEventListener && el.addEventListener(eventType, fn, false);
-        });
-    };
-
     for (; i < length; i++) {
-        addListener(this[i]);
+        jBone.event.add(this[i], types, handler, data, selector);
     }
 
     return this;
@@ -772,6 +793,62 @@ fn.removeData = function(key) {
     }
 
     return this;
+};
+
+fn.addClass = function(className) {
+    var i = 0,
+        j = 0,
+        length = this.length,
+        classes = className.trim().split(/\s+/);
+
+    for (; i < length; i++) {
+        j = 0;
+
+        for (j = 0; j < classes.length; j++) {
+            this[i].classList.add(classes[j]);
+        }
+    }
+
+    return this;
+};
+
+fn.removeClass = function(className) {
+    var i = 0,
+        j = 0,
+        length = this.length,
+        classes = className.trim().split(/\s+/);
+
+    for (; i < length; i++) {
+        j = 0;
+
+        for (j = 0; j < classes.length; j++) {
+            this[i].classList.remove(classes[j]);
+        }
+    }
+
+    return this;
+};
+
+fn.toggleClass = function(className) {
+    var i = 0, length = this.length;
+
+    for (; i < length; i++) {
+        this[i].classList.toggle(className);
+    }
+
+    return this;
+};
+
+fn.hasClass = function(className) {
+    var i = 0, length = this.length;
+
+    for (; i < length; i++) {
+        if (this[i].classList.contains(className)) {
+            return true;
+        }
+    }
+
+    return false;
 };
 
 fn.html = function(value) {
