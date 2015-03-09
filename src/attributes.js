@@ -167,3 +167,59 @@ fn.removeData = function(key) {
 
     return this;
 };
+
+fn.addClass = function(className) {
+    var i = 0,
+        j = 0,
+        length = this.length,
+        classes = className.trim().split(/\s+/);
+
+    for (; i < length; i++) {
+        j = 0;
+
+        for (j = 0; j < classes.length; j++) {
+            this[i].classList.add(classes[j]);
+        }
+    }
+
+    return this;
+};
+
+fn.removeClass = function(className) {
+    var i = 0,
+        j = 0,
+        length = this.length,
+        classes = className.trim().split(/\s+/);
+
+    for (; i < length; i++) {
+        j = 0;
+
+        for (j = 0; j < classes.length; j++) {
+            this[i].classList.remove(classes[j]);
+        }
+    }
+
+    return this;
+};
+
+fn.toggleClass = function(className) {
+    var i = 0, length = this.length;
+
+    for (; i < length; i++) {
+        this[i].classList.toggle(className);
+    }
+
+    return this;
+};
+
+fn.hasClass = function(className) {
+    var i = 0, length = this.length;
+
+    for (; i < length; i++) {
+        if (this[i].classList.contains(className)) {
+            return true;
+        }
+    }
+
+    return false;
+};
