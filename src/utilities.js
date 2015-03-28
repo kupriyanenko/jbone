@@ -14,6 +14,12 @@ function isArraylike(obj) {
         typeof length === "number" && length > 0 && (length - 1) in obj;
 }
 
+fn.pushStack = function(elems) {
+    var ret = jBone.merge(this.constructor(), elems);
+
+    return ret;
+};
+
 jBone.merge = function(first, second) {
     var l = second.length,
         i = first.length,
