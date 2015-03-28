@@ -67,7 +67,9 @@ fn.has = function() {
 };
 
 fn.add = function(selector, context) {
-    return jBone.unique(
-        jBone.merge(this.get(), jBone(selector, context))
+    return this.pushStack(
+        jBone.unique(
+            jBone.merge(this.get(), jBone(selector, context))
+        )
     );
 };
