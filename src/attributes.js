@@ -202,11 +202,15 @@ fn.removeClass = function(className) {
     return this;
 };
 
-fn.toggleClass = function(className) {
-    var i = 0, length = this.length;
+fn.toggleClass = function(className, force) {
+    var i = 0,
+        length = this.length,
+        method = "toggle";
+
+    force === true && (method = "add") || force === false && (method = "remove");
 
     for (; i < length; i++) {
-        this[i].classList.toggle(className);
+        this[i].classList[method](className);
     }
 
     return this;

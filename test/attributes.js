@@ -229,4 +229,28 @@ describe('jBone Attributes', function() {
 
         expect(a[0].getAttribute('class')).be.eql('');
     });
+
+    it('toggleClass(name, force) should remove class if token is false', function() {
+        var a = jBone('<div class="name">');
+        a.toggleClass('name', false);
+
+        expect(a[0].getAttribute('class')).be.eql('');
+
+        a = jBone('<div>');
+        a.toggleClass('name', false);
+
+        expect(a[0].getAttribute('class')).be.eql(null);
+    });
+
+    it('toggleClass(name, force) should add class if token is true', function() {
+        var a = jBone('<div class="name">');
+        a.toggleClass('name', true);
+
+        expect(a[0].getAttribute('class')).be.eql('name');
+
+        a = jBone('<div>');
+        a.toggleClass('name', true);
+
+        expect(a[0].getAttribute('class')).be.eql('name');
+    });
 });
