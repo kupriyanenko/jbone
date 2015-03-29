@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.23 - 2015-03-09 - Library for DOM manipulation
+ * jBone v1.0.24 - 2015-03-30 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -193,6 +193,12 @@ function isArraylike(obj) {
         typeof length === "number" && length > 0 && (length - 1) in obj;
 }
 
+fn.pushStack = function(elems) {
+    var ret = jBone.merge(this.constructor(), elems);
+
+    return ret;
+};
+
 jBone.merge = function(first, second) {
     var l = second.length,
         i = first.length,
@@ -276,6 +282,11 @@ function BoneEvent(e, data) {
                 this.defaultPrevented = true;
                 return e[key]();
             };
+        } else if (key === "stopImmediatePropagation") {
+            this[key] = function() {
+                this.immediatePropagationStopped = true;
+                return e[key]();
+            };
         } else if (isFunction(e[key])) {
             this[key] = function() {
                 return e[key]();
@@ -291,7 +302,11 @@ function BoneEvent(e, data) {
         }
     }
 
-    jBone.extend(this, data);
+    jBone.extend(this, data, {
+        isImmediatePropagationStopped: function() {
+            return !!this.immediatePropagationStopped;
+        }
+    });
 }
 
 jBone.Event = function(event, data) {
@@ -355,6 +370,7 @@ jBone.event = {
             length = handlerQueue.length,
             expectedTarget,
             handler,
+            event,
             eventOptions;
 
         for (; i < length; i++) {
@@ -362,16 +378,23 @@ jBone.event = {
             handler = handlerQueue[i];
             handler.data && (eventOptions.data = handler.data);
 
+            if (event && event.isImmediatePropagationStopped()) {
+                return;
+            }
+
             if (!handler.selector) {
+                event = new BoneEvent(e, eventOptions);
+
                 if (!(e.namespace && e.namespace !== handler.namespace)) {
-                    handler.originfn.call(el, new BoneEvent(e, eventOptions));
+                    handler.originfn.call(el, event);
                 }
             } else if (~jBone(el).find(handler.selector).indexOf(e.target) || (expectedTarget = jBone.contains(jBone(el).find(handler.selector), e.target))) {
                 expectedTarget = expectedTarget || e.target;
                 eventOptions.currentTarget = expectedTarget;
+                event = new BoneEvent(e, eventOptions);
 
                 if (!(e.namespace && e.namespace !== handler.namespace)) {
-                    handler.originfn.call(expectedTarget, new BoneEvent(e, eventOptions));
+                    handler.originfn.call(expectedTarget, event);
                 }
             }
         }
@@ -620,8 +643,10 @@ fn.has = function() {
 };
 
 fn.add = function(selector, context) {
-    return jBone.unique(
-        jBone.merge(this.get(), jBone(selector, context))
+    return this.pushStack(
+        jBone.unique(
+            jBone.merge(this.get(), jBone(selector, context))
+        )
     );
 };
 
@@ -829,11 +854,15 @@ fn.removeClass = function(className) {
     return this;
 };
 
-fn.toggleClass = function(className) {
-    var i = 0, length = this.length;
+fn.toggleClass = function(className, force) {
+    var i = 0,
+        length = this.length,
+        method = "toggle";
+
+    force === true && (method = "add") || force === false && (method = "remove");
 
     for (; i < length; i++) {
-        this[i].classList.toggle(className);
+        this[i].classList[method](className);
     }
 
     return this;
