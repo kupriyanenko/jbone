@@ -149,8 +149,7 @@ describe('jBone Event', function() {
     });
 
     it('on(event, target, callback) preventDefault', function() {
-        var a = jBone('<div><span><p></p></span></div>'),
-            counter = 0;
+        var a = jBone('<div><span><p></p></span></div>');
 
         jBone('#app').html(a);
 
@@ -164,6 +163,26 @@ describe('jBone Event', function() {
         });
 
         a.find('span').trigger('click');
+    });
+
+    it('on() should correct works with e.stopImmediatePropagation()', function() {
+        var a = jBone('<div></div>'),
+            counter = 0;
+
+        jBone('#app').html(a);
+
+        a.on('click', function(e) {
+            e.stopImmediatePropagation();
+            counter++;
+        });
+
+        a.on('click', function(e) {
+            counter++;
+        });
+
+        a.trigger('click');
+
+        expect(counter).be.eql(1);
     });
 
     it('one(event, callback)', function() {

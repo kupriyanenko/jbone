@@ -9,6 +9,11 @@ function BoneEvent(e, data) {
                 this.defaultPrevented = true;
                 return e[key]();
             };
+        } else if (key === "stopImmediatePropagation") {
+            this[key] = function() {
+                this.immediatePropagationStopped = true;
+                return e[key]();
+            };
         } else if (isFunction(e[key])) {
             this[key] = function() {
                 return e[key]();
@@ -24,7 +29,11 @@ function BoneEvent(e, data) {
         }
     }
 
-    jBone.extend(this, data);
+    jBone.extend(this, data, {
+        isImmediatePropagationStopped: function() {
+            return !!this.immediatePropagationStopped;
+        }
+    });
 }
 
 jBone.Event = function(event, data) {
@@ -88,6 +97,7 @@ jBone.event = {
             length = handlerQueue.length,
             expectedTarget,
             handler,
+            event,
             eventOptions;
 
         for (; i < length; i++) {
@@ -95,16 +105,23 @@ jBone.event = {
             handler = handlerQueue[i];
             handler.data && (eventOptions.data = handler.data);
 
+            if (event && event.isImmediatePropagationStopped()) {
+                return;
+            }
+
             if (!handler.selector) {
+                event = new BoneEvent(e, eventOptions);
+
                 if (!(e.namespace && e.namespace !== handler.namespace)) {
-                    handler.originfn.call(el, new BoneEvent(e, eventOptions));
+                    handler.originfn.call(el, event);
                 }
             } else if (~jBone(el).find(handler.selector).indexOf(e.target) || (expectedTarget = jBone.contains(jBone(el).find(handler.selector), e.target))) {
                 expectedTarget = expectedTarget || e.target;
                 eventOptions.currentTarget = expectedTarget;
+                event = new BoneEvent(e, eventOptions);
 
                 if (!(e.namespace && e.namespace !== handler.namespace)) {
-                    handler.originfn.call(expectedTarget, new BoneEvent(e, eventOptions));
+                    handler.originfn.call(expectedTarget, event);
                 }
             }
         }
