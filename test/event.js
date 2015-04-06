@@ -442,4 +442,22 @@ describe('jBone Event', function() {
         expect(i).be.eql(2);
     });
 
+    it('Event dispather should properly handle removed events', function() {
+        var a = $('<div>').appendTo('body'),
+            counter = 0;
+
+        a.on('click', function() {
+            counter++;
+        });
+        a.on('click', function() {
+            a.off();
+        });
+        a.on('click', function() {
+            counter++;
+        });
+
+        a.trigger('click');
+        expect(counter).be.eql(1);
+    });
+
 });

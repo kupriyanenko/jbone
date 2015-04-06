@@ -94,13 +94,12 @@ jBone.event = {
         var i = 0,
             el = this,
             handlerQueue = jBone.getData(el).events[e.type],
-            length = handlerQueue.length,
             expectedTarget,
             handler,
             event,
             eventOptions;
 
-        for (; i < length; i++) {
+        for (; i < handlerQueue.length; i++) {
             eventOptions = {};
             handler = handlerQueue[i];
             handler.data && (eventOptions.data = handler.data);
