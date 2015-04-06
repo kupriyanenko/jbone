@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.24 - 2015-03-30 - Library for DOM manipulation
+ * jBone v1.0.25 - 2015-04-06 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -367,13 +367,12 @@ jBone.event = {
         var i = 0,
             el = this,
             handlerQueue = jBone.getData(el).events[e.type],
-            length = handlerQueue.length,
             expectedTarget,
             handler,
             event,
             eventOptions;
 
-        for (; i < length; i++) {
+        for (; i < handlerQueue.length; i++) {
             eventOptions = {};
             handler = handlerQueue[i];
             handler.data && (eventOptions.data = handler.data);
