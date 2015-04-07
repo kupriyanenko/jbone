@@ -93,20 +93,33 @@ jBone.event = {
     dispatch: function(e) {
         var i = 0,
             el = this,
-            handlerQueue = jBone.getData(el).events[e.type],
+            handlers = jBone.getData(el).events[e.type],
+            length = handlers.length,
+            handlerQueue = [],
             expectedTarget,
             handler,
             event,
             eventOptions;
 
-        for (; i < handlerQueue.length; i++) {
+        // cache all events handlers, fix issue with multiple handlers (issue #45)
+        for (; i < length; i++) {
+            handlerQueue.push(handlers[i]);
+        }
+
+        i = 0;
+        length = handlerQueue.length;
+
+        for (;
+            // if events is exist
+            i < length &&
+            // if handler is not removed from stack
+            ~handlers.indexOf(handlerQueue[i]) &&
+            // if propagation is not stopped
+            !(event && event.isImmediatePropagationStopped());
+        i++) {
             eventOptions = {};
             handler = handlerQueue[i];
             handler.data && (eventOptions.data = handler.data);
-
-            if (event && event.isImmediatePropagationStopped()) {
-                return;
-            }
 
             if (!handler.selector) {
                 event = new BoneEvent(e, eventOptions);
@@ -164,7 +177,7 @@ fn.one = function(event) {
         addListener;
 
     addListener = function(el) {
-        var $el =  jBone(el);
+        var $el = jBone(el);
 
         event.split(" ").forEach(function(event) {
             var fn = function(e) {

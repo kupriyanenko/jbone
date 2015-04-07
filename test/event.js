@@ -185,10 +185,27 @@ describe('jBone Event', function() {
         expect(counter).be.eql(1);
     });
 
+    it('one(event, callback) should trigger all added events', function() {
+        var div = jBone('<div>'),
+            counter = 0,
+            fn = function() {
+                counter++;
+            };
+
+        div.one('click', fn);
+        div.one('click', fn);
+
+        div.trigger('click');
+
+        expect(counter).be.eql(2);
+    });
+
     it('one(event, callback)', function() {
-        var div = jBone('<div>'), counter = 0, fn = function() {
-            counter++;
-        };
+        var div = jBone('<div>'),
+            counter = 0,
+            fn = function() {
+                counter++;
+            };
 
         div.one('click', fn);
 
@@ -196,14 +213,18 @@ describe('jBone Event', function() {
 
         expect(counter).be.eql(1);
 
-        var divs = jBone('<input><input>');
+        var divs = jBone('<div></div><div></div>');
 
         divs.one('foo', fn);
 
         divs.eq(0).trigger('foo');
+
+        divs.one('foo', fn);
+
+        divs.eq(1).trigger('foo');
         divs.eq(1).trigger('foo');
 
-        expect(counter).be.eql(3);
+        expect(counter).be.eql(4);
     });
 
     it('one(event, data, callback)', function() {
