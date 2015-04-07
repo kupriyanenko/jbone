@@ -160,20 +160,25 @@ describe('jBone Attributes', function() {
         a.removeData();
     });
 
-    it('hasClass(name) should check if class exist', function() {
-        var a = jBone('<div class="name">');
-        var b = jBone('<div>');
-
-        expect(a.hasClass('name')).be.eql(true);
-        expect(a.hasClass('not-name')).be.eql(false);
-        expect(b.hasClass('name')).be.eql(false);
-    });
-
     it('addClass(name) should add new class', function() {
         var a = jBone('<div>');
         a.addClass('name');
 
         expect(a[0].getAttribute('class')).be.eql('name');
+    });
+
+    it('addClass() should handle empty class', function() {
+        var a = jBone('<div>');
+        a.addClass('');
+
+        expect(a[0].getAttribute('class')).be.eql(null);
+    });
+
+    it('addClass() should handle invalid class', function() {
+        var a = jBone('<div>');
+        a.addClass();
+
+        expect(a[0].getAttribute('class')).be.eql(null);
     });
 
     it('addClass(name) shouldn\'t add new class if class already exist', function() {
@@ -195,6 +200,20 @@ describe('jBone Attributes', function() {
         a.removeClass('name');
 
         expect(a[0].getAttribute('class')).be.eql('');
+    });
+
+    it('removeClass(name) should handle empty class', function() {
+        var a = jBone('<div class="name">');
+        a.removeClass('');
+
+        expect(a[0].getAttribute('class')).be.eql('name');
+    });
+
+    it('removeClass(name) should handle invalid class', function() {
+        var a = jBone('<div class="name">');
+        a.removeClass();
+
+        expect(a[0].getAttribute('class')).be.eql('name');
     });
 
     it('removeClass(first second) should remove multiple classes', function() {
@@ -221,6 +240,20 @@ describe('jBone Attributes', function() {
         a.toggleClass('name');
 
         expect(a[0].getAttribute('class')).be.eql('name');
+    });
+
+    it('toggleClass(name) should handle empty class', function() {
+        var a = jBone('<div>');
+        a.toggleClass('');
+
+        expect(a[0].getAttribute('class')).be.eql(null);
+    });
+
+    it('toggleClass(name) should handle invalid class', function() {
+        var a = jBone('<div>');
+        a.toggleClass();
+
+        expect(a[0].getAttribute('class')).be.eql(null);
     });
 
     it('toggleClass(name) should remove class if class is exist', function() {
@@ -252,5 +285,28 @@ describe('jBone Attributes', function() {
         a.toggleClass('name', true);
 
         expect(a[0].getAttribute('class')).be.eql('name');
+    });
+
+    it('hasClass(name) should check if class exist', function() {
+        var a = jBone('<div class="name">');
+        var b = jBone('<div>');
+
+        expect(a.hasClass('name')).be.eql(true);
+        expect(a.hasClass('not-name')).be.eql(false);
+        expect(b.hasClass('name')).be.eql(false);
+    });
+
+    it('hasClass(name) should handle empty class', function() {
+        var a = jBone('<div class="name">');
+        var b = jBone('<div>');
+
+        expect(a.hasClass('')).be.eql(false);
+    });
+
+    it('hasClass(name) should handle invalid class', function() {
+        var a = jBone('<div class="name">');
+        var b = jBone('<div>');
+
+        expect(a.hasClass()).be.eql(false);
     });
 });
