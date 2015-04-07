@@ -172,7 +172,7 @@ fn.addClass = function(className) {
     var i = 0,
         j = 0,
         length = this.length,
-        classes = className.trim().split(/\s+/);
+        classes = className ? className.trim().split(/\s+/) : [];
 
     for (; i < length; i++) {
         j = 0;
@@ -189,7 +189,7 @@ fn.removeClass = function(className) {
     var i = 0,
         j = 0,
         length = this.length,
-        classes = className.trim().split(/\s+/);
+        classes = className ? className.trim().split(/\s+/) : [];
 
     for (; i < length; i++) {
         j = 0;
@@ -209,8 +209,10 @@ fn.toggleClass = function(className, force) {
 
     force === true && (method = "add") || force === false && (method = "remove");
 
-    for (; i < length; i++) {
-        this[i].classList[method](className);
+    if (className) {
+        for (; i < length; i++) {
+            this[i].classList[method](className);
+        }
     }
 
     return this;
@@ -219,9 +221,11 @@ fn.toggleClass = function(className, force) {
 fn.hasClass = function(className) {
     var i = 0, length = this.length;
 
-    for (; i < length; i++) {
-        if (this[i].classList.contains(className)) {
-            return true;
+    if (className) {
+        for (; i < length; i++) {
+            if (this[i].classList.contains(className)) {
+                return true;
+            }
         }
     }
 
