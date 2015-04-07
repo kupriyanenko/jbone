@@ -1,6 +1,6 @@
 {
   "name": "jbone",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "main": "dist/jbone.js",
   "ignore": [
     "**/.*",
