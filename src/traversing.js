@@ -20,7 +20,7 @@ fn.find = function(selector) {
 fn.get = function(index) {
     return index != null ?
 
-        // Return just the one element from the set
+        // Return just one element from the set
         (index < 0 ? this[index + this.length] : this[index]) :
 
         // Return all the elements in a clean array

@@ -110,7 +110,7 @@ jBone.event = {
         length = handlerQueue.length;
 
         for (;
-            // if events is exist
+            // if event exists
             i < length &&
             // if handler is not removed from stack
             ~handlers.indexOf(handlerQueue[i]) &&
