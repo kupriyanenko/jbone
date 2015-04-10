@@ -23,7 +23,7 @@ fn.append = function(appended) {
     if (isString(appended) && rquickExpr.exec(appended)) {
         appended = jBone(appended);
     }
-    // create text node for inserting
+    // create text node for insertion
     else if (!isObject(appended)) {
         appended = document.createTextNode(appended);
     }
@@ -74,7 +74,7 @@ fn.remove = function() {
         length = this.length,
         el;
 
-    // remove all listners
+    // remove all listeners
     this.off();
 
     for (; i < length; i++) {
