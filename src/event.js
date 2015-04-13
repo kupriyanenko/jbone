@@ -60,13 +60,13 @@ jBone.Event = function(event, data) {
 
 jBone.event = {
     add: function(el, types, handler, data, selector) {
-        var eventHandler = function() {
-                jBone.event.dispatch.apply(el, arguments);
-            },
-            events, eventType, t, event;
-
         jBone.setId(el);
-        events = jBone.getData(el).events;
+
+        var eventHandler = function(e) {
+                jBone.event.dispatch.call(el, e);
+            },
+            events = jBone.getData(el).events,
+            eventType, t, event;
 
         types = types.split(" ");
         t = types.length;
