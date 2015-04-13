@@ -1,5 +1,7 @@
 # Meet jBone
 
+[![Join the chat at https://gitter.im/kupriyanenko/jbone](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kupriyanenko/jbone?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/kupriyanenko/jbone.svg?branch=master)](https://travis-ci.org/kupriyanenko/jbone)
 [![Bower version](https://badge.fury.io/bo/jbone.svg)](http://badge.fury.io/bo/jbone)
 [![npm version](https://badge.fury.io/js/jbone.svg)](http://badge.fury.io/js/jbone)
