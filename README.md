@@ -151,6 +151,11 @@ Firefox
 * [.val(value)](https://github.com/kupriyanenko/jbone/wiki/Attributes#valvalue)
 * [.css(propertyName, value)](https://github.com/kupriyanenko/jbone/wiki/Attributes#csspropertyname-value)
 * [.css(properties)](https://github.com/kupriyanenko/jbone/wiki/Attributes#cssproperties)
+* [.addClass(className)](https://github.com/kupriyanenko/jbone/wiki/Attributes#addclassclassname)
+* [.removeClass(className)](https://github.com/kupriyanenko/jbone/wiki/Attributes#removeclassclassname)
+* [.toggleClass(className)](https://github.com/kupriyanenko/jbone/wiki/Attributes#toggleclassclassname)
+* [.toggleClass(className, state)](https://github.com/kupriyanenko/jbone/wiki/Attributes#toggleclassclassname-state)
+* [.hasClass(className)](https://github.com/kupriyanenko/jbone/wiki/Attributes#hasclassclassname)
 
 [Data](https://github.com/kupriyanenko/jbone/wiki/Data)
 
@@ -173,7 +178,7 @@ Firefox
 * [.html()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#html)
 * [.html(content)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#htmlcontent)
 * [.append(content)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendcontent)
-* [.appendTo(target)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendtotarget)
+* [.appendTo(element)](https://github.com/kupriyanenko/jbone/wiki/Manipulation#appendtoelement)
 * [.empty()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#empty)
 * [.remove()](https://github.com/kupriyanenko/jbone/wiki/Manipulation#remove)
 
@@ -184,12 +189,19 @@ Firefox
 * [.eq(index)](https://github.com/kupriyanenko/jbone/wiki/Traversing#eqindex)
 * [.parent()](https://github.com/kupriyanenko/jbone/wiki/Traversing#parent)
 * [.toArray()](https://github.com/kupriyanenko/jbone/wiki/Traversing#toarray)
+* [.add(selector)](https://github.com/kupriyanenko/jbone/wiki/Traversing#addselector)
+* [.add(elements)](https://github.com/kupriyanenko/jbone/wiki/Traversing#addelements)
+* [.add(html)](https://github.com/kupriyanenko/jbone/wiki/Traversing#addhtml)
+* [.add(selection)](https://github.com/kupriyanenko/jbone/wiki/Traversing#addselection)
+* [.add(selector, context)](https://github.com/kupriyanenko/jbone/wiki/Traversing#addselector-context)
 
 [Utilities](https://github.com/kupriyanenko/jbone/wiki/Utilities)
 
 * [jBone.merge(first, second)](https://github.com/kupriyanenko/jbone/wiki/Utilities#jbonemergefirst-second)
 * [jBone.contains(container, contained)](https://github.com/kupriyanenko/jbone/wiki/Utilities#jbonecontainscontainer-contained)
 * [jBone.extend(target[, object1][, objectN])](https://github.com/kupriyanenko/jbone/wiki/Utilities#jboneextendtarget-object1-objectn)
+* [jBone.makeArray(obj)](https://github.com/kupriyanenko/jbone/wiki/Utilities#jbonemakearrayobj)
+* [jBone.unique(array)](https://github.com/kupriyanenko/jbone/wiki/Utilities#jboneuniquearray)
 
 [Array methods](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/prototype#Methods)
 
@@ -211,6 +223,10 @@ Firefox
 * [.map()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/map)
 * [.reduce()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/reduce)
 * [.reduceRight()](https://developer.mozilla.org/docs/JavaScript/Reference/Global_Objects/Array/reduceRight)
+
+[Internals](https://github.com/kupriyanenko/jbone/wiki/Internals)
+
+* [.pushStack(elements)](https://github.com/kupriyanenko/jbone/wiki/Internals#pushstackelements)
 
 ## Running the Tests
 
