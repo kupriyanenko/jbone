@@ -35,15 +35,7 @@ jBone.merge = function(first, second) {
 };
 
 jBone.contains = function(container, contained) {
-    var result;
-
-    container.reverse().some(function(el) {
-        if (el.contains(contained)) {
-            return result = el;
-        }
-    });
-
-    return result;
+    return container.contains(contained);
 };
 
 jBone.extend = function(target) {

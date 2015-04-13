@@ -20,9 +20,11 @@ describe('jBone Unilities', function() {
             b = jBone('<span>'),
             c = a.find('input')[0];
 
-        expect(jBone.contains(a, c)).ok();
-        expect(jBone.contains(a.find('span'), c)).eql(a.find('span')[0]);
-        expect(jBone.contains(a, b[0])).not.ok();
+        expect(jBone.contains(a[0], c)).ok();
+        expect(jBone.contains(a[0], b[0])).not.ok();
+
+        expect(jBone.contains(document.documentElement, document.body)).ok();
+        expect(jBone.contains(document.body, document.documentElement)).not.ok();
     });
 
     it('extend(target, element)', function() {

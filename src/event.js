@@ -92,10 +92,13 @@ jBone.event = {
 
     dispatch: function(e) {
         var i = 0,
+            j = 0,
             el = this,
             handlers = jBone.getData(el).events[e.type],
             length = handlers.length,
             handlerQueue = [],
+            targets = [],
+            l,
             expectedTarget,
             handler,
             event,
@@ -121,13 +124,30 @@ jBone.event = {
             handler = handlerQueue[i];
             handler.data && (eventOptions.data = handler.data);
 
+            // event handler without selector
             if (!handler.selector) {
                 event = new BoneEvent(e, eventOptions);
 
                 if (!(e.namespace && e.namespace !== handler.namespace)) {
                     handler.originfn.call(el, event);
                 }
-            } else if (~jBone(el).find(handler.selector).indexOf(e.target) || (expectedTarget = jBone.contains(jBone(el).find(handler.selector), e.target))) {
+            }
+            // event handler with selector
+            else if (
+                // if target and selected element the same
+                ~(targets = jBone(el).find(handler.selector)).indexOf(e.target) ||
+                // if one of element matched with selector contains target
+                (el !== e.target && el.contains(e.target))
+            ) {
+                l = targets.length;
+
+                // get element matched with selector
+                for (; j < length; j++) {
+                    if (targets[j] && targets[j].contains(e.target)) {
+                        expectedTarget = targets[j];
+                    }
+                }
+
                 expectedTarget = expectedTarget || e.target;
                 eventOptions.currentTarget = expectedTarget;
                 event = new BoneEvent(e, eventOptions);
