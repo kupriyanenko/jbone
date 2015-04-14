@@ -513,6 +513,25 @@ describe('jBone Event', function() {
         expect(i).be.eql(2);
     });
 
+    it('multiple on()/off() handlers per element with namespaces', function() {
+        var counter = 0,
+            handler = function() { counter++; },
+            $el = $('<p></p>');
+
+        $el.on('click.space1', handler);
+        $el.trigger('click');
+        expect(counter).be.eql(1);
+
+        $el.on('click.space2', handler);
+        $el.trigger('click');
+        expect(counter).be.eql(3);
+
+        $el.off('click.space1');
+        $el.on('click.space1', handler);
+        $el.trigger("click");
+        expect(counter).be.eql(5);
+    });
+
     it('Event dispather should properly handle removed events', function() {
         var a = $('<div>').appendTo('body'),
             counter = 0;
