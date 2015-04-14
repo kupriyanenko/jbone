@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.26 - 2015-04-08 - Library for DOM manipulation
+ * jBone v1.0.27 - 2015-04-14 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -214,15 +214,7 @@ jBone.merge = function(first, second) {
 };
 
 jBone.contains = function(container, contained) {
-    var result;
-
-    container.reverse().some(function(el) {
-        if (el.contains(contained)) {
-            return result = el;
-        }
-    });
-
-    return result;
+    return container.contains(contained);
 };
 
 jBone.extend = function(target) {
@@ -333,13 +325,13 @@ jBone.Event = function(event, data) {
 
 jBone.event = {
     add: function(el, types, handler, data, selector) {
-        var eventHandler = function() {
-                jBone.event.dispatch.apply(el, arguments);
-            },
-            events, eventType, t, event;
-
         jBone.setId(el);
-        events = jBone.getData(el).events;
+
+        var eventHandler = function(e) {
+                jBone.event.dispatch.call(el, e);
+            },
+            events = jBone.getData(el).events,
+            eventType, t, event;
 
         types = types.split(" ");
         t = types.length;
@@ -365,10 +357,13 @@ jBone.event = {
 
     dispatch: function(e) {
         var i = 0,
+            j = 0,
             el = this,
             handlers = jBone.getData(el).events[e.type],
             length = handlers.length,
             handlerQueue = [],
+            targets = [],
+            l,
             expectedTarget,
             handler,
             event,
@@ -383,7 +378,7 @@ jBone.event = {
         length = handlerQueue.length;
 
         for (;
-            // if events is exist
+            // if event exists
             i < length &&
             // if handler is not removed from stack
             ~handlers.indexOf(handlerQueue[i]) &&
@@ -394,13 +389,30 @@ jBone.event = {
             handler = handlerQueue[i];
             handler.data && (eventOptions.data = handler.data);
 
+            // event handler without selector
             if (!handler.selector) {
                 event = new BoneEvent(e, eventOptions);
 
                 if (!(e.namespace && e.namespace !== handler.namespace)) {
                     handler.originfn.call(el, event);
                 }
-            } else if (~jBone(el).find(handler.selector).indexOf(e.target) || (expectedTarget = jBone.contains(jBone(el).find(handler.selector), e.target))) {
+            }
+            // event handler with selector
+            else if (
+                // if target and selected element the same
+                ~(targets = jBone(el).find(handler.selector)).indexOf(e.target) ||
+                // if one of element matched with selector contains target
+                (el !== e.target && el.contains(e.target))
+            ) {
+                l = targets.length;
+
+                // get element matched with selector
+                for (; j < length; j++) {
+                    if (targets[j] && targets[j].contains(e.target)) {
+                        expectedTarget = targets[j];
+                    }
+                }
+
                 expectedTarget = expectedTarget || e.target;
                 eventOptions.currentTarget = expectedTarget;
                 event = new BoneEvent(e, eventOptions);
@@ -413,29 +425,33 @@ jBone.event = {
     }
 };
 
-fn.on = function(types) {
-    var args = arguments,
-        length = this.length,
-        i = 0,
-        handler = slice.call(args, -1)[0],
-        selector, data;
+fn.on = function(types, selector, data, fn) {
+    var length = this.length,
+        i = 0;
 
-    // .on('click', '.selector', function() {})
-    if (args.length === 3 && isString(args[1])) {
-        selector = args[1];
+    if (data == null && fn == null) {
+        // (types, fn)
+        fn = selector;
+        data = selector = undefined;
+    } else if (fn == null) {
+        if (typeof selector === "string") {
+            // (types, selector, fn)
+            fn = data;
+            data = undefined;
+        } else {
+            // (types, data, fn)
+            fn = data;
+            data = selector;
+            selector = undefined;
+        }
     }
-    // .on('click', { key: value }, function() {})
-    else if (args.length === 3 && isObject(args[1])) {
-        data = args[1];
-    }
-    // .on('click', '.selector', { key: value }, function() {})
-    else if (args.length === 4) {
-        selector = args[1];
-        data = args[2];
+
+    if (!fn) {
+        return this;
     }
 
     for (; i < length; i++) {
-        jBone.event.add(this[i], types, handler, data, selector);
+        jBone.event.add(this[i], types, fn, data, selector);
     }
 
     return this;
@@ -517,10 +533,12 @@ fn.off = function(event, fn) {
             }
 
             if (events[eventType][index].fn === callback) {
-                el.removeEventListener(eventType, callback);
-
                 // remove handler from cache
-                jBone._cache.events[jBone.getData(el).jid][eventType].splice(index, 1);
+                events[eventType].splice(index, 1);
+
+                if (!events[eventType].length) {
+                    el.removeEventListener(eventType, callback);
+                }
             }
         },
         events, namespace, removeListeners, eventType;
@@ -608,7 +626,7 @@ fn.find = function(selector) {
 fn.get = function(index) {
     return index != null ?
 
-        // Return just the one element from the set
+        // Return just one element from the set
         (index < 0 ? this[index + this.length] : this[index]) :
 
         // Return all the elements in a clean array
@@ -921,7 +939,7 @@ fn.append = function(appended) {
     if (isString(appended) && rquickExpr.exec(appended)) {
         appended = jBone(appended);
     }
-    // create text node for inserting
+    // create text node for insertion
     else if (!isObject(appended)) {
         appended = document.createTextNode(appended);
     }
@@ -972,7 +990,7 @@ fn.remove = function() {
         length = this.length,
         el;
 
-    // remove all listners
+    // remove all listeners
     this.off();
 
     for (; i < length; i++) {
