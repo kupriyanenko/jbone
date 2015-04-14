@@ -268,10 +268,12 @@ fn.off = function(event, fn) {
             }
 
             if (events[eventType][index].fn === callback) {
-                el.removeEventListener(eventType, callback);
-
                 // remove handler from cache
-                jBone._cache.events[jBone.getData(el).jid][eventType].splice(index, 1);
+                events[eventType].splice(index, 1);
+
+                if (!events[eventType].length) {
+                    el.removeEventListener(eventType, callback);
+                }
             }
         },
         events, namespace, removeListeners, eventType;
