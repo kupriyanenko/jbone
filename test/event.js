@@ -118,6 +118,56 @@ describe('jBone Event', function() {
         expect(counter).be.eql(2);
     });
 
+    it('on() with empty parameters', function() {
+        var a = jBone('<div></div>'),
+            counter = 0;
+
+        jBone('#app').html(a);
+
+        a.on('click', '', function() {
+            counter++;
+        });
+
+        a.trigger('click');
+        expect(counter).be.eql(1);
+
+        counter = 0;
+        a.off('click');
+        a.on('click', undefined, function() {
+            counter++;
+        });
+
+        a.trigger('click');
+        expect(counter).be.eql(1);
+
+        counter = 0;
+        a.off('click');
+        a.on('click', function() {
+            counter++;
+        }, undefined);
+
+        a.trigger('click');
+        expect(counter).be.eql(1);
+
+        counter = 0;
+        a.off('click');
+        a.on('click', function() {
+            counter++;
+        }, undefined, undefined);
+
+        a.trigger('click');
+        expect(counter).be.eql(1);
+
+        counter = 0;
+        a.off('click');
+        a.on('click', undefined, function() {
+            counter++;
+        }, undefined);
+
+        a.trigger('click');
+        expect(counter).be.eql(1);
+    });
+
     it('on(event, target, data, callback)', function() {
         var div = jBone('<div><span></span></div>');
 

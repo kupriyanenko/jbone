@@ -160,29 +160,33 @@ jBone.event = {
     }
 };
 
-fn.on = function(types) {
-    var args = arguments,
-        length = this.length,
-        i = 0,
-        handler = slice.call(args, -1)[0],
-        selector, data;
+fn.on = function(types, selector, data, fn) {
+    var length = this.length,
+        i = 0;
 
-    // .on('click', '.selector', function() {})
-    if (args.length === 3 && isString(args[1])) {
-        selector = args[1];
+    if (data == null && fn == null) {
+        // (types, fn)
+        fn = selector;
+        data = selector = undefined;
+    } else if (fn == null) {
+        if (typeof selector === "string") {
+            // (types, selector, fn)
+            fn = data;
+            data = undefined;
+        } else {
+            // (types, data, fn)
+            fn = data;
+            data = selector;
+            selector = undefined;
+        }
     }
-    // .on('click', { key: value }, function() {})
-    else if (args.length === 3 && isObject(args[1])) {
-        data = args[1];
-    }
-    // .on('click', '.selector', { key: value }, function() {})
-    else if (args.length === 4) {
-        selector = args[1];
-        data = args[2];
+
+    if (!fn) {
+        return this;
     }
 
     for (; i < length; i++) {
-        jBone.event.add(this[i], types, handler, data, selector);
+        jBone.event.add(this[i], types, fn, data, selector);
     }
 
     return this;
