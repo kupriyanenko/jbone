@@ -1,5 +1,5 @@
 /*!
- * jBone v1.0.27 - 2015-04-14 - Library for DOM manipulation
+ * jBone v1.0.28 - 2015-04-17 - Library for DOM manipulation
  *
  * https://github.com/kupriyanenko/jbone
  *
@@ -385,6 +385,7 @@ jBone.event = {
             // if propagation is not stopped
             !(event && event.isImmediatePropagationStopped());
         i++) {
+            expectedTarget = null;
             eventOptions = {};
             handler = handlerQueue[i];
             handler.data && (eventOptions.data = handler.data);
@@ -400,20 +401,26 @@ jBone.event = {
             // event handler with selector
             else if (
                 // if target and selected element the same
-                ~(targets = jBone(el).find(handler.selector)).indexOf(e.target) ||
+                ~(targets = jBone(el).find(handler.selector)).indexOf(e.target) && (expectedTarget = e.target) ||
                 // if one of element matched with selector contains target
                 (el !== e.target && el.contains(e.target))
             ) {
-                l = targets.length;
-
                 // get element matched with selector
-                for (; j < length; j++) {
-                    if (targets[j] && targets[j].contains(e.target)) {
-                        expectedTarget = targets[j];
+                if (!expectedTarget) {
+                    l = targets.length;
+                    j = 0;
+
+                    for (; j < l; j++) {
+                        if (targets[j] && targets[j].contains(e.target)) {
+                            expectedTarget = targets[j];
+                        }
                     }
                 }
 
-                expectedTarget = expectedTarget || e.target;
+                if (!expectedTarget) {
+                    continue;
+                }
+
                 eventOptions.currentTarget = expectedTarget;
                 event = new BoneEvent(e, eventOptions);
 
