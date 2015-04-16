@@ -198,7 +198,7 @@ describe('jBone Event', function() {
         expect(counter).be.eql(3);
     });
 
-    it('on(event, target, callback) with complex selecors', function() {
+    it('on(event, target, callback) with complex selectors', function() {
         var $div = jBone('<div class="container"><span class="target"><input type="text" /><input class="click" type="text" /></span></div>'),
             counter = 0;
 
@@ -219,7 +219,7 @@ describe('jBone Event', function() {
         expect(counter).be.eql(2);
     });
 
-    it('on(event, target, callback) with wrong selecors', function() {
+    it('on(event, target, callback) with wrong selectors', function() {
         var $div = jBone('<div class="container"><span class="target"><i class="click"></i></span><span class="wrong" type="text"><i class="click"></i></span></div>'),
             counter = 0;
 
