@@ -198,6 +198,45 @@ describe('jBone Event', function() {
         expect(counter).be.eql(3);
     });
 
+    it('on(event, target, callback) with complex selecors', function() {
+        var $div = jBone('<div class="container"><span class="target"><input type="text" /><input class="click" type="text" /></span></div>'),
+            counter = 0;
+
+        jBone('#app').html($div);
+
+        $div.on('click', '.target > input:not(.click)', function() {
+            counter++;
+        });
+
+        $div.on('click', '.target > input.click', function() {
+            counter++;
+        });
+
+        $div.find('input.click').trigger('click');
+        expect(counter).be.eql(1);
+
+        $div.find('input:not(.click)').trigger('click');
+        expect(counter).be.eql(2);
+    });
+
+    it('on(event, target, callback) with wrong selecors', function() {
+        var $div = jBone('<div class="container"><span class="target"><i class="click"></i></span><span class="wrong" type="text"><i class="click"></i></span></div>'),
+            counter = 0;
+
+        jBone('#app').html($div);
+
+        $div.on('click', '.wrong', function() {
+            counter++;
+        });
+
+        $div.on('click', '.target', function() {
+            counter++;
+        });
+
+        $div.find('.click').eq(0).trigger('click');
+        expect(counter).be.eql(1);
+    });
+
     it('on(event, target, callback) preventDefault', function() {
         var a = jBone('<div><span><p></p></span></div>');
 
