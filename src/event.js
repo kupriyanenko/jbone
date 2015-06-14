@@ -59,6 +59,15 @@ jBone.Event = function(event, data) {
 };
 
 jBone.event = {
+
+    /**
+     * Attach a handler to an event for the elements
+     * @param {Node}        el         - Events will be attached to this DOM Node
+     * @param {String}      types      - One or more space-separated event types and optional namespaces
+     * @param {Function}    handler    - A function to execute when the event is triggered
+     * @param {Object}      [data]     - Data to be passed to the handler in event.data
+     * @param {String}      [selector] - A selector string to filter the descendants of the selected elements
+     */
     add: function(el, types, handler, data, selector) {
         jBone.setId(el);
 
@@ -88,6 +97,110 @@ jBone.event = {
                 originfn: handler
             });
         }
+    },
+
+    /**
+     * Remove an event handler
+     * @param  {Node}       el        - Events will be deattached from this DOM Node
+     * @param  {String}     types     - One or more space-separated event types and optional namespaces
+     * @param  {Function}   handler   - A handler function previously attached for the event(s)
+     */
+    remove: function(el, types, handler) {
+        var removeListener = function(events, eventType, index, el, e) {
+                var callback;
+
+                // get callback
+                if ((handler && e.originfn === handler) || !handler) {
+                    callback = e.fn;
+                }
+
+                if (events[eventType][index].fn === callback) {
+                    // remove handler from cache
+                    events[eventType].splice(index, 1);
+
+                    if (!events[eventType].length) {
+                        el.removeEventListener(eventType, callback);
+                    }
+                }
+            },
+            events = jBone.getData(el).events,
+            l,
+            eventsByType;
+
+        if (!events) {
+            return;
+        }
+
+        // remove all events
+        if (!types && events) {
+            return keys(events).forEach(function(eventType) {
+                eventsByType = events[eventType];
+                l = eventsByType.length;
+
+                while(l--) {
+                    removeListener(events, eventType, l, el, eventsByType[l]);
+                }
+            });
+        }
+
+        types.split(" ").forEach(function(eventName) {
+            var eventType = eventName.split(".")[0],
+                namespace = eventName.split(".").splice(1).join("."),
+                e;
+
+            // remove named events
+            if (events[eventType]) {
+                eventsByType = events[eventType];
+                l = eventsByType.length;
+
+                while(l--) {
+                    e = eventsByType[l];
+                    if (!namespace || (namespace && e.namespace === namespace)) {
+                        removeListener(events, eventType, l, el, e);
+                    }
+                }
+            }
+            // remove all namespaced events
+            else if (namespace) {
+                keys(events).forEach(function(eventType) {
+                    eventsByType = events[eventType];
+                    l = eventsByType.length;
+
+                    while(l--) {
+                        e = eventsByType[l];
+                        if (e.namespace.split(".")[0] === namespace.split(".")[0]) {
+                            removeListener(events, eventType, l, el, e);
+                        }
+                    }
+                });
+            }
+        });
+    },
+
+    /**
+     * Execute all handlers and behaviors attached to the matched elements for the given event type.
+     * @param  {Node}       el       - Events will be triggered for thie DOM Node
+     * @param  {String}     event    - One or more space-separated event types and optional namespaces
+     */
+    trigger: function(el, event) {
+        var events = [];
+
+        if (isString(event)) {
+            events = event.split(" ").map(function(event) {
+                return jBone.Event(event);
+            });
+        } else {
+            event = event instanceof Event ? event : jBone.Event(event);
+            events = [event];
+        }
+
+        events.forEach(function(event) {
+            if (!event.type) {
+                return;
+            }
+
+            el.dispatchEvent && el.dispatchEvent(event);
+        });
     },
 
     dispatch: function(e) {
@@ -228,119 +341,26 @@ fn.one = function(event) {
 };
 
 fn.trigger = function(event) {
-    var events = [],
-        i = 0,
-        length = this.length,
-        dispatchEvents;
+    var i = 0,
+        length = this.length;
 
     if (!event) {
         return this;
     }
 
-    if (isString(event)) {
-        events = event.split(" ").map(function(event) {
-            return jBone.Event(event);
-        });
-    } else {
-        event = event instanceof Event ? event : jBone.Event(event);
-        events = [event];
-    }
-
-    dispatchEvents = function(el) {
-        events.forEach(function(event) {
-            if (!event.type) {
-                return;
-            }
-
-            el.dispatchEvent && el.dispatchEvent(event);
-        });
-    };
-
     for (; i < length; i++) {
-        dispatchEvents(this[i]);
+        jBone.event.trigger(this[i], event);
     }
 
     return this;
 };
 
-fn.off = function(event, fn) {
+fn.off = function(types, handler) {
     var i = 0,
-        length = this.length,
-        removeListener = function(events, eventType, index, el, e) {
-            var callback;
-
-            // get callback
-            if ((fn && e.originfn === fn) || !fn) {
-                callback = e.fn;
-            }
-
-            if (events[eventType][index].fn === callback) {
-                // remove handler from cache
-                events[eventType].splice(index, 1);
-
-                if (!events[eventType].length) {
-                    el.removeEventListener(eventType, callback);
-                }
-            }
-        },
-        events, namespace, removeListeners, eventType;
-
-    removeListeners = function(el) {
-        var l, eventsByType, e;
-
-        events = jBone.getData(el).events;
-
-        if (!events) {
-            return;
-        }
-
-        // remove all events
-        if (!event && events) {
-            return keys(events).forEach(function(eventType) {
-                eventsByType = events[eventType];
-                l = eventsByType.length;
-
-                while(l--) {
-                    removeListener(events, eventType, l, el, eventsByType[l]);
-                }
-            });
-        }
-
-        event.split(" ").forEach(function(event) {
-            eventType = event.split(".")[0];
-            namespace = event.split(".").splice(1).join(".");
-
-            // remove named events
-            if (events[eventType]) {
-                eventsByType = events[eventType];
-                l = eventsByType.length;
-
-                while(l--) {
-                    e = eventsByType[l];
-                    if (!namespace || (namespace && e.namespace === namespace)) {
-                        removeListener(events, eventType, l, el, e);
-                    }
-                }
-            }
-            // remove all namespaced events
-            else if (namespace) {
-                keys(events).forEach(function(eventType) {
-                    eventsByType = events[eventType];
-                    l = eventsByType.length;
-
-                    while(l--) {
-                        e = eventsByType[l];
-                        if (e.namespace.split(".")[0] === namespace.split(".")[0]) {
-                            removeListener(events, eventType, l, el, e);
-                        }
-                    }
-                });
-            }
-        });
-    };
+        length = this.length;
 
     for (; i < length; i++) {
-        removeListeners(this[i]);
+        jBone.event.remove(this[i], types, handler);
     }
 
     return this;
