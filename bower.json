@@ -3,9 +3,13 @@
   "version": "1.0.28",
   "main": "dist/jbone.js",
   "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components"
+    ".gitignore",
+    ".travis.yml",
+    "component.json",
+    "perf",
+    "src",
+    "build",
+    "test"
   ],
   "devDependencies": {
     "mocha": "1.18.2",
