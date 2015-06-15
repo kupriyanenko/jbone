@@ -1,11 +1,15 @@
 {
   "name": "jbone",
   "version": "1.1.0",
+  "description": "Library for DOM manipulation",
   "main": "dist/jbone.js",
+  "homepage": "http://jbone.js.org",
   "ignore": [
     ".gitignore",
     ".travis.yml",
     "component.json",
+    "Gruntfile.js",
+    "package.json",
     "perf",
     "src",
     "build",
@@ -15,5 +19,22 @@
     "mocha": "1.18.2",
     "expect": "0.2.0",
     "astrobench": "0.1.1"
+  },
+  "keywords": [
+    "jquery",
+    "jbone",
+    "backbone",
+    "javascript",
+    "DOM",
+    "events",
+    "library"
+  ],
+  "authors": [
+    "Alexey Kupriyanenko <a.kupriyanenko@gmail.com>"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kupriyanenko/jbone"
   }
 }
