@@ -1,7 +1,7 @@
 /*!
- * jBone v1.1.0 - 2015-06-14 - Library for DOM manipulation
+ * jBone v1.1.1 - 2015-08-13 - Library for DOM manipulation
  *
- * https://github.com/kupriyanenko/jbone
+ * http://jbone.js.org
  *
  * Copyright 2015 Alexey Kupriyanenko
  * Released under the MIT license.
