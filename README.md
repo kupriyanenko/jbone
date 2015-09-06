@@ -6,6 +6,9 @@
 [![Bower version](https://badge.fury.io/bo/jbone.svg)](http://jbone.js.org)
 [![npm version](https://badge.fury.io/js/jbone.svg)](https://www.npmjs.com/package/jbone)
 [![JS.ORG](https://img.shields.io/badge/js.org-jbone-ffb400.svg)](http://jbone.js.org)
+[![CDNJS.COM](https://img.shields.io/badge/cdnjs.com-jbone-ffb400.svg)](https://cdnjs.com/libraries/jbone)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/kupriyanenko/jbone)
+[![GitHub Stats](https://img.shields.io/badge/github-stats-ff5500.svg)](https://githubstats.com/redaxmedia/gsp)
 
 jBone is very small and fast abstraction for Events and DOM manipulation in modern browsers with identical jQuery interfaces in most cases.
 
