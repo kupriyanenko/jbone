@@ -140,7 +140,7 @@ Firefox
 ## IE9 polyfills
 
 * [classList](https://github.com/remy/polyfills/blob/master/classList.js) (since IE10)
-* [dataset](https://github.com/remy/polyfills/blob/master/dataset.js) (since IE11
+* [dataset](https://github.com/remy/polyfills/blob/master/dataset.js) (since IE11)
 
 
 ## API
