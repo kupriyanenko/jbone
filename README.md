@@ -125,7 +125,7 @@ $.when(deferred).then(function(response) {
 
 ## Browser support
 
-Internet Explorer 9+
+Internet Explorer 11+
 
 Safari 6+
 
@@ -136,6 +136,12 @@ Android 2.3+ Browser
 Chrome
 
 Firefox
+
+## IE9 polyfills
+
+* [classList](https://github.com/remy/polyfills/blob/master/classList.js) (since IE10)
+* [dataset](https://github.com/remy/polyfills/blob/master/dataset.js) (since IE11
+
 
 ## API
 
