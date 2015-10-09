@@ -85,7 +85,10 @@ jBone.event = {
             eventType = event.split(".")[0];
             events[eventType] = events[eventType] || [];
 
-            if (!events[eventType].length) {
+            if (events[eventType].length) {
+                // override with previous event handler
+                eventHandler = events[eventType][0].fn;
+            } else {
                 el.addEventListener && el.addEventListener(eventType, eventHandler, false);
             }
 

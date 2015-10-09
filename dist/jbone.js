@@ -1,5 +1,5 @@
 /*!
- * jBone v1.1.1 - 2015-08-13 - Library for DOM manipulation
+ * jBone v1.1.1 - 2015-10-08 - Library for DOM manipulation
  *
  * http://jbone.js.org
  *
@@ -350,7 +350,10 @@ jBone.event = {
             eventType = event.split(".")[0];
             events[eventType] = events[eventType] || [];
 
-            if (!events[eventType].length) {
+            if (events[eventType].length) {
+                // override with previous event handler
+                eventHandler = events[eventType][0].fn;
+            } else {
                 el.addEventListener && el.addEventListener(eventType, eventHandler, false);
             }
 
