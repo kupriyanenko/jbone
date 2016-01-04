@@ -125,22 +125,16 @@ $.when(deferred).then(function(response) {
 
 ## Browser support
 
-Internet Explorer 11+
+* Internet Explorer 11+
+* Safari 6+
+* iOS 5+ Safari
+* Android 2.3+ Browser
+* Chrome
+* Firefox
 
-Safari 6+
+## Compat version
 
-iOS 5+ Safari
-
-Android 2.3+ Browser
-
-Chrome
-
-Firefox
-
-## IE polyfills
-
-* [classList](https://github.com/remy/polyfills/blob/master/classList.js) (since IE10)
-* [dataset](https://github.com/remy/polyfills/blob/master/dataset.js) (since IE11)
+[Compat version](https://github.com/redaxmedia/jbone-compat) to support IE9 and IE10
 
 
 ## API
