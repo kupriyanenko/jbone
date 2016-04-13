@@ -439,7 +439,7 @@ describe('jBone Event', function() {
         expect(counter).be.eql(2);
     });
 
-    it('off(event, fn) undeligate current function', function() {
+    it('off(event, fn) undelegate current function', function() {
         var a = jBone('<a>'), counter = 0,
             fn = function() {
                 counter++;
@@ -504,6 +504,33 @@ describe('jBone Event', function() {
         div.off('foo bar');
         div.trigger('foo bar');
         expect(counter).be.eql(3);
+    });
+
+    it('off should remove event with selector', function() {
+        var markup = jBone('<div><h1>Test</h1></div>'),
+            delegationTarget = markup.find('h1'),
+            counter = 0,
+            fn = function() {
+                counter++;
+            };
+
+        // For correct event delegation in Phantom.js
+        $(document.body).append(markup);
+
+        markup.on('click', 'h1', fn);
+
+        markup.trigger('click');
+        expect(counter).be.eql(0);
+
+        delegationTarget.trigger('click');
+        expect(counter).be.eql(1);
+
+        markup.off('click', 'h1', fn);
+
+        delegationTarget.trigger('click');
+        expect(counter).be.eql(1);
+
+        markup.remove();
     });
 
     it('off should remove event handlers from cache', function() {
