@@ -1,9 +1,9 @@
 /*!
- * jBone v1.1.2 - 2015-10-09 - Library for DOM manipulation
+ * jBone v1.1.2 - 2016-04-13 - Library for DOM manipulation
  *
  * http://jbone.js.org
  *
- * Copyright 2015 Alexey Kupriyanenko
+ * Copyright 2016 Alexey Kupriyanenko
  * Released under the MIT license.
  */
 
@@ -372,8 +372,9 @@ jBone.event = {
      * @param  {Node}       el        - Events will be deattached from this DOM Node
      * @param  {String}     types     - One or more space-separated event types and optional namespaces
      * @param  {Function}   handler   - A handler function previously attached for the event(s)
+     * @param  {String}     [selector] - A selector string to filter the descendants of the selected elements
      */
-    remove: function(el, types, handler) {
+    remove: function(el, types, handler, selector) {
         var removeListener = function(events, eventType, index, el, e) {
                 var callback;
 
@@ -423,7 +424,8 @@ jBone.event = {
 
                 while(l--) {
                     e = eventsByType[l];
-                    if (!namespace || (namespace && e.namespace === namespace)) {
+                    if ((!namespace || (namespace && e.namespace === namespace)) &&
+                        (!selector  || (selector  && e.selector === selector))) {
                         removeListener(events, eventType, l, el, e);
                     }
                 }
@@ -623,12 +625,17 @@ fn.trigger = function(event) {
     return this;
 };
 
-fn.off = function(types, handler) {
+fn.off = function(types, selector, handler) {
     var i = 0,
         length = this.length;
 
+    if (isFunction(selector)) {
+        handler = selector;
+        selector = undefined;
+    }
+
     for (; i < length; i++) {
-        jBone.event.remove(this[i], types, handler);
+        jBone.event.remove(this[i], types, handler, selector);
     }
 
     return this;
