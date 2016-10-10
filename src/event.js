@@ -204,8 +204,8 @@ jBone.event = {
                 return;
             }
 
-            if (event.type == 'click') {
-                el.click();
+            if (event.type === "click") {
+                el.click && el.click();
             } else {
                 el.dispatchEvent && el.dispatchEvent(event);
             }
