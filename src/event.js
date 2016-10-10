@@ -204,7 +204,11 @@ jBone.event = {
                 return;
             }
 
-            el.dispatchEvent && el.dispatchEvent(event);
+            if (event.type == 'click') {
+                el.click();
+            } else {
+                el.dispatchEvent && el.dispatchEvent(event);
+            }
         });
     },
 
