@@ -132,10 +132,6 @@ $.when(deferred).then(function(response) {
 * Chrome
 * Firefox
 
-## Compat version
-
-[Compat version](https://github.com/redaxmedia/jbone-compat) to support IE9 and IE10
-
 
 ## API
 
