@@ -213,7 +213,7 @@ jBone.event = {
             j = 0,
             el = this,
             handlers = jBone.getData(el).events[e.type],
-            length = handlers.length,
+            length = handlers ? handlers.length : 0,
             handlerQueue = [],
             targets = [],
             l,
