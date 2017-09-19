@@ -1,9 +1,9 @@
 /*!
- * jBone v1.2.0 - 2016-04-13 - Library for DOM manipulation
+ * jBone v1.2.1 - 2017-09-19 - Library for DOM manipulation
  *
  * http://jbone.js.org
  *
- * Copyright 2016 Alexey Kupriyanenko
+ * Copyright 2017 Alexey Kupriyanenko
  * Released under the MIT license.
  */
 
@@ -27,7 +27,7 @@ splice = [].splice,
 keys = Object.keys,
 
 // Alias for global variables
-doc = document,
+doc = win.document,
 
 isString = function(el) {
     return typeof el === "string";
@@ -1059,4 +1059,4 @@ else if (typeof define === "function" && define.amd) {
     win.jBone = win.$ = jBone;
 }
 
-}(window));
+}(typeof window !== "undefined" ? window : this));
