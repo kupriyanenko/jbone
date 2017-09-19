@@ -16,4 +16,4 @@ else if (typeof define === "function" && define.amd) {
     win.jBone = win.$ = jBone;
 }
 
-}(window));
+}(typeof window !== "undefined" ? window : this));

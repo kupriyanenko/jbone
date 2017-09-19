@@ -16,7 +16,7 @@ splice = [].splice,
 keys = Object.keys,
 
 // Alias for global variables
-doc = document,
+doc = win.document,
 
 isString = function(el) {
     return typeof el === "string";
