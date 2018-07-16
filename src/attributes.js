@@ -47,7 +47,7 @@ fn.val = function(value) {
     }
 
     for (; i < length; i++) {
-        this[i].value = value != undefined ? value : '';
+        this[i].value = (value !== undefined && value !== null) ? value : "";
     }
 
     return this;
