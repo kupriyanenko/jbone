@@ -188,6 +188,7 @@ $.when(deferred).then(function(response) {
 
 * [.find(selector)](https://github.com/kupriyanenko/jbone/wiki/Traversing#findselector)
 * [.get(index)](https://github.com/kupriyanenko/jbone/wiki/Traversing#getindex)
+* [.get()](https://github.com/kupriyanenko/jbone/wiki/Traversing#get)
 * [.eq(index)](https://github.com/kupriyanenko/jbone/wiki/Traversing#eqindex)
 * [.parent()](https://github.com/kupriyanenko/jbone/wiki/Traversing#parent)
 * [.toArray()](https://github.com/kupriyanenko/jbone/wiki/Traversing#toarray)
